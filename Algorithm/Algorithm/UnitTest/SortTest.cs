@@ -24,6 +24,7 @@ namespace Algorithm.UnitTest
             {
                 new InsertSort<int>(),  // Insertion sort
                 new MergeSort<int>(),   // Merge sort
+                new BubbleSort<int>(),  // Bubble sort
             };
             foreach (var sort in sorts)
             {
