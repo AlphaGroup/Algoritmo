@@ -13,36 +13,47 @@ namespace Algorithm.UnitTest
     {
         public void Test()
         {
+            // The inputs used to test every sort method
+            List<int>[] inputs =
+            {
+                new List<int>(){5,3,7,8,10,9,2},
+                new List<int>(){3,7,8,10,9,100,2,20,16,13,10,59}
+            };
+            // The sorts to be tested
             ISort<int>[] sorts =
             {
-                new InsertSort<int>(), 
-            };
-            var input = new List<int>()
-            {
-                5,
-                3,
-                7,
-                8,
-                10,
-                9,
-                2
+                new InsertSort<int>(),  // Insertion sort
+                new MergeSort<int>(),   // Merge sort
             };
             foreach (var sort in sorts)
             {
-                bool flag = ListEqual(sort.Sort(input), input);
-                Assert.AreEqual(true, flag);
+                foreach (var input in inputs)
+                {
+                    var output = sort.Sort(input);
+                    var standard = new List<int>(input);
+                    standard.Sort();
+                    bool flag = ListEqual(output, standard, Comparer<int>.Default);
+                    Assert.AreEqual(true, flag);
+                }
             }
         }
 
-        public bool ListEqual<T>(List<T> lList, List<T> rList)
+        public bool ListEqual<T>(List<T> lList, List<T> rList, IComparer<T> comparer)
         {
-            var ldiff = lList.Except(rList);
-            var rdiff = rList.Except(lList);
-            if (!ldiff.Any() && !rdiff.Any())
+            if (lList.Count != rList.Count)
             {
+                return false;
+            }
+            else
+            {
+                int n = lList.Count;
+                for (int i = 0; i < n; ++i)
+                {
+                    if (0 != comparer.Compare(lList[i], rList[i]))
+                        return false;
+                }
                 return true;
             }
-            return false;
         }
     }
 }
