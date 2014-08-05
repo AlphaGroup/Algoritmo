@@ -51,6 +51,7 @@
     <Compile Include="Sort\InsertionSort.cs" />
     <Compile Include="Interface\ISort.cs" />
     <Compile Include="Sort\MergeSort.cs" />
+    <Compile Include="Sort\QuickSort.cs" />
     <Compile Include="Sort\ShellSort.cs" />
     <Compile Include="UnitTest\HeapTest.cs" />
     <Compile Include="UnitTest\SortTest.cs" />

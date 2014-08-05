@@ -28,6 +28,7 @@ namespace Algorithm.UnitTest
                 new BubbleSort<int>(),  // Bubble sort
                 new ShellSort<int>(),   // Shell sort
                 new HeapSort<int>(),    // Heap sort
+                new QuickSort<int>(),   // Quick sort
             };
             foreach (var sort in sorts)
             {
