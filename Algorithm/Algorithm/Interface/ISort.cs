@@ -17,7 +17,7 @@ namespace Algorithm.Sort
         /// </summary>
         /// <param name="inList"></param>
         /// <returns></returns>
-        List<T> Sort(List<T> inList);
+        void Sort(List<T> inList);
 
         ///// <summary>
         ///// Sort the input list
@@ -27,7 +27,7 @@ namespace Algorithm.Sort
         ///// <param name="inList"></param>
         ///// <param name="comparer"></param>
         ///// <returns></returns>
-        List<T> Sort(List<T> inList, IComparer<T> comparer);
+        void Sort(List<T> inList, IComparer<T> comparer);
     }
 
 }

@@ -8,28 +8,26 @@ namespace Algorithm.Sort
 {
     class BubbleSort<T> : ISort<T>
     {
-        public List<T> Sort(List<T> inList)
+        public void Sort(List<T> inList)
         {
-            return Sort(inList, Comparer<T>.Default);
+            Sort(inList, Comparer<T>.Default);
         }
 
-        public List<T> Sort(List<T> inList, IComparer<T> comparer)
+        public void Sort(List<T> inList, IComparer<T> comparer)
         {
-            var result = new List<T>(inList);
-            int length = result.Count;
+            int length = inList.Count;
             for (int i = 0; i < length - 1; ++i)
             {
                 for (int j = length - 1; j > i; --j)
                 {
-                    if (comparer.Compare(result[j - 1], result[j]) > 0)
+                    if (comparer.Compare(inList[j - 1], inList[j]) > 0)
                     {
-                        T temp = result[j];
-                        result[j] = result[j - 1];
-                        result[j - 1] = temp;
+                        T temp = inList[j];
+                        inList[j] = inList[j - 1];
+                        inList[j - 1] = temp;
                     }
                 }
             }
-            return result;
         }
     }
 }

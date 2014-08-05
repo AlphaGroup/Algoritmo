@@ -10,36 +10,33 @@ namespace Algorithm.Sort
     {
         /// <summary>
         /// Use default comparer.
-        /// Won't change inputed list.
         /// </summary>
         /// <param name="inList"></param>
         /// <returns></returns>
-        public List<T> Sort(List<T> inList)
+        public void Sort(List<T> inList)
         {
-            return Sort(inList, Comparer<T>.Default);
+            Sort(inList, Comparer<T>.Default);
         }
 
         /// <summary>
-        /// Use inputed comparer. Won't change inputed list.
+        /// Use inputed comparer.
         /// </summary>
         /// <param name="inList"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
-        public List<T> Sort(List<T> inList, IComparer<T> comparer)
+        public void Sort(List<T> inList, IComparer<T> comparer)
         {
-            var result = new List<T>(inList);
-            for (int j = 1; j < result.Count; ++j)
+            for (int j = 1; j < inList.Count; ++j)
             {
-                var key = result.ElementAt(j);
+                var key = inList.ElementAt(j);
                 var i = j - 1;
-                while (i >= 0 && comparer.Compare(result[i], key) > 0)
+                while (i >= 0 && comparer.Compare(inList[i], key) > 0)
                 {
-                    result[i + 1] = result[i];
+                    inList[i + 1] = inList[i];
                     --i;
                 }
-                result[i + 1] = key;
+                inList[i + 1] = key;
             }
-            return result;
         }
     }
 }

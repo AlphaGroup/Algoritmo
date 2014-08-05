@@ -8,16 +8,15 @@ namespace Algorithm.Sort
 {
     class MergeSort<T> : ISort<T>
     {
-        public List<T> Sort(List<T> inList)
+        public void Sort(List<T> inList)
         {
-            return Sort(inList, Comparer<T>.Default);
+            Sort(inList, Comparer<T>.Default);
+            return;
         }
 
-        public List<T> Sort(List<T> inList, IComparer<T> comparer)
+        public void Sort(List<T> inList, IComparer<T> comparer)
         {
-            var list = new List<T>(inList);
-            MergeSortImp(list, 0, list.Count - 1, comparer);
-            return list;
+            MergeSortImp(inList, 0, inList.Count - 1, comparer);
         }
 
         /// <summary>

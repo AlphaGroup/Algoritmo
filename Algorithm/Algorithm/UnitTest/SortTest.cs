@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Algorithm.Interface;
@@ -25,12 +26,14 @@ namespace Algorithm.UnitTest
                 new InsertSort<int>(),  // Insertion sort
                 new MergeSort<int>(),   // Merge sort
                 new BubbleSort<int>(),  // Bubble sort
+                new ShellSort<int>(),   // Shell sort
             };
             foreach (var sort in sorts)
             {
                 foreach (var input in inputs)
                 {
-                    var output = sort.Sort(input);
+                    var output = new List<int>(input);
+                    sort.Sort(output);
                     var standard = new List<int>(input);
                     standard.Sort();
                     bool flag = ListEqual(output, standard, Comparer<int>.Default);
