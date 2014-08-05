@@ -27,6 +27,7 @@ namespace Algorithm.UnitTest
                 new MergeSort<int>(),   // Merge sort
                 new BubbleSort<int>(),  // Bubble sort
                 new ShellSort<int>(),   // Shell sort
+                new HeapSort<int>(),    // Heap sort
             };
             foreach (var sort in sorts)
             {

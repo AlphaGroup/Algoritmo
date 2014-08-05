@@ -42,14 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructure\Heap.cs" />
     <Compile Include="Interface\IUnitTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sort\BubbleSort.cs" />
+    <Compile Include="Sort\HeapSort.cs" />
     <Compile Include="Sort\InsertionSort.cs" />
     <Compile Include="Interface\ISort.cs" />
     <Compile Include="Sort\MergeSort.cs" />
     <Compile Include="Sort\ShellSort.cs" />
+    <Compile Include="UnitTest\HeapTest.cs" />
     <Compile Include="UnitTest\SortTest.cs" />
   </ItemGroup>
   <ItemGroup>
