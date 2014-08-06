@@ -1,6 +1,10 @@
 # Ignore the main function in Algorithm
 /Algorithm/Algorithm/Program.cs
 
-# Ignore the files created by VS
+# Ignore files created by VS
 /Algorithm/Algorithm/bin/*
 /Algorithm/Algorithm/obj/*
+
+# Ignore files created by VS
+/Website/Website/bin/*
+/Website/Website/obj/*
