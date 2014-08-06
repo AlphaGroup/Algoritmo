@@ -2,4 +2,34 @@
     ViewBag.Title = "Home Page";
 }
 
-<h2>Hello World</h2>
+<div id="canvas" style="height:480px;width: 640px; margin:0 auto;display: block;text-align: left;">
+    <script>
+        var paper = Raphael("canvas", 640, 480);
+        var squareOne = paper.rect(250, 240, 80, 80);
+        squareOne.attr({ fill: "blue" });
+        var squareTwo = paper.rect(350, 240, 80, 80);
+        squareTwo.attr({ fill: "green" });
+    </script>
+</div>
+
+<script>
+    $(function () {
+        $("svg").click(function () {
+            var oldOneX = squareOne.attr("x");
+            var oldTwoX = squareTwo.attr("x");
+            var leftSqua = squareOne;
+            var rightSqua = squareTwo;
+            if (oldOneX > oldTwoX) {
+                leftSqua = squareTwo;
+                rightSqua = squareOne;
+            }
+            leftSqua.animate({ y: 120 }, 500, function () {
+                this.animate({ x: 350 }, 500, "ease-out", function () {
+                    rightSqua.animate({ x: 250 }, 500, "ease-out");
+                    var anim = Raphael.animation({ y: 240 }, 500, "ease-out");
+                    this.animate(anim.delay(500));
+                });
+            });
+        });
+    });
+</script>
