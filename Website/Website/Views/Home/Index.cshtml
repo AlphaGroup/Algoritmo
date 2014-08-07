@@ -20,9 +20,19 @@
 
 <script src="~/Scripts/mine/animation.js"></script>
 <script>
+    var flagAnimating = false;
     $(function () {
         $("svg").click(function () {
-            HorizonExchangeSets(cardOne, cardTwo, 100, 120);
+            // Still animating
+            if (flagAnimating) {
+                return false;
+            }
+            else {
+                flagAnimating = true;
+                HorizonExchangeSets(cardOne, cardTwo, 100, 120, function () {
+                    flagAnimating = false;
+                });
+            }
         });
     });
     // Test
