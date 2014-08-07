@@ -5,10 +5,16 @@
 <div id="canvas" style="height:480px;width: 640px; margin:0 auto;display: block;text-align: left;">
     <script>
         var paper = Raphael("canvas", 640, 480);
-        var squareOne = paper.rect(250, 240, 80, 80);
-        squareOne.attr({ fill: "blue" });
-        var squareTwo = paper.rect(350, 240, 80, 80);
-        squareTwo.attr({ fill: "green" });
+        var squareOne = paper.rect(250, 240, 80, 80).attr({ fill: "blue" });
+        var textOne = paper.text(290, 280, "1").attr({ "font-family": "arial", "font-size": 32 });
+        var cardOne = paper.set();
+        cardOne.push(textOne);
+        cardOne.push(squareOne);
+        var squareTwo = paper.rect(350, 240, 80, 80).attr({ fill: "green" });
+        var textTwo = paper.text(390, 280, "2").attr({ "font-family": "arial", "font-size": 32 });
+        var cardTwo = paper.set();
+        cardTwo.push(textTwo);
+        cardTwo.push(squareTwo);
     </script>
 </div>
 
@@ -16,7 +22,19 @@
 <script>
     $(function () {
         $("svg").click(function () {
-            HorizonalExchange(squareOne, squareTwo);
+            HorizonExchangeSets(cardOne, cardTwo, 100, 120);
         });
     });
+    // Test
+    @*$(function () {
+        var url = '@Url.Action("RequireActionsAjax","Home")';
+        $.get(url, {
+            type: "SORT",
+            input: "3,2,1"
+        }, function (data, textStatus) {
+            $.each(data, function (index, item) {
+                alert(index + item.action + item.param);
+            });
+        }, "json");
+    });*@
 </script>

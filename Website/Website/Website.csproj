@@ -145,6 +145,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\mine\animation.js" />
+    <Content Include="Scripts\mine\utility.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
     <Content Include="Scripts\raphael-min.js" />
     <Content Include="Scripts\raphael.js" />
