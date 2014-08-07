@@ -23,10 +23,10 @@ function HorizonExchangeItems(itemOne, itemTwo) {
 
 // Exchange two sets horizonally
 function HorizonExchangeSets(setLeft, setRight, deltaX, deltaY, callback) {
-    setLeft.animate({ transform: "...T0,-" + deltaY }, 500, function () {
+    setLeft.animate({ transform: "...T0,-" + deltaY }, 500, "ease-out", function () {
         this.animate({ transform: "...T" + deltaX + ",0" }, 500, "ease-out", function () {
-            this.animate({ transform: "...T0," + deltaY }, 500, "ease-out", callback);
+            this.animate({ transform: "...T0," + deltaY }, 500, "ease-in", callback);
         });
-        setRight.animate({ transform: "...T-" + deltaX + ",0" }, 500, "ease-out");
+        setRight.animate({ transform: "...T-" + deltaX + ",0" }, 500, "ease-in");
     });
 }
