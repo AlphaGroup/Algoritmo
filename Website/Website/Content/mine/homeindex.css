@@ -1,0 +1,19 @@
+﻿/*style="height:480px;width: 640px; margin:0 auto;display: block;text-align: left;*/
+
+.mid-content {
+    margin: 0 auto;
+}
+
+input {
+    max-width: none;
+}
+
+div#paper {
+    min-height: 480px;
+    display: block;
+    align-content: center;
+}
+
+div#queryBar {
+    max-width: 800px;
+}

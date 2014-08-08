@@ -1,50 +1,18 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<link href="~/Content/mine/homeindex.css" rel="stylesheet" />
 
-<div id="canvas" style="height:480px;width: 640px; margin:0 auto;display: block;text-align: left;">
-    <script>
-        var paper = Raphael("canvas", 640, 480);
-        var squareOne = paper.rect(250, 240, 80, 80).attr({ fill: "blue" });
-        var textOne = paper.text(290, 280, "1").attr({ "font-family": "arial", "font-size": 32 });
-        var cardOne = paper.set();
-        cardOne.push(textOne);
-        cardOne.push(squareOne);
-        var squareTwo = paper.rect(350, 240, 80, 80).attr({ fill: "green" });
-        var textTwo = paper.text(390, 280, "2").attr({ "font-family": "arial", "font-size": 32 });
-        var cardTwo = paper.set();
-        cardTwo.push(textTwo);
-        cardTwo.push(squareTwo);
-    </script>
+<div class="col-lg-12 col-md-12 col-sm-12">
+    <div id="queryBar" class="input-group mid-content" style="max-width: 800px">
+        <input id="inputArr" type="text" class="form-control" />
+        <span class="input-group-btn">
+            <button id="btnGo" type="button" class="btn btn-default">GO!</button>
+        </span>
+    </div>
+</div>
+<div id="paper" class="mid-content" align="center">
 </div>
 
 <script src="~/Scripts/mine/animation.js"></script>
-<script>
-    var flagAnimating = false;
-    $(function () {
-        $("svg").click(function () {
-            // Still animating
-            if (flagAnimating) {
-                return false;
-            }
-            else {
-                flagAnimating = true;
-                HorizonExchangeSets(cardOne, cardTwo, 100, 120, function () {
-                    flagAnimating = false;
-                });
-            }
-        });
-    });
-    // Test
-    @*$(function () {
-        var url = '@Url.Action("RequireActionsAjax","Home")';
-        $.get(url, {
-            type: "SORT",
-            input: "3,2,1"
-        }, function (data, textStatus) {
-            $.each(data, function (index, item) {
-                alert(index + item.action + item.param);
-            });
-        }, "json");
-    });*@
-</script>
+<script src="~/Scripts/mine/homeindex.js"></script>
