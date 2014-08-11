@@ -108,6 +108,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Algorithm\Algorithm\DataStructure\Heap.cs">
+      <Link>Algorithm\DataStructure\Heap.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Interface\ISort.cs">
+      <Link>Algorithm\Interface\ISort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Sort\BubbleSort.cs">
+      <Link>Algorithm\Sort\BubbleSort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Sort\HeapSort.cs">
+      <Link>Algorithm\Sort\HeapSort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Sort\InsertionSort.cs">
+      <Link>Algorithm\Sort\InsertionSort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Sort\MergeSort.cs">
+      <Link>Algorithm\Sort\MergeSort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Sort\QuickSort.cs">
+      <Link>Algorithm\Sort\QuickSort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Sort\SelectionSort.cs">
+      <Link>Algorithm\Sort\SelectionSort.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Sort\ShellSort.cs">
+      <Link>Algorithm\Sort\ShellSort.cs</Link>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
