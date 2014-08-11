@@ -7,8 +7,9 @@ using Algorithm.Interface;
 
 namespace Algorithm.Sort
 {
-    class InsertSort<T> : ISort<T>
+    class InsertSort<T> : ISort<T>, IActionProvider
     {
+        private List<object> _actionList = new List<object>();
         /// <summary>
         /// Use default comparer.
         /// </summary>
@@ -27,6 +28,9 @@ namespace Algorithm.Sort
         /// <returns></returns>
         public void Sort(List<T> inList, IComparer<T> comparer)
         {
+            // Clear action list
+            _actionList.Clear();
+            // Start sorting
             for (int j = 1; j < inList.Count; ++j)
             {
                 var key = inList.ElementAt(j);
@@ -38,6 +42,11 @@ namespace Algorithm.Sort
                 }
                 inList[i + 1] = key;
             }
+        }
+
+        public List<object> GetListForJson()
+        {
+            return _actionList;
         }
     }
 }
