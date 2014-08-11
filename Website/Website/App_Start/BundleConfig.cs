@@ -12,7 +12,7 @@ namespace Website
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/raphael").Include(
-                        "~/Scripts/raphael.js"));
+                        "~/Scripts/raphael-min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

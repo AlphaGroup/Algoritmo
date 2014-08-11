@@ -1,6 +1,13 @@
 ﻿// Set search button click handler
+var paper;
 $(function () {
     $("button#btnGo").click(function () {
+        // Clear old paper
+        try {
+            paper.remove();
+        } catch (ex) {
+            // Do nothing.
+        }
         // Get input and split it
         var input = $("input#inputArr").val();
         var arr = input.split(",");
@@ -17,7 +24,7 @@ $(function () {
         var margin = 20;
         var paperHeight = squaEdge * 5;
         var paperWidth = squaEdge * validArr.length + margin * (validArr.length + 1);
-        var paper = Raphael("paper", paperWidth, paperHeight);
+        paper = Raphael("paper", paperWidth, paperHeight);
         // Add sets into setArr
         var setArr = [];
         for (var j = 0; j < validArr.length; ++j) {
@@ -32,6 +39,6 @@ $(function () {
         }
         // Call jax function to get actions and play it.
         var url = "/Home/RequireActionsAjax";
-        playActionsAjax(url, "SORT", validArr, setArr);
+        playActionsAjax(url, "BUBBLESORT", validArr, setArr);
     });
 });
