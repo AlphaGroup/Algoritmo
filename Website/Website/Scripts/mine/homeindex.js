@@ -30,8 +30,9 @@ $(function () {
         for (var j = 0; j < validArr.length; ++j) {
             var posX = margin * (j + 1) + squaEdge * j;
             var posY = paperHeight / 2;
-            var square = paper.rect(posX, posY, squaEdge, squaEdge).attr({ fill: "blue" });
-            var text = paper.text(posX + squaEdge / 2, posY + squaEdge / 2, validArr[j]).attr({ "font-family": "arial", "font-size": squaEdge / 2 });
+            var square = paper.rect(posX, posY, squaEdge, squaEdge).attr({ fill: "#487B7B" });
+            var text = paper.text(posX + squaEdge / 2, posY + squaEdge / 2,
+                validArr[j]).attr({ "font-family": "arial", "font-size": squaEdge / 2, fill: "white" });
             var card = paper.set();
             card.push(text);
             card.push(square);
@@ -40,5 +41,14 @@ $(function () {
         // Call jax function to get actions and play it.
         var url = "/Home/RequireActionsAjax";
         playActionsAjax(url, "BUBBLESORT", validArr, setArr);
+    });
+});
+
+// Set Enter press handler
+$(function () {
+    $("input#inputArr").keypress(function (event) {
+        if (event.which == 13) {
+            $("button#btnGo").click();
+        }
     });
 });
