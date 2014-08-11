@@ -111,6 +111,9 @@
     <Compile Include="..\..\Algorithm\Algorithm\DataStructure\Heap.cs">
       <Link>Algorithm\DataStructure\Heap.cs</Link>
     </Compile>
+    <Compile Include="..\..\Algorithm\Algorithm\Interface\IActionProvider.cs">
+      <Link>Algorithm\Interface\IActionProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\Algorithm\Algorithm\Interface\ISort.cs">
       <Link>Algorithm\Interface\ISort.cs</Link>
     </Compile>

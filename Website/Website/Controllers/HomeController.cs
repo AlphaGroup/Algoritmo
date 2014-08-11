@@ -37,11 +37,16 @@ namespace Website.Controllers
         /// <returns></returns>
         public ActionResult RequireActionsAjax(string type, string input)
         {
-            var actions = new List<object>();
-            actions.Add(new { action = "EXCG", param = "0,1" });
-            actions.Add(new { action = "EXCG", param = "1,2" });
-            actions.Add(new { action = "EXCG", param = "2,3" });
-            return Json(actions, JsonRequestBehavior.AllowGet);
+            var bubble = new BubbleSort<int>();
+            char[] delimiter = { ',' };
+            string[] valuesStr = input.Split(delimiter);
+            var values = new List<int>();
+            foreach (var str in valuesStr)
+            {
+                values.Add(int.Parse(str));
+            }
+            bubble.Sort(values);
+            return Json(bubble.GetListForJson(), JsonRequestBehavior.AllowGet);
         }
     }
 }
