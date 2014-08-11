@@ -10,7 +10,7 @@ $(function () {
         }
         // Get input and split it
         var input = $("input#inputArr").val();
-        var arr = input.split(",");
+        var arr = input.split(" ");
         // Create valid item array. This array is composed of numberic strings
         var validArr = [];
         for (var i = 0; i < arr.length; ++i) {

@@ -2,7 +2,7 @@
 function playActionsAjax(url, type, inputArr, setArr) {
     $.get(url, {
         type: type,
-        input: inputArr.join()
+        input: inputArr.join(" ")
     }, function (data, textStatus) {
         var param = {
             data: data,

@@ -38,7 +38,7 @@ namespace Website.Controllers
         public ActionResult RequireActionsAjax(string type, string input)
         {
             var bubble = new BubbleSort<int>();
-            char[] delimiter = { ',' };
+            char[] delimiter = { ' ' };
             string[] valuesStr = input.Split(delimiter);
             var values = new List<int>();
             foreach (var str in valuesStr)
