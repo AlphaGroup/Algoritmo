@@ -52,3 +52,8 @@ $(function () {
         }
     });
 });
+
+// Set home navbar button active
+$(function () {
+    $("li:contains('Home')").addClass("active");
+});

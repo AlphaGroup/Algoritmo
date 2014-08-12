@@ -2,6 +2,7 @@
     position: fixed;
     left: 0;
     top: 100px;
+    width: 40px;
 }
 
 div#bodyContainer {
@@ -10,4 +11,10 @@ div#bodyContainer {
 
 span.icon-text {
     padding-left: 20px;
+    font-family: "Segoe UI", "微软雅黑";
+    font-size: large;
+}
+
+div#sideNavbar a {
+    overflow: hidden;
 }
