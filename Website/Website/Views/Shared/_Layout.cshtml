@@ -29,7 +29,30 @@
             </div>
         </div>
     </div>
-    <div class="container body-content" style="margin-top:20px;">
+    <div id="sideNavbar" class="col-lg-2 col-md-2 col-sm-2">
+        <ul class="nav nav-pills nav-stacked" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#">
+                    <span class="glyphicon glyphicon-film"></span>
+                    <span class="icon-text">Settings</span>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#">
+                    <span class="glyphicon glyphicon-signal"></span>
+                    <span class="icon-text">Algorithm</span>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    <span class="icon-text">Messages</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div id="bodyContainer" class="container body-content">
         @RenderBody()
         <hr />
         <footer>

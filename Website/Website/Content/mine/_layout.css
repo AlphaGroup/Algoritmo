@@ -1,0 +1,13 @@
+﻿div#sideNavbar {
+    position: fixed;
+    left: 0;
+    top: 100px;
+}
+
+div#bodyContainer {
+    margin-top: 20px;
+}
+
+span.icon-text {
+    padding-left: 20px;
+}
