@@ -41,6 +41,9 @@ namespace Website
                 "~/Scripts/mine/utility.js",
                 "~/Scripts/mine/homeindex.js"
                 ));
+
+            bundles.Add(new ScriptBundle("~/bundles/layout").Include(
+                "~/Scripts/mine/layout.js"));
         }
     }
 }

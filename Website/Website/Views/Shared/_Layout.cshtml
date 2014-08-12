@@ -31,7 +31,7 @@
     </div>
     <div id="sideNavbar" class="col-lg-2 col-md-2 col-sm-2">
         <ul class="nav nav-pills nav-stacked" role="tablist">
-            <li role="presentation" class="active">
+            <li role="presentation">
                 <a href="#">
                     <span class="glyphicon glyphicon-film"></span>
                     <span class="icon-text">Settings</span>
@@ -61,6 +61,7 @@
     </div>
 
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/layout")
     @RenderSection("scripts", required: false)
 </body>
 </html>
