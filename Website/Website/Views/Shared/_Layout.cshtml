@@ -31,18 +31,18 @@
     </div>
     <div id="sideNavbar">
         <ul class="nav nav-pills nav-stacked" role="tablist">
-            <li role="presentation">
-                <a href="#">
-                    <span class="glyphicon glyphicon-home"><span class="icon-text">Home</span></span>
+            <li role="presentation" class="active">
+                <a href="@Url.Action("Index", "Home")">
+                <span class="glyphicon glyphicon-home"><span class="icon-text">Home</span></span>
                 </a>
             </li>
             <li role="presentation">
-                <a href="#">
+                <a href="@Url.Action("Animation","Settings")">
                     <span class="glyphicon glyphicon-film"><span class="icon-text">Animation</span></span>
                 </a>
             </li>
             <li role="presentation">
-                <a href="#">
+                <a href="@Url.Action("Algorithm", "Settings")">
                     <span class="glyphicon glyphicon-signal"><span class="icon-text">Algorithm</span></span>
                 </a>
             </li>

@@ -53,7 +53,7 @@ $(function () {
     });
 });
 
-// Set home navbar button active
+// Set side navbar
 $(function () {
     $("li:contains('Home')").addClass("active");
 });

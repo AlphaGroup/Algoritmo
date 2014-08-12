@@ -142,6 +142,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,8 +178,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\mine\animation.js" />
-    <Content Include="Scripts\mine\homeindex.js" />
+    <Content Include="Scripts\mine\home-index.js" />
     <Content Include="Scripts\mine\layout.js" />
+    <Content Include="Scripts\mine\settings-algorithm.js" />
+    <Content Include="Scripts\mine\settings-animation.js" />
     <Content Include="Scripts\mine\utility.js" />
     <Content Include="Scripts\modernizr-2.7.2.js" />
     <Content Include="Scripts\raphael-min.js" />
@@ -201,6 +204,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Settings\Animation.cshtml" />
+    <Content Include="Views\Settings\Algorithm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -36,14 +36,20 @@ namespace Website
             BundleTable.EnableOptimizations = true;
 
             // Mines
-            bundles.Add(new ScriptBundle("~/bundles/homeindex").Include(
+            bundles.Add(new ScriptBundle("~/bundles/home-index").Include(
                 "~/Scripts/mine/animation.js",
                 "~/Scripts/mine/utility.js",
-                "~/Scripts/mine/homeindex.js"
+                "~/Scripts/mine/home-index.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/bundles/layout").Include(
                 "~/Scripts/mine/layout.js"));
+
+            bundles.Add(new Bundle("~/bundles/settings-animation").Include(
+                "~/Scripts/mine/settings-animation.js"));
+
+            bundles.Add(new Bundle("~/bundles/settings-algorithm").Include(
+                "~/Scripts/mine/settings-algorithm.js"));
         }
     }
 }
