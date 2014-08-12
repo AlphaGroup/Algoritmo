@@ -34,6 +34,13 @@ namespace Website
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
             BundleTable.EnableOptimizations = true;
+
+            // Mines
+            bundles.Add(new ScriptBundle("~/bundles/homeindex").Include(
+                "~/Scripts/mine/animation.js",
+                "~/Scripts/mine/utility.js",
+                "~/Scripts/mine/homeindex.js"
+                ));
         }
     }
 }
