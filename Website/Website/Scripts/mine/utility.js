@@ -1,5 +1,5 @@
 ﻿// Query actions and then play them
-function playActionsAjax(url, type, inputArr, setArr) {
+function playActionsAjax(url, type, inputArr, setArr, interval) {
     $.get(url, {
         type: type,
         input: inputArr.join(" ")
@@ -9,11 +9,11 @@ function playActionsAjax(url, type, inputArr, setArr) {
             index: 0,
             setArr: setArr,
         };
-        playActionImpl(param);
+        playActionImpl(param, interval);
     });
 }
 
-function playActionImpl(param) {
+function playActionImpl(param, interval) {
     var data = param.data;
     var index = param.index;
     var setArr = param.setArr;
@@ -36,7 +36,8 @@ function playActionImpl(param) {
         setArr[indexOne] = setArr[indexTwo];
         setArr[indexTwo] = temp;
         // Exchange two items on screen visually
+        // And recursively call playActionImpl itself
         HorizonExchangeSets(setArr[indexOne],
-            setArr[indexTwo], playActionImpl, newParam);
+            setArr[indexTwo], interval, playActionImpl, newParam);
     }
 }

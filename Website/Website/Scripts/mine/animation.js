@@ -22,7 +22,7 @@ function HorizonExchangeItems(itemOne, itemTwo) {
 }
 
 // Exchange two sets horizonally
-function HorizonExchangeSets(setOne, setTwo, callback, param) {
+function HorizonExchangeSets(setOne, setTwo, interval, callback, param) {
     var oldOneX = setOne.getBBox().x;
     var oldTwoX = setTwo.getBBox().x;
     var setLeft = setOne;
@@ -34,12 +34,13 @@ function HorizonExchangeSets(setOne, setTwo, callback, param) {
     }
     var deltaX = setRight.getBBox().x - setLeft.getBBox().x;
     var deltaY = setRight.getBBox().y / 2;
-    setLeft.animate({ transform: "...T0,-" + deltaY }, 500, "ease-out", function () {
-        this.animate({ transform: "...T" + deltaX + ",0" }, 500, "ease-out", function () {
-            this.animate({ transform: "...T0," + deltaY }, 500, "ease-in", function () {
-                callback(param);
+    var stepInterval = interval / 3;
+    setLeft.animate({ transform: "...T0,-" + deltaY }, stepInterval, "ease-out", function () {
+        this.animate({ transform: "...T" + deltaX + ",0" }, stepInterval, "ease-out", function () {
+            this.animate({ transform: "...T0," + deltaY }, stepInterval, "ease-in", function () {
+                callback(param, interval);
             });
         });
-        setRight.animate({ transform: "...T-" + deltaX + ",0" }, 500, "ease-in");
+        setRight.animate({ transform: "...T-" + deltaX + ",0" }, stepInterval, "ease-in");
     });
 }

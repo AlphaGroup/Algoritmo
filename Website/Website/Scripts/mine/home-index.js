@@ -41,10 +41,16 @@ $(function () {
         // Call jax function to get actions and play it.
         var url = "/Home/RequireActionsAjax";
         var sort = "SORT-BUBBLE";
+        var interval = 1500;
         if ($.cookie("algorithm")) {
             sort = $.cookie("algorithm");
         }
-        playActionsAjax(url, sort, validArr, setArr);
+        if ($.cookie("interval")) {
+            interval = $.cookie("interval");
+        }
+        alert(interval)
+        alert(sort)
+        playActionsAjax(url, sort, validArr, setArr, interval);
     });
 });
 

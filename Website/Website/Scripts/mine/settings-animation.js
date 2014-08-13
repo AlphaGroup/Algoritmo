@@ -13,9 +13,9 @@ $(function () {
         $input.val($.cookie("interval"));
     } else {
         $input.val(1500);
-        $.cookie("interval", 1500);
+        $.cookie("interval", 1500, { path: '/' });
     }
     $input.change(function () {
-        $.cookie("interval", parseInt($(this).val()));
+        $.cookie("interval", parseInt($(this).val()), { path: '/' });
     });
 });
