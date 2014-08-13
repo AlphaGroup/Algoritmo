@@ -1,9 +1,49 @@
 ﻿@{
     ViewBag.Title = "Algorithm";
 }
+<link href="~/Content/mine/settings-algorithm.css" rel="stylesheet" />
 
-<div align="center">
-    <h2>Algorithm</h2>
+<div class="half-center">
+    <form role="form">
+        <div class="form-group-lg">
+            <h2>Sort Algorithm:</h2>
+            <span class="help-block">
+                Choose the sort algorithms you want to use.
+            </span>
+            <br />
+            <div class="checkbox">
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="SORT-BUBBLE" />
+                    Bubble Sort
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="SORT-HEAP" />
+                    Shell Sort
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="SORT-INSERTION" />
+                    Insertion Sort
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="SORT-MERGE" />
+                    Merge Sort
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="SORT-QUICK" />
+                    Quick Sort
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="SORT-SELECTION" />
+                    Selection Sort
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" value="SORT-SHELL" />
+                    Shell Sort
+                </label>
+            </div>
+        </div>
+    </form>
+    <hr class="splitter" />
 </div>
 
 @Scripts.Render("~/bundles/settings-algorithm")

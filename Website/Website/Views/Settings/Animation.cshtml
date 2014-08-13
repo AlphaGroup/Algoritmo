@@ -1,9 +1,13 @@
 ﻿@{
     ViewBag.Title = "Animation";
 }
+<link href="~/Content/mine/settings-animation.css" rel="stylesheet" />
 
-<div align="center">
-    <h2>Animation</h2>
+<div class="half-center">
+    <div class="input-group">
+        <span class="input-group-addon">Animation time interval:</span>
+        <input id="timeInterval" name="timeInterval" type="text" class="form-control" />
+    </div>
 </div>
 
 @Scripts.Render("~/bundles/settings-animation")

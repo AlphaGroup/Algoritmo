@@ -1,0 +1,13 @@
+﻿div.half-center {
+    width: 70%;
+    display: block;
+    margin: 0 auto;
+    min-height: 600px;
+}
+
+hr.splitter {
+    height: 2px;
+    border: none;
+    color: #333;
+    background-color: #333;
+}

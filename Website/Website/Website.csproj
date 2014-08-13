@@ -153,7 +153,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\mine\general.css" />
     <Content Include="Content\mine\homeindex.css" />
+    <Content Include="Content\mine\settings-animation.css" />
     <Content Include="Content\mine\_layout.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
