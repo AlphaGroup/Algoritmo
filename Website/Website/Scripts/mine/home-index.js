@@ -48,8 +48,6 @@ $(function () {
         if ($.cookie("interval")) {
             interval = $.cookie("interval");
         }
-        alert(interval)
-        alert(sort)
         playActionsAjax(url, sort, validArr, setArr, interval);
     });
 });
