@@ -155,6 +155,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\mine\general.css" />
     <Content Include="Content\mine\homeindex.css" />
+    <Content Include="Content\mine\settings-algorithm.css" />
     <Content Include="Content\mine\settings-animation.css" />
     <Content Include="Content\mine\_layout.css" />
     <Content Include="favicon.ico" />
@@ -175,6 +176,7 @@
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
