@@ -33,10 +33,10 @@ namespace Website.Controllers
         /// <summary>
         /// Deal with the input 
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="queryType"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        public ActionResult RequireActionsAjax(string type, string input)
+        public ActionResult RequireActionsAjax(string queryType, string algorithm, string input)
         {
             // Get input values
             char[] delimiter = { ' ' };
@@ -47,23 +47,30 @@ namespace Website.Controllers
                 values.Add(int.Parse(str));
             }
 
-            IActionProvider provider;
-            ISort<int> sorter;
-            switch (type)
+            if (queryType == "SORT")
             {
-                case "SORT-BUBBLE":
-                    var bubble = new BubbleSort<int>();
-                    bubble.Sort(values);
-                    provider = bubble;
-                    break;
-                // Default case will use bubble sort
-                default:
-                    var defaultSort = new BubbleSort<int>();
-                    defaultSort.Sort(values);
-                    provider = defaultSort;
-                    break;
+                IActionProvider provider;
+                ISort<int> sorter;
+                switch (algorithm)
+                {
+                    case "BUBBLE":
+                        var bubble = new BubbleSort<int>();
+                        bubble.Sort(values);
+                        provider = bubble;
+                        break;
+                    // Default case will use bubble sort
+                    default:
+                        var defaultSort = new BubbleSort<int>();
+                        defaultSort.Sort(values);
+                        provider = defaultSort;
+                        break;
+                }
+                return Json(provider.GetListForJson(), JsonRequestBehavior.AllowGet);
             }
-            return Json(provider.GetListForJson(), JsonRequestBehavior.AllowGet);
+            else
+            {
+                return null;
+            }
         }
     }
 }
