@@ -24,6 +24,14 @@ function horiExcg(item0, item1, callback, param) {
     });
 }
 
+// Clone and lift up the cloned element, return the cloned item
+// Now the input should be a set
+function cloneAndLiftup(item) {
+    // TODO: WAITING TO BE FILLED
+
+}
+
+// Draw items on the screen.
 function drawItems(queryType, algorithm, input, placeId) {
     var result = null;
     if (queryType == "SORT") {
@@ -94,5 +102,12 @@ function bubbleSortAnim(paraObj) {
 
 // For insertion sort
 function insertionSortAnim(paraObj) {
-    alert("Insertion Sort!");
+    var dataItem = paraObj.data.shift();
+    var viewItems = paraObj.view.items;
+    if (dataItem == null) {
+        // End of actions
+        return;
+    }
+    // TODO: FOR TEST NOW
+    cloneAndLiftup(viewItems[0]);
 }
