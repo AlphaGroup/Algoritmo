@@ -25,18 +25,23 @@ $(function() {
         // Create visual items on paper
         var resultObj = drawItems(GetQueryType(), GetAlgo(), validArr, "paper");
         paper = resultObj.paper;
+        var visualObj = resultObj.visualObj;
         // Decide which callback function should be used
         var callback = null;
-        var visualObj = null;
         if (GetQueryType() == "SORT") {
-            if (GetAlgo() == "BUBBLE") {
+            switch (GetAlgo()) {
+            case "BUBBLE":
                 callback = bubbleSortAnim;
-                visualObj = resultObj.visualObj;
+                break;
+            case "INSERTION":
+                callback = insertionSortAnim;
+                break;
+            default:
+                callback = insertionSortAnim;
+                break;
             }
         } else {
-            // Default value
-            callback = bubbleSortAnim;
-            visualObj = resultObj.visualObj;
+            // Other circumstances
         }
         // Call jax function to get actions and play it.
         var url = "/Home/RequireActionsAjax";

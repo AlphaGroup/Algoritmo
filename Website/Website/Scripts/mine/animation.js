@@ -25,34 +25,49 @@ function horiExcg(item0, item1, callback, param) {
 }
 
 function drawItems(queryType, algorithm, input, placeId) {
+    var result = null;
     if (queryType == "SORT") {
-        if (algorithm == "BUBBLE") {
-            var squaEdge = 60;
-            var margin = 20;
-            var paperHeight = squaEdge * 5;
-            var paperWidth = squaEdge * input.length + margin * (input.length + 1);
-            var paper = Raphael(placeId, paperWidth, paperHeight);
-            // Add sets into setArr
-            var items = [];
-            for (var j = 0; j < input.length; ++j) {
-                var posX = margin * (j + 1) + squaEdge * j;
-                var posY = paperHeight / 2;
-                var square = paper.rect(posX, posY, squaEdge, squaEdge).attr({ fill: "#487B7B" });
-                var text = paper.text(posX + squaEdge / 2, posY + squaEdge / 2,
-                    input[j]).attr({ "font-family": "arial", "font-size": squaEdge / 2, fill: "white" });
-                var card = paper.set();
-                card.push(text);
-                card.push(square);
-                items.push(card);
-            }
-            return {
-                paper: paper,
-                visualObj: {
-                    items: items
-                }
-            };
+        switch (algorithm) {
+        case "BUBBLE":
+            result = bubbleDrawItems(placeId, input);
+            break;
+        case "INSERTION":
+            // Insertion sort use the same draw function as Bubble sort.
+            result = bubbleDrawItems(placeId, input);
+            break;
+        default:
+            break;
         }
     }
+    return result;
+}
+
+// Draw items for bubble sort
+function bubbleDrawItems(placeId, input) {
+    var squaEdge = 60;
+    var margin = 20;
+    var paperHeight = squaEdge * 5;
+    var paperWidth = squaEdge * input.length + margin * (input.length + 1);
+    var paper = Raphael(placeId, paperWidth, paperHeight);
+    // Add sets into setArr
+    var items = [];
+    for (var j = 0; j < input.length; ++j) {
+        var posX = margin * (j + 1) + squaEdge * j;
+        var posY = paperHeight / 2;
+        var square = paper.rect(posX, posY, squaEdge, squaEdge).attr({ fill: "#487B7B" });
+        var text = paper.text(posX + squaEdge / 2, posY + squaEdge / 2,
+            input[j]).attr({ "font-family": "arial", "font-size": squaEdge / 2, fill: "white" });
+        var card = paper.set();
+        card.push(square);
+        card.push(text);
+        items.push(card);
+    }
+    return {
+        paper: paper,
+        visualObj: {
+            items: items
+        }
+    };
 }
 
 // Recursively retrieve items from paraObj.data
@@ -75,4 +90,9 @@ function bubbleSortAnim(paraObj) {
         horiExcg(items[index0],
             items[index1], bubbleSortAnim, paraObj);
     }
+}
+
+// For insertion sort
+function insertionSortAnim(paraObj) {
+    alert("Insertion Sort!");
 }
