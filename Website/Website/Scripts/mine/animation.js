@@ -118,30 +118,33 @@ function insertionSortAnim(paraObj) {
             var lhr = null;
             var rhr = null;
             if (indexLhr < 0) {
+                // left hand reference is the key(assign a key)
                 key = paraObj.view.items[indexRhr].clone();
                 paraObj.key = key;
+                stepInterval = interval / 2;
                 var oldY = key.getBBox().y;
                 // lift up this item
-                key.animate({ transform: "...T0,-" + oldY / 2 }, interval, "ease-in", function() {
+                key.animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-in", function() {
                     insertionSortAnim(paraObj);
                 });
-                // left hand reference is the key(assign a key)
             } else if (indexRhr < 0) {
                 // right hand reference is the key(assign an item with key's value)
                 key = paraObj.key;
                 lhr = viewItems[indexLhr];
-                stepInterval = interval / 2;
+                stepInterval = interval / 3;
                 deltaX = key.getBBox().x - lhr.getBBox().x;
                 deltaY = key.getBBox().y - lhr.getBBox().y;
                 // visual animation
                 // let lhr fade away
                 lhr.animate({ opacity: 0 }, stepInterval, "ease-in", function() {
                     // move key to lhr's position
-                    key.animate({ transform: "...T-" + deltaX + ",-" + deltaY }, stepInterval, "ease-in", function() {
-                        // background assignment
-                        viewItems[indexLhr] = key;
-                        // recursively call itself
-                        insertionSortAnim(paraObj);
+                    key.animate({ transform: "...T-" + deltaX + ",0" }, stepInterval, "ease-in", function() {
+                        this.animate({ transform: "...T0," + (-deltaY) }, stepInterval, "ease-in", function() {
+                            // background assignment
+                            viewItems[indexLhr] = key;
+                            // recursively call itself
+                            insertionSortAnim(paraObj);
+                        });
                     });
                 });
             } else {
@@ -150,27 +153,17 @@ function insertionSortAnim(paraObj) {
                 deltaX = viewItems[indexLhr].getBBox().x - viewItems[indexRhr].getBBox().x;
                 var cloned = viewItems[indexRhr].clone();
                 // Visual animation
-                viewItems[indexLhr].animate({ opacity: 0 }, stepInterval, function() {
+                viewItems[indexLhr].animate({ opacity: 0 }, stepInterval, "ease-in", function() {
                     this.clear();
-                    cloned.animate({ transform: "...T" + deltaX + ",0" }, stepInterval);
+                    cloned.animate({ transform: "...T" + deltaX + ",0" }, stepInterval, "ease-in", function() {
+                        insertionSortAnim(paraObj);
+                    });
                 });
                 // Background assignment
                 viewItems[indexLhr] = cloned;
             }
         }
         break;
-    //case "DPKEY":
-    //    // Drop a key
-    //    {
-    //        // Visual animation
-    //        paraObj.key.animate({ opacity: 0 }, interval, "ease-in", function() {
-    //            // Background deletion
-    //            paraObj.key.clear();
-    //            paraObj.key = null;
-    //            insertionSortAnim(paraObj);
-    //        });
-    //    }
-    //    break;
     default:
         break;
     }
