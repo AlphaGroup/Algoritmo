@@ -102,51 +102,77 @@ function insertionSortAnim(paraObj) {
         // End of actions
         return;
     }
-    // TODO: 
     var interval = GetInterval();
+    // Deal with the data returned from server.
     switch (dataItem.action) {
-    case "CSKEY":
-        // Choose a key
-        {
-            var index = parseInt(dataItem.param);
-            var item = paraObj.view.items[index].clone();
-            paraObj.key = item;
-            var oldY = item.getBBox().y;
-            // lift up this item
-            item.animate({ transform: "...T0,-" + oldY / 2 }, interval, insertionSortAnim, paraObj);
-        }
-        break;
     case "ASGN":
         // Assignment
         {
             var indexes = dataItem.param.split("=");
             var indexLhr = parseInt(indexes[0]);
             var indexRhr = parseInt(indexes[1]);
-            var stepInterval = interval / 3;
-            var deltaX = viewItems[indexLhr].getBBox().x - viewItems[indexRhr].getBBox().x;
-            var cloned = viewItems[indexRhr].clone();
-            // Visual animation
-            viewItems[indexLhr].animate({ opacity: 0 }, stepInterval, function() {
-                this.clear();
-                cloned.animate({ transform: "...T" + deltaX + ",0" }, stepInterval);
-            });
-            // Background assignment
-            viewItems[indexLhr] = cloned;
+            var deltaX = null;
+            var deltaY = null;
+            var stepInterval = null;
+            var key = null;
+            var lhr = null;
+            var rhr = null;
+            if (indexLhr < 0) {
+                key = paraObj.view.items[indexRhr].clone();
+                paraObj.key = key;
+                var oldY = key.getBBox().y;
+                // lift up this item
+                key.animate({ transform: "...T0,-" + oldY / 2 }, interval, "ease-in", function() {
+                    insertionSortAnim(paraObj);
+                });
+                // left hand reference is the key(assign a key)
+            } else if (indexRhr < 0) {
+                // right hand reference is the key(assign an item with key's value)
+                key = paraObj.key;
+                lhr = viewItems[indexLhr];
+                stepInterval = interval / 2;
+                deltaX = key.getBBox().x - lhr.getBBox().x;
+                deltaY = key.getBBox().y - lhr.getBBox().y;
+                // visual animation
+                // let lhr fade away
+                lhr.animate({ opacity: 0 }, stepInterval, "ease-in", function() {
+                    // move key to lhr's position
+                    key.animate({ transform: "...T-" + deltaX + ",-" + deltaY }, stepInterval, "ease-in", function() {
+                        // background assignment
+                        viewItems[indexLhr] = key;
+                        // recursively call itself
+                        insertionSortAnim(paraObj);
+                    });
+                });
+            } else {
+                // Both operands are normal items in viewItems
+                stepInterval = interval / 3;
+                deltaX = viewItems[indexLhr].getBBox().x - viewItems[indexRhr].getBBox().x;
+                var cloned = viewItems[indexRhr].clone();
+                // Visual animation
+                viewItems[indexLhr].animate({ opacity: 0 }, stepInterval, function() {
+                    this.clear();
+                    cloned.animate({ transform: "...T" + deltaX + ",0" }, stepInterval);
+                });
+                // Background assignment
+                viewItems[indexLhr] = cloned;
+            }
         }
         break;
-    case "DPKEY":
-        // Drop a key
-        {
-            // Visual animation
-            paraObj.key.animate({ opacity: 0 }, interval);
-            // Background deletion
-            paraObj.key.clear();
-            paraObj.key = null;
-        }
-        break;
+    //case "DPKEY":
+    //    // Drop a key
+    //    {
+    //        // Visual animation
+    //        paraObj.key.animate({ opacity: 0 }, interval, "ease-in", function() {
+    //            // Background deletion
+    //            paraObj.key.clear();
+    //            paraObj.key = null;
+    //            insertionSortAnim(paraObj);
+    //        });
+    //    }
+    //    break;
     default:
         break;
     }
     return;
-
 }

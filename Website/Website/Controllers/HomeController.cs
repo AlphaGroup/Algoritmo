@@ -58,6 +58,11 @@ namespace Website.Controllers
                         bubble.Sort(values);
                         provider = bubble;
                         break;
+                    case "INSERTION":
+                        var insertion = new InsertSort<int>();
+                        insertion.Sort(values);
+                        provider = insertion;
+                        break;
                     // Default case will use bubble sort
                     default:
                         var defaultSort = new BubbleSort<int>();

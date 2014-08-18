@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Algorithm.Interface;
 
 namespace Algorithm.Sort
 {
-    class InsertSort<T> : ISort<T>, IActionProvider
+    internal class InsertSort<T> : ISort<T>, IActionProvider
     {
-        private List<object> _actionList = new List<object>();
+        private readonly List<object> _actionList = new List<object>();
+
+        public List<object> GetListForJson()
+        {
+            return _actionList;
+        }
+
         /// <summary>
-        /// Use default comparer.
+        ///     Use default comparer.
         /// </summary>
         /// <param name="inList"></param>
         /// <returns></returns>
@@ -21,7 +24,7 @@ namespace Algorithm.Sort
         }
 
         /// <summary>
-        /// Use inputed comparer.
+        ///     Use inputed comparer.
         /// </summary>
         /// <param name="inList"></param>
         /// <param name="comparer"></param>
@@ -34,22 +37,21 @@ namespace Algorithm.Sort
             for (int j = 1; j < inList.Count; ++j)
             {
                 // Choose a key
-                var key = inList.ElementAt(j);
-                // Json info
-                
-                var i = j - 1;
+                T key = inList.ElementAt(j);
+                // JSON
+                _actionList.Add(new {action = "ASGN", param = string.Format(@"{0}={1}", -1, j)});
+                int i = j - 1;
                 while (i >= 0 && comparer.Compare(inList[i], key) > 0)
                 {
                     inList[i + 1] = inList[i];
+                    // JSON
+                    _actionList.Add(new {action = "ASGN", param = string.Format("{0}={1}", i + 1, i)});
                     --i;
                 }
                 inList[i + 1] = key;
+                // JSON
+                _actionList.Add(new {action = "ASGN", param = string.Format("{0}={1}", i + 1, -1)});
             }
-        }
-
-        public List<object> GetListForJson()
-        {
-            return _actionList;
         }
     }
 }
