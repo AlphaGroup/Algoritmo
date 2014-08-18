@@ -24,12 +24,6 @@ function horiExcg(item0, item1, callback, param) {
     });
 }
 
-// Clone and lift up the cloned element, return the cloned item
-// Now the input should be a set
-function cloneAndLiftup(item) {
-    // TODO: WAITING TO BE FILLED
-
-}
 
 // Draw items on the screen.
 function drawItems(queryType, algorithm, input, placeId) {
@@ -108,6 +102,51 @@ function insertionSortAnim(paraObj) {
         // End of actions
         return;
     }
-    // TODO: FOR TEST NOW
-    cloneAndLiftup(viewItems[0]);
+    // TODO: 
+    var interval = GetInterval();
+    switch (dataItem.action) {
+    case "CSKEY":
+        // Choose a key
+        {
+            var index = parseInt(dataItem.param);
+            var item = paraObj.view.items[index].clone();
+            paraObj.key = item;
+            var oldY = item.getBBox().y;
+            // lift up this item
+            item.animate({ transform: "...T0,-" + oldY / 2 }, interval, insertionSortAnim, paraObj);
+        }
+        break;
+    case "ASGN":
+        // Assignment
+        {
+            var indexes = dataItem.param.split("=");
+            var indexLhr = parseInt(indexes[0]);
+            var indexRhr = parseInt(indexes[1]);
+            var stepInterval = interval / 3;
+            var deltaX = viewItems[indexLhr].getBBox().x - viewItems[indexRhr].getBBox().x;
+            var cloned = viewItems[indexRhr].clone();
+            // Visual animation
+            viewItems[indexLhr].animate({ opacity: 0 }, stepInterval, function() {
+                this.clear();
+                cloned.animate({ transform: "...T" + deltaX + ",0" }, stepInterval);
+            });
+            // Background assignment
+            viewItems[indexLhr] = cloned;
+        }
+        break;
+    case "DPKEY":
+        // Drop a key
+        {
+            // Visual animation
+            paraObj.key.animate({ opacity: 0 }, interval);
+            // Background deletion
+            paraObj.key.clear();
+            paraObj.key = null;
+        }
+        break;
+    default:
+        break;
+    }
+    return;
+
 }

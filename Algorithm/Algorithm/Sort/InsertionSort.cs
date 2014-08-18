@@ -33,7 +33,10 @@ namespace Algorithm.Sort
             // Start sorting
             for (int j = 1; j < inList.Count; ++j)
             {
+                // Choose a key
                 var key = inList.ElementAt(j);
+                // Json info
+                
                 var i = j - 1;
                 while (i >= 0 && comparer.Compare(inList[i], key) > 0)
                 {
