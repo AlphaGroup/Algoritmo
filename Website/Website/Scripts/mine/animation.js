@@ -27,7 +27,6 @@ function horiExcg(item0, item1, callback, param) {
 /*
 * Draw visual items on screen.
 */
-
 // Draw items on the screen. Return an object contain paper and visualObj
 function drawItems(queryType, algorithm, input, placeId) {
     var result = null;
@@ -98,18 +97,22 @@ function mergeSortAnim(paraObj) {
         // Create sub arrays
         paraObj.view.leftSub = [];
         for (var l = begin; l <= mid; l++) {
-            paraObj.view.leftSub.push(paraObj.view.items[l].clone());
+            var leftItem = paraObj.view.items[l].clone();
+            // Change sub array' color
+            leftItem[0].attr({ fill: "#511470" });
+            paraObj.view.leftSub.push(leftItem);
         }
         paraObj.view.rightSub = [];
         for (var m = mid + 1; m <= end; m++) {
-            paraObj.view.rightSub.push(paraObj.view.items[m].clone());
+            var rightItem = paraObj.view.items[m].clone();
+            // Change sub array' color
+            rightItem[0].attr({ fill: "#E9C306" });
+            paraObj.view.rightSub.push(rightItem);
         }
         // Hide original items whose indexes are from 'begin' to 'end'
         for (var i = begin; i <= end; i++) {
             paraObj.view.items[i].attr("opacity", 0);
         }
-        // Change sub arrays' color
-        // TODO
         // Lift up sub arrays
         var sets = paraObj.view.paper.set();
         var right = paraObj.view.rightSub;
@@ -145,6 +148,8 @@ function mergeSortAnim(paraObj) {
                 var deltaX = originX - subX;
                 var deltaY = originY - subY;
                 paraObj.view.leftSub[leftIndex].transform("...T" + deltaX + "," + deltaY);
+                // Change to normal color
+                paraObj.view.leftSub[leftIndex][0].attr({ fill: "#487B7B" });
                 // Show it
                 paraObj.view.leftSub[leftIndex].animate({ opacity: 1 }, stepInterval, "ease-out", function() {
                     // Background manipulation: replace original items
@@ -166,6 +171,8 @@ function mergeSortAnim(paraObj) {
                 var deltaX = originX - subX;
                 var deltaY = originY - subY;
                 paraObj.view.rightSub[rightIndex].transform("...T" + deltaX + "," + deltaY);
+                // Change to normal color
+                paraObj.view.rightSub[rightIndex][0].attr({ fill: "#487B7B" });
                 // Show it
                 paraObj.view.rightSub[rightIndex].animate({ opacity: 1 }, stepInterval, "ease-out", function() {
                     // Background manipulation: replace original items
