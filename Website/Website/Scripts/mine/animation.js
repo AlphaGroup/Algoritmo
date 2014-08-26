@@ -24,6 +24,10 @@ function horiExcg(item0, item1, callback, param) {
     });
 }
 
+/*
+* Draw visual items on screen.
+*/
+
 // Draw items on the screen. Return an object contain paper and visualObj
 function drawItems(queryType, algorithm, input, placeId) {
     var result = null;
@@ -72,6 +76,111 @@ function horiDrawItems(placeId, input) {
 }
 
 // Recursively retrieve items from paraObj.data
+/*
+* Animation functions for sort algorithms
+*/
+// For merge sort
+function mergeSortAnim(paraObj) {
+    var dataItem = paraObj.data.shift();
+    var interval = GetInterval();
+    var stepInterval = null;
+    if (dataItem == null) {
+        // End of actions
+        return;
+    }
+    switch (dataItem.action) {
+    case "DIVD":
+        // Get parameters
+        var divdIndexes = dataItem.param.split(',');
+        var begin = parseInt(divdIndexes[0]);
+        var mid = parseInt(divdIndexes[1]);
+        var end = parseInt(divdIndexes[2]);
+        // Create sub arrays
+        paraObj.view.leftSub = [];
+        for (var l = begin; l <= mid; l++) {
+            paraObj.view.leftSub.push(paraObj.view.items[l].clone());
+        }
+        paraObj.view.rightSub = [];
+        for (var m = mid + 1; m <= end; m++) {
+            paraObj.view.rightSub.push(paraObj.view.items[m].clone());
+        }
+        // Hide original items whose indexes are from 'begin' to 'end'
+        for (var i = begin; i <= end; i++) {
+            paraObj.view.items[i].attr("opacity", 0);
+        }
+        // Change sub arrays' color
+        // TODO
+        // Lift up sub arrays
+        var sets = paraObj.view.paper.set();
+        var right = paraObj.view.rightSub;
+        var left = paraObj.view.leftSub;
+        for (var j = 0; j < right.length; j++) {
+            sets.push(right[j]);
+        }
+        for (var k = 0; k < left.length; k++) {
+            sets.push(left[k]);
+        }
+        var oldY = right[0].getBBox().y;
+        stepInterval = interval / 2;
+        sets.animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function() {
+            mergeSortAnim(paraObj);
+        });
+        break;
+    case "ASGN":
+        // Get parameters
+        var asgnIndexes = dataItem.param.split('=');
+        var originIndex = parseInt(asgnIndexes[0]);
+        var subIndex = parseInt(asgnIndexes[1]);
+        if (subIndex < 0) {
+            // For left sub array
+            var leftIndex = Math.abs(subIndex) - 1;
+            // Front animation
+            stepInterval = interval / 3;
+            paraObj.view.leftSub[leftIndex].animate({ opacity: 0 }, stepInterval, "ease-out", function() {
+                // Move to right place
+                var originX = paraObj.view.items[originIndex].getBBox().x;
+                var originY = paraObj.view.items[originIndex].getBBox().y;
+                var subX = paraObj.view.leftSub[leftIndex].getBBox().x;
+                var subY = paraObj.view.leftSub[leftIndex].getBBox().y;
+                var deltaX = originX - subX;
+                var deltaY = originY - subY;
+                paraObj.view.leftSub[leftIndex].transform("...T" + deltaX + "," + deltaY);
+                // Show it
+                paraObj.view.leftSub[leftIndex].animate({ opacity: 1 }, stepInterval, "ease-out", function() {
+                    // Background manipulation: replace original items
+                    paraObj.view.items[originIndex] = paraObj.view.leftSub[leftIndex];
+                    mergeSortAnim(paraObj);
+                });
+            });
+        } else {
+            // For right sub array
+            var rightIndex = subIndex;
+            // Front animation
+            stepInterval = interval / 3;
+            paraObj.view.rightSub[rightIndex].animate({ opacity: 0 }, stepInterval, "ease-out", function() {
+                // Move to right place
+                var originX = paraObj.view.items[originIndex].getBBox().x;
+                var originY = paraObj.view.items[originIndex].getBBox().y;
+                var subX = paraObj.view.rightSub[rightIndex].getBBox().x;
+                var subY = paraObj.view.rightSub[rightIndex].getBBox().y;
+                var deltaX = originX - subX;
+                var deltaY = originY - subY;
+                paraObj.view.rightSub[rightIndex].transform("...T" + deltaX + "," + deltaY);
+                // Show it
+                paraObj.view.rightSub[rightIndex].animate({ opacity: 1 }, stepInterval, "ease-out", function() {
+                    // Background manipulation: replace original items
+                    paraObj.view.items[originIndex] = paraObj.view.rightSub[rightIndex];
+                    mergeSortAnim(paraObj);
+                });
+            });
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+// For bubble Sort
 function bubbleSortAnim(paraObj) {
     var dataItem = paraObj.data.shift();
     if (dataItem == null) {

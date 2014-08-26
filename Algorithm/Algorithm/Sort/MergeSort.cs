@@ -88,7 +88,7 @@ namespace Algorithm.Sort
                     {
                         list[k] = lList[li];
                         // For JSON
-                        _actionList.Add(new {action = "ASGN", param = string.Format(@"{0}={1}", k, li)});
+                        _actionList.Add(new {action = "ASGN", param = string.Format(@"{0}={1}", k, -(li + 1))});
                         ++k;
                         ++li;
                     }
@@ -100,7 +100,7 @@ namespace Algorithm.Sort
                     // Element in left list is smaller or equal
                     list[k] = lList[li];
                     // For JSON
-                    _actionList.Add(new {action = "ASGN", param = string.Format(@"{0}={1}", k, li)});
+                    _actionList.Add(new {action = "ASGN", param = string.Format(@"{0}={1}", k, -(li + 1))});
                     ++li;
                 }
                 else
