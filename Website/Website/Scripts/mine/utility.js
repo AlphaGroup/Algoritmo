@@ -45,3 +45,13 @@ function GetInterval() {
         return 1500;
     }
 }
+
+// Get input
+function GetInput() {
+    var result = $.cookie("input");
+    if (result) {
+        return result;
+    } else {
+        return "";
+    }
+}

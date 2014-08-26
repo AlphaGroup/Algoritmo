@@ -51,13 +51,20 @@ $(function() {
     });
 });
 
-// Set Enter press handler
+// Set inputArr's event handler
 $(function() {
+    // Set Enter press handler
     $("input#inputArr").keypress(function(event) {
         if (event.which == 13) {
             $("button#btnGo").click();
         }
     });
+    // Set change handler
+    $("input#inputArr").change(function() {
+        $.cookie("input", $(this).val(), { path: '/' });
+    });
+    // Set value when loaded
+    $("input#inputArr").val(GetInput());
 });
 
 // Set side navbar
