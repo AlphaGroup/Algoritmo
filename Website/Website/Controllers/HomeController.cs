@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Algorithm.Interface;
-using Newtonsoft.Json;
 using Algorithm.Sort;
 
 namespace Website.Controllers
@@ -31,7 +27,7 @@ namespace Website.Controllers
         }
 
         /// <summary>
-        /// Deal with the input 
+        ///     Deal with the input
         /// </summary>
         /// <param name="queryType"></param>
         /// <param name="input"></param>
@@ -39,10 +35,10 @@ namespace Website.Controllers
         public ActionResult RequireActionsAjax(string queryType, string algorithm, string input)
         {
             // Get input values
-            char[] delimiter = { ' ' };
+            char[] delimiter = {' '};
             string[] valuesStr = input.Split(delimiter);
             var values = new List<int>();
-            foreach (var str in valuesStr)
+            foreach (string str in valuesStr)
             {
                 values.Add(int.Parse(str));
             }
@@ -55,27 +51,30 @@ namespace Website.Controllers
                 {
                     case "BUBBLE":
                         var bubble = new BubbleSort<int>();
-                        bubble.Sort(values);
+                        sorter = bubble;
                         provider = bubble;
                         break;
                     case "INSERTION":
                         var insertion = new InsertSort<int>();
-                        insertion.Sort(values);
+                        sorter = insertion;
                         provider = insertion;
                         break;
-                    // Default case will use bubble sort
+                    case "MERGE":
+                        var merge = new MergeSort<int>();
+                        sorter = merge;
+                        provider = merge;
+                        break;
+                        // Default case will use bubble sort
                     default:
                         var defaultSort = new BubbleSort<int>();
-                        defaultSort.Sort(values);
+                        sorter = defaultSort;
                         provider = defaultSort;
                         break;
                 }
+                sorter.Sort(values);
                 return Json(provider.GetListForJson(), JsonRequestBehavior.AllowGet);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

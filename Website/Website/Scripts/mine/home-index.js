@@ -22,10 +22,9 @@ $(function() {
                 validArr.push(parseInt(arr[i]).toString());
             }
         }
-        // Create visual items on paper
-        var resultObj = drawItems(GetQueryType(), GetAlgo(), validArr, "paper");
-        paper = resultObj.paper;
-        var visualObj = resultObj.visualObj;
+        // Draw visual items on paper
+        var visualObj = drawItems(GetQueryType(), GetAlgo(), validArr, "paper");
+        paper = visualObj.paper;
         // Decide which callback function should be used
         var callback = null;
         if (GetQueryType() == "SORT") {
@@ -35,6 +34,9 @@ $(function() {
                 break;
             case "INSERTION":
                 callback = insertionSortAnim;
+                break;
+            case "MERGE":
+                callback = mergeSortAnim;
                 break;
             default:
                 callback = insertionSortAnim;

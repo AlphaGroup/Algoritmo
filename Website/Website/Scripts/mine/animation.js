@@ -24,18 +24,19 @@ function horiExcg(item0, item1, callback, param) {
     });
 }
 
-
-// Draw items on the screen.
+// Draw items on the screen. Return an object contain paper and visualObj
 function drawItems(queryType, algorithm, input, placeId) {
     var result = null;
     if (queryType == "SORT") {
         switch (algorithm) {
         case "BUBBLE":
-            result = bubbleDrawItems(placeId, input);
+            result = horiDrawItems(placeId, input);
             break;
         case "INSERTION":
-            // Insertion sort use the same draw function as Bubble sort.
-            result = bubbleDrawItems(placeId, input);
+            result = horiDrawItems(placeId, input);
+            break;
+        case "MERGE":
+            result = horiDrawItems(placeId, input);
             break;
         default:
             break;
@@ -44,8 +45,8 @@ function drawItems(queryType, algorithm, input, placeId) {
     return result;
 }
 
-// Draw items for bubble sort
-function bubbleDrawItems(placeId, input) {
+// Draw items horizontally
+function horiDrawItems(placeId, input) {
     var squaEdge = 60;
     var margin = 20;
     var paperHeight = squaEdge * 5;
@@ -66,9 +67,7 @@ function bubbleDrawItems(placeId, input) {
     }
     return {
         paper: paper,
-        visualObj: {
-            items: items
-        }
+        items: items
     };
 }
 
