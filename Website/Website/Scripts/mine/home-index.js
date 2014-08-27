@@ -4,8 +4,8 @@ This file is made for home-index.js
 // The global paper variable
 var paper;
 // Set search button click handler
-$(function() {
-    $("button#btnGo").click(function() {
+$(function () {
+    $("button#btnGo").click(function () {
         // Clear old paper
         try {
             paper.remove();
@@ -23,28 +23,11 @@ $(function() {
             }
         }
         // Draw visual items on paper
-        var visualObj = drawItems(GetQueryType(), GetAlgo(), validArr, "paper");
+        //var visualObj = drawItems(GetQueryType(), GetAlgo(), validArr, "paper");
+        var visualObj = (GetDrawItemsFunc())("paper", validArr);
         paper = visualObj.paper;
         // Decide which callback function should be used
-        var callback = null;
-        if (GetQueryType() == "SORT") {
-            switch (GetAlgo()) {
-            case "BUBBLE":
-                callback = bubbleSortAnim;
-                break;
-            case "INSERTION":
-                callback = insertionSortAnim;
-                break;
-            case "MERGE":
-                callback = mergeSortAnim;
-                break;
-            default:
-                callback = insertionSortAnim;
-                break;
-            }
-        } else {
-            // Other circumstances
-        }
+        var callback = GetSortAnimFunc();
         // Call jax function to get actions and play it.
         var url = "/Home/RequireActionsAjax";
         queryAjax(url, validArr.join(" "), callback, visualObj);
@@ -52,15 +35,15 @@ $(function() {
 });
 
 // Set inputArr's event handler
-$(function() {
+$(function () {
     // Set Enter press handler
-    $("input#inputArr").keypress(function(event) {
+    $("input#inputArr").keypress(function (event) {
         if (event.which == 13) {
             $("button#btnGo").click();
         }
     });
     // Set change handler
-    $("input#inputArr").change(function() {
+    $("input#inputArr").change(function () {
         $.cookie("input", $(this).val(), { path: '/' });
     });
     // Set value when loaded
@@ -68,6 +51,6 @@ $(function() {
 });
 
 // Set side navbar
-$(function() {
+$(function () {
     $("li:contains('Home')").addClass("active");
 });

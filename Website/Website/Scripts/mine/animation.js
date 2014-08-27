@@ -28,25 +28,25 @@ function horiExcg(item0, item1, callback, param) {
 * Draw visual items on screen.
 */
 // Draw items on the screen. Return an object contain paper and visualObj
-function drawItems(queryType, algorithm, input, placeId) {
-    var result = null;
-    if (queryType == "SORT") {
-        switch (algorithm) {
-        case "BUBBLE":
-            result = horiDrawItems(placeId, input);
-            break;
-        case "INSERTION":
-            result = horiDrawItems(placeId, input);
-            break;
-        case "MERGE":
-            result = horiDrawItems(placeId, input);
-            break;
-        default:
-            break;
-        }
-    }
-    return result;
-}
+//function drawItems(queryType, algorithm, input, placeId) {
+//    var result = null;
+//    if (queryType == "SORT") {
+//        switch (algorithm) {
+//        case "BUBBLE":
+//            result = horiDrawItems(placeId, input);
+//            break;
+//        case "INSERTION":
+//            result = horiDrawItems(placeId, input);
+//            break;
+//        case "MERGE":
+//            result = horiDrawItems(placeId, input);
+//            break;
+//        default:
+//            break;
+//        }
+//    }
+//    return result;
+//}
 
 // Draw items horizontally
 function horiDrawItems(placeId, input) {

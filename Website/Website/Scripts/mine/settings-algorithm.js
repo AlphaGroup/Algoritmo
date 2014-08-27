@@ -8,6 +8,7 @@ $(function () {
 // Set radio click handler.
 $(function () {
     $("div.radio :radio").click(function () {
+        // Set cookies
         $.cookie("algorithm", $(this).val(), { path: '/' });
     });
 });

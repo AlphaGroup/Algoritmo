@@ -1,11 +1,14 @@
-﻿
+﻿// Global variables 
+var global_sortAnimFunc = null;
+var global_drawItemsFunc = null;
+
 // Query the JSON by ajax
 function queryAjax(url, servInput, callback, visualObj) {
     $.get(url, {
         queryType: GetQueryType(),
         algorithm: GetAlgo(),
         input: servInput
-    }, function(data, textStatus) {
+    }, function (data, textStatus) {
         var paraObj = {
             data: data,
             view: visualObj
@@ -53,5 +56,53 @@ function GetInput() {
         return result;
     } else {
         return "";
+    }
+}
+
+// Get drawItems function
+function GetDrawItemsFunc() {
+    RefreshGlobalVar();
+    if (global_drawItemsFunc) {
+        return global_drawItemsFunc;
+    } else {
+        // Default value
+        return horiDrawItems;
+    }
+}
+
+// Get animation function for sort algorithm
+function GetSortAnimFunc() {
+    RefreshGlobalVar();
+    if (global_sortAnimFunc) {
+        return global_sortAnimFunc;
+    } else {
+        // Default value
+        return bubbleSortAnim;
+    }
+}
+
+function RefreshGlobalVar() {
+    // Decide which animation function should be used
+    if (GetQueryType() == "SORT") {
+        switch (GetAlgo()) {
+            case "BUBBLE":
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = bubbleSortAnim;
+                break;
+            case "INSERTION":
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = insertionSortAnim;
+                break;
+            case "MERGE":
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = mergeSortAnim;
+                break;
+            default:
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = bubbleSortAnim;
+                break;
+        }
+    } else if (GetQueryType() == "ANLY") {
+        // TODO
     }
 }
