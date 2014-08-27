@@ -13,10 +13,10 @@ $(function () {
     $("div#sideNavbar").hover(
         function () {
             // For mouse enter
-            $(this).animate({ "width": "200px" }, 500);
+            $(this).animate({ "width": "200px" }, 200);
         },
         function () {
             // For mouse out
-            $(this).animate({ "width": "40px" }, 500);
+            $(this).animate({ "width": "40px" }, 200);
         });
 });
