@@ -7,9 +7,10 @@ using Algorithm.Interface;
 
 namespace Algorithm.Sort
 {
-    class QuickSort<T> : ISort<T>
+    class QuickSort<T> : ISort<T>, IActionProvider
     {
         private IComparer<T> _comparer = null;
+        private List<object> _actionList = new List<object>();
         public void Sort(List<T> inList)
         {
             Sort(inList, Comparer<T>.Default);
@@ -18,7 +19,14 @@ namespace Algorithm.Sort
         public void Sort(List<T> inList, IComparer<T> comparer)
         {
             _comparer = comparer;
+            // Clear the json result
+            _actionList.Clear();
             Quick(inList, 0, inList.Count - 1);
+        }
+
+        public List<object> GetListForJson()
+        {
+            return _actionList;
         }
 
         public void Quick(List<T> list, int start, int end)
@@ -37,12 +45,14 @@ namespace Algorithm.Sort
         /// </summary>
         /// <param name="list"></param>
         /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="end">Included</param>
         /// <returns></returns>
         private int Partition(List<T> list, int start, int end)
         {
-            // TODO: now choose the last element as pivot
+            // Now choose the last element as pivot
             var pivot = list[end];
+            // For JSON
+            _actionList.Add(new { action = "ASGN", param = string.Format(@"{0}={1}", -1, end) });
             // The lastSmall indicates index of the last ele which is smaller than pivot ele
             int lastSmall = start - 1;
             for (int j = start; j < end; j++)
@@ -50,10 +60,26 @@ namespace Algorithm.Sort
                 if (_comparer.Compare(list[j], pivot) <= 0)
                 {
                     ++lastSmall;
-                    Exchange(list, lastSmall, j);
+                    // Make sure it won't exchange with itself
+                    if (lastSmall != j)
+                    {
+                        // Exchange each other
+                        Exchange(list, lastSmall, j);
+                        // For JSON
+                        _actionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", lastSmall, j) });
+                    }
                 }
             }
-            Exchange(list, lastSmall + 1, end);
+            // Make sure it won't exchange itself
+            if (lastSmall + 1 != end)
+            {
+                // Exchange the pivot and the middle element
+                Exchange(list, lastSmall + 1, end);
+                // For JSON
+                _actionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", lastSmall + 1, -1) });
+            }
+            // For JSON
+            _actionList.Add(new { action = "ASGN", param = string.Format(@"{0}={1}", end, -1) });
             return lastSmall + 1;
         }
 

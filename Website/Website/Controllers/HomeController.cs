@@ -35,7 +35,7 @@ namespace Website.Controllers
         public ActionResult RequireActionsAjax(string queryType, string algorithm, string input)
         {
             // Get input values
-            char[] delimiter = {' '};
+            char[] delimiter = { ' ' };
             string[] valuesStr = input.Split(delimiter);
             var values = new List<int>();
             foreach (string str in valuesStr)
@@ -64,8 +64,13 @@ namespace Website.Controllers
                         sorter = merge;
                         provider = merge;
                         break;
-                        // Default case will use bubble sort
+                    case "QUICK":
+                        var quick = new QuickSort<int>();
+                        sorter = quick;
+                        provider = quick;
+                        break;
                     default:
+                        // Default case will use bubble sort
                         var defaultSort = new BubbleSort<int>();
                         sorter = defaultSort;
                         provider = defaultSort;

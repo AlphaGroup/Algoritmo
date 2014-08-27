@@ -97,6 +97,10 @@ function RefreshGlobalVar() {
                 global_drawItemsFunc = horiDrawItems;
                 global_sortAnimFunc = mergeSortAnim;
                 break;
+            case "QUICK":
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = quickSortAnim;
+                break;
             default:
                 global_drawItemsFunc = horiDrawItems;
                 global_sortAnimFunc = bubbleSortAnim;
