@@ -288,11 +288,13 @@ function quickSortAnim(paraObj) {
                 // index0 refers to the pivot, which means this action is to set the pivot element
                 // Create the pivot element
                 paraObj.view.pivot = items[index1].clone();
+                stepInterval = interval / 2;
+                // Change color
+                paraObj.view.pivot[0].animate({ fill: "#DDD914" }, stepInterval, "ease-out");
                 // Hide the original one
                 items[index1].attr("opacity", 0);
                 // Lift up the pivot element
                 oldY = paraObj.view.pivot.getBBox().y;
-                stepInterval = interval / 2;
                 paraObj.view.pivot.animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function () {
                     quickSortAnim(paraObj);
                 });
@@ -303,10 +305,14 @@ function quickSortAnim(paraObj) {
                 // Calculate deltaX and deltaY
                 deltaY = items[index0].getBBox().y - paraObj.view.pivot.getBBox().y;
                 stepInterval = interval / 2;
+                // Push down and change color
+                paraObj.view.pivot[0].animate({ fill: "#487B7B" }, stepInterval, "ease-out");
                 paraObj.view.pivot.animate({ transform: "...T0," + deltaY }, stepInterval, "ease-out", function () {
                     // 2. Background array manipulation
                     items[index0] = paraObj.view.pivot;
                     paraObj.view.pivot = null;
+                    // 3. Recursively call itself
+                    quickSortAnim(paraObj);
                 });
             } else {
                 // Error
@@ -359,8 +365,8 @@ function quickSortAnim(paraObj) {
                 items[index0].animate({ transform: "...T0," + absDeltaY }, interval / 3, "ease-out", function () {
                     // Move right
                     this.animate({ transform: "...T" + absDeltaX + ",0" }, interval / 3, "ease-out", function () {
-                        // Lift up
-                        this.animate({ transform: "...T0," + 2 * absDeltaY }, interval / 3, "ease-out", function () {
+                        // Lift up to be the pivot
+                        this.animate({ transform: "...T0,-" + 2 * absDeltaY }, interval / 3, "ease-out", function () {
                             // 2. Background manipulation
                             temp = items[index0];
                             items[index0] = paraObj.view.pivot;
@@ -368,6 +374,13 @@ function quickSortAnim(paraObj) {
                             // 3. Recursively call itself
                             quickSortAnim(paraObj);
                         });
+                    });
+                    // For pivot
+                    // Move left
+                    paraObj.view.pivot.animate({ transform: "...T-" + absDeltaX + ",0" }, interval / 3, "ease-out", function () {
+                        // Push down and change color to normal element's one
+                        this.animate({ transform: "...T0," + absDeltaY }, interval / 3, "ease-out");
+                        this[0].animate({ fill: "#487B7B" }, interval / 3, "ease-out");
                     });
                 });
             } else {
