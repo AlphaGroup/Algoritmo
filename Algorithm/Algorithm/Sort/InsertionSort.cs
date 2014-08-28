@@ -45,12 +45,12 @@ namespace Algorithm.Sort
                 {
                     inList[i + 1] = inList[i];
                     // JSON
-                    _actionList.Add(new {action = "ASGN", param = string.Format("{0}={1}", i + 1, i)});
+                    _actionList.Add(new {action = "ASGN", param = string.Format(@"{0}={1}", i + 1, i)});
                     --i;
                 }
                 inList[i + 1] = key;
                 // JSON
-                _actionList.Add(new {action = "ASGN", param = string.Format("{0}={1}", i + 1, -1)});
+                _actionList.Add(new {action = "ASGN", param = string.Format(@"{0}={1}", i + 1, -1)});
             }
         }
     }

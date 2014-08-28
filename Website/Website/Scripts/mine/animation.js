@@ -458,3 +458,88 @@ function selectionSortAnim(paraObj) {
             break;
     }
 }
+
+// For shell sort
+function shellSortAnim(paraObj) {
+    var dataItem = paraObj.data.shift();
+    if (dataItem == null) {
+        return;
+    }
+    var indexes, index0, index1, temp;
+    var deltaX;
+    var absDeltaY;
+    var items = paraObj.view.items;
+    var interval = GetInterval();
+    switch (dataItem.action) {
+        case "ASGN":
+            indexes = dataItem.param.split("=");
+            index0 = parseInt(indexes[0]);
+            index1 = parseInt(indexes[1]);
+            if (index0 >= 0 && index1 >= 0) {
+                // Normal assignment
+                // 1. Visual animation
+                deltaX = items[index0].getBBox().x - items[index1].getBBox().x;
+                absDeltaY = items[index0].getBBox().y / 2;
+                // Hide the destination item
+                items[index0].animate({ opacity: 0 }, interval / 3, "ease-out");
+                // Clone the item
+                temp = items[index1].clone();
+                // Push down
+                temp.animate({ transform: "...T0," + absDeltaY }, interval / 3, "ease-out", function () {
+                    // Move right
+                    this.animate({ transform: "...T" + deltaX + ",0" }, interval / 3, "ease-out", function () {
+                        // Lift up
+                        this.animate({ transform: "...T0,-" + absDeltaY }, interval / 3, "ease-out", function () {
+                            // 2. Background manipulation
+                            items[index0] = temp;
+                            // 3. Recursively call itself
+                            shellSortAnim(paraObj);
+                        });
+                    });
+                });
+            } else if (index0 == -1 && index1 >= 0) {
+                // Assign the key with value of the index1
+                // Clone
+                temp = items[index1].clone();
+                // 1. Background manipulation
+                paraObj.view.key = temp;
+                // 2. Visual animation
+                // Change color
+                temp[0].animate({ fill: "#DDD914" }, interval / 3, "ease-out");
+                // Lift up
+                absDeltaY = items[index1].getBBox().y / 2;
+                temp.animate({ transform: "...T0,-" + absDeltaY }, interval / 3, "ease-out", function () {
+                    // 3. Recursively call itselft
+                    shellSortAnim(paraObj);
+                });
+            } else if (index0 >= 0 && index1 == -1) {
+                // Assign the index0 with value of key
+                // 1. Visual animation
+                // Hide index0
+                items[index0].animate({ opacity: 0 }, interval / 3, "ease-out");
+                // Change color
+                paraObj.view.key[0].animate({ fill: "#487B7B" }, interval / 3, "ease-out");
+                // Move key to the index0
+                deltaX = items[index0].getBBox().x - paraObj.view.key.getBBox().x;
+                deltaY = items[index0].getBBox().y - paraObj.view.key.getBBox().y;
+                // Move left
+                paraObj.view.key.animate({ transform: "...T" + deltaX + ",0" }, interval / 3, "ease-out", function () {
+                    // Push down
+                    this.animate({ transform: "...T0," + deltaY }, interval / 3, "ease-out", function () {
+                        // 2. Background manipulation
+                        items[index0] = paraObj.view.key;
+                        paraObj.view.key = null;
+                        // 3. Recursively call itself
+                        shellSortAnim(paraObj);
+                    });
+                });
+            } else {
+                // Error
+                console.log("Error in shellSortAnim");
+                return;
+            }
+            break;
+        default:
+            break;
+    }
+}

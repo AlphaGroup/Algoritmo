@@ -74,6 +74,11 @@ namespace Website.Controllers
                         sorter = selection;
                         provider = selection;
                         break;
+                    case "SHELL":
+                        var shell = new ShellSort<int>();
+                        sorter = shell;
+                        provider = shell;
+                        break;
                     default:
                         // Default case will use bubble sort
                         var defaultSort = new BubbleSort<int>();

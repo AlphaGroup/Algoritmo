@@ -18,6 +18,9 @@ namespace Algorithm.Sort
 
         public void Sort(List<T> inList, IComparer<T> comparer)
         {
+            // For JSON
+            _actionList.Clear();
+            // End for JSON
             int len = inList.Count;
             for (int i = 0; i < len - 1; ++i)
             {
