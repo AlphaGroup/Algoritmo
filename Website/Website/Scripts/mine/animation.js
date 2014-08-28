@@ -452,29 +452,7 @@ function selectionSortAnim(paraObj) {
             items[index0] = items[index1];
             items[index1] = temp;
             // 2. Visual exchange
-            oldY = temp.getBBox().y;
-            absDeltaX = Math.abs(items[index0].getBBox().x - items[index1].getBBox().x);
-            // Deal with the index0 element
-            // Lift up
-            items[index0].animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function () {
-                // Move left
-                this.animate({ transform: "...T-" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
-                    // Push down
-                    this.animate({ transform: "...T0," + oldY / 2 }, stepInterval, "ease-out");
-                });
-            });
-            // Deal with the index1 element
-            // Push down
-            items[index1].animate({ transform: "...T0," + oldY / 2 }, stepInterval, "ease-out", function () {
-                // Move left
-                this.animate({ transform: "...T" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
-                    // Lift up
-                    this.animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function () {
-                        // Recurisvely call itself.
-                        selectionSortAnim(paraObj);
-                    });
-                });
-            });
+            horiExcg(items[index0], items[index1], selectionSortAnim, paraObj);
             break;
         default:
             break;

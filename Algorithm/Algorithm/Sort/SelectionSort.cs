@@ -38,12 +38,13 @@ namespace Algorithm.Sort
                         _actionList.Add(new { action = "MARK", param = string.Format(@"{0}", smallest) });
                     }
                 }
+                // For JSON
+                _actionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(smallest + 1)) });
                 if (smallest != i)
                 {
                     Exchange(inList, smallest, i);
                     // For JSON
                     _actionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", smallest, i) });
-                    _actionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(smallest + 1)) });
                 }
             }
         }

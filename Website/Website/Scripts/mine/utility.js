@@ -91,7 +91,7 @@ function RefreshGlobalVar() {
                 break;
             case "HEAP":
                 global_drawItemsFunc = horiDrawItems;
-                global_sortAnimFunc = bubbleSortAnim;
+                global_sortAnimFunc = heapSortAnim;
                 break;
             case "INSERTION":
                 global_drawItemsFunc = horiDrawItems;
