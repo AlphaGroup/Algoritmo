@@ -8,8 +8,9 @@ using Algorithm.Interface;
 
 namespace Algorithm.Sort
 {
-    class SelectionSort<T> : ISort<T>
+    class SelectionSort<T> : ISort<T>, IActionProvider
     {
+        private readonly List<object> _actionList = new List<object>();
         public void Sort(List<T> inList)
         {
             Sort(inList, Comparer<T>.Default);
@@ -22,18 +23,27 @@ namespace Algorithm.Sort
             {
                 // Find the smallest one among the [i...n]
                 int smallest = i;
+                // For JSON
+                _actionList.Add(new { action = "MARK", param = string.Format(@"{0}", i) });
                 var key = inList[i];
                 for (int j = i + 1; j < len; ++j)
                 {
                     if (comparer.Compare(key, inList[j]) > 0)
                     {
                         key = inList[j];
+                        // For JSON
+                        _actionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(smallest + 1)) });
                         smallest = j;
+                        // For JSON
+                        _actionList.Add(new { action = "MARK", param = string.Format(@"{0}", smallest) });
                     }
                 }
                 if (smallest != i)
                 {
                     Exchange(inList, smallest, i);
+                    // For JSON
+                    _actionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", smallest, i) });
+                    _actionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(smallest + 1)) });
                 }
             }
         }
@@ -43,6 +53,11 @@ namespace Algorithm.Sort
             var temp = list[i];
             list[i] = list[j];
             list[j] = temp;
+        }
+
+        public List<object> GetListForJson()
+        {
+            return _actionList;
         }
     }
 }

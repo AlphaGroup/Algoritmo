@@ -89,6 +89,10 @@ function RefreshGlobalVar() {
                 global_drawItemsFunc = horiDrawItems;
                 global_sortAnimFunc = bubbleSortAnim;
                 break;
+            case "HEAP":
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = bubbleSortAnim;
+                break;
             case "INSERTION":
                 global_drawItemsFunc = horiDrawItems;
                 global_sortAnimFunc = insertionSortAnim;
@@ -100,6 +104,14 @@ function RefreshGlobalVar() {
             case "QUICK":
                 global_drawItemsFunc = horiDrawItems;
                 global_sortAnimFunc = quickSortAnim;
+                break;
+            case "SELECTION":
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = selectionSortAnim;
+                break;
+            case "SHELL":
+                global_drawItemsFunc = horiDrawItems;
+                global_sortAnimFunc = shellSortAnim;
                 break;
             default:
                 global_drawItemsFunc = horiDrawItems;

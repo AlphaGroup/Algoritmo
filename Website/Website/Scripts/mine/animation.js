@@ -1,6 +1,8 @@
-﻿
-// Exchange two items horizonally. Only change items' visual position.
-function horiExcg(item0, item1, callback, param) {
+﻿/*
+*   Useful functions in animation
+*/
+// Exchange two abherent and horizonal items.
+function horiNextToExcg(item0, item1, callback, param) {
     var oldOneX = item0.getBBox().x;
     var oldTwoX = item1.getBBox().x;
     var itemLeft = item0;
@@ -21,6 +23,42 @@ function horiExcg(item0, item1, callback, param) {
             });
         });
         itemRight.animate({ transform: "...T-" + deltaX + ",0" }, stepInterval, "ease-in");
+    });
+}
+
+// Exchange two casual and horizonal items.
+function horiExcg(item0, item1, callback, param) {
+    var oldOneX = item0.getBBox().x;
+    var oldTwoX = item1.getBBox().x;
+    var itemLeft = item0;
+    var itemRight = item1;
+    // If item1 is the left one
+    if (oldTwoX < oldOneX) {
+        itemLeft = item1;
+        itemRight = item0;
+    }
+    var absDeltaX = Math.abs(itemRight.getBBox().x - itemLeft.getBBox().x);
+    var absDeltaY = itemRight.getBBox().y / 2;
+    var interval = GetInterval();
+    var stepInterval = interval / 3;
+    // Push down left one
+    itemLeft.animate({ transform: "...T0," + absDeltaY }, stepInterval, "ease-out", function () {
+        // Move right
+        this.animate({ transform: "...T" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
+            // Lift up
+            this.animate({ transform: "...T0,-" + absDeltaY }, stepInterval, "ease-in", function () {
+                // Call the callback function
+                callback(param);
+            });
+        });
+    });
+    // Lift up right one
+    itemRight.animate({ transform: "...T0,-" + absDeltaY }, stepInterval, "ease-in", function () {
+        // Move left
+        this.animate({ transform: "...T-" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
+            // Push down
+            this.animate({ transform: "...T0," + absDeltaY }, stepInterval, "ease-out");
+        });
     });
 }
 
@@ -183,7 +221,7 @@ function bubbleSortAnim(paraObj) {
         items[index0] = items[index1];
         items[index1] = temp;
         // Exchange two items on screen visually
-        horiExcg(items[index0],
+        horiNextToExcg(items[index0],
             items[index1], bubbleSortAnim, paraObj);
     }
 }
@@ -333,29 +371,7 @@ function quickSortAnim(paraObj) {
                 items[index0] = items[index1];
                 items[index1] = temp;
                 // 2. Visual exchange
-                oldY = temp.getBBox().y;
-                absDeltaX = Math.abs(items[index0].getBBox().x - items[index1].getBBox().x);
-                // Deal with the index0 element
-                // Lift up
-                items[index0].animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function () {
-                    // Move left
-                    this.animate({ transform: "...T-" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
-                        // Push down
-                        this.animate({ transform: "...T0," + oldY / 2 }, stepInterval, "ease-out");
-                    });
-                });
-                // Deal with the index1 element
-                // Push down
-                items[index1].animate({ transform: "...T0," + oldY / 2 }, stepInterval, "ease-out", function () {
-                    // Move left
-                    this.animate({ transform: "...T" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
-                        // Lift up
-                        this.animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function () {
-                            // Recurisvely call itself.
-                            quickSortAnim(paraObj);
-                        });
-                    });
-                });
+                horiExcg(items[index0], items[index1], quickSortAnim, paraObj);
             } else if (index0 >= 0 && index1 < 0) {
                 // Exchange an element with pivot
                 // 1. Visual Exchange
@@ -388,6 +404,77 @@ function quickSortAnim(paraObj) {
                 console.log("Error in quickSortAnim!");
                 return;
             }
+            break;
+        default:
+            break;
+    }
+}
+
+// For selection sort
+function selectionSortAnim(paraObj) {
+    var dataItem = paraObj.data.shift();
+    if (dataItem == null) {
+        // There is no more actions
+        return;
+    }
+    var indexes, index0, index1;
+    var interval = GetInterval();
+    var items = paraObj.view.items;
+    switch (dataItem.action) {
+        case "MARK":
+            index0 = parseInt(dataItem.param);
+            if (index0 >= 0) {
+                // Mark the element
+                // Change the element's color
+                items[index0][0].animate({ fill: "#DDD914" }, interval / 4, "ease-out", function () {
+                    // Recursively call itself
+                    selectionSortAnim(paraObj);
+                });
+            }
+            else {
+                // Unmark the element
+                // Change the element's color
+                items[Math.abs(index0) - 1][0].animate({ fill: "#487B7B" }, interval / 4, "ease-out", function () {
+                    // Recursively call itself
+                    selectionSortAnim(paraObj);
+                });
+            }
+            break;
+        case "EXCG":
+            // Exchange
+            indexes = dataItem.param.split(',');
+            index0 = parseInt(indexes[0]);
+            index1 = parseInt(indexes[1]);
+            stepInterval = interval / 3;
+            // Exchange two normal elements
+            // 1. Background array manipulation
+            temp = items[index0];
+            items[index0] = items[index1];
+            items[index1] = temp;
+            // 2. Visual exchange
+            oldY = temp.getBBox().y;
+            absDeltaX = Math.abs(items[index0].getBBox().x - items[index1].getBBox().x);
+            // Deal with the index0 element
+            // Lift up
+            items[index0].animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function () {
+                // Move left
+                this.animate({ transform: "...T-" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
+                    // Push down
+                    this.animate({ transform: "...T0," + oldY / 2 }, stepInterval, "ease-out");
+                });
+            });
+            // Deal with the index1 element
+            // Push down
+            items[index1].animate({ transform: "...T0," + oldY / 2 }, stepInterval, "ease-out", function () {
+                // Move left
+                this.animate({ transform: "...T" + absDeltaX + ",0" }, stepInterval, "ease-out", function () {
+                    // Lift up
+                    this.animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-out", function () {
+                        // Recurisvely call itself.
+                        selectionSortAnim(paraObj);
+                    });
+                });
+            });
             break;
         default:
             break;
