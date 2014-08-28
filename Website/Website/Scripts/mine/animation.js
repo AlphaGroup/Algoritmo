@@ -255,6 +255,8 @@ function insertionSortAnim(paraObj) {
                     paraObj.key = key;
                     stepInterval = interval / 2;
                     var oldY = key.getBBox().y;
+                    // Change color
+                    key[0].animate({ fill: "#DDD914" }, stepInterval, "ease-in");
                     // lift up this item
                     key.animate({ transform: "...T0,-" + oldY / 2 }, stepInterval, "ease-in", function () {
                         insertionSortAnim(paraObj);
@@ -269,6 +271,8 @@ function insertionSortAnim(paraObj) {
                     // visual animation
                     // let lhr fade away
                     lhr.animate({ opacity: 0 }, stepInterval, "ease-in", function () {
+                        // Change key's color
+                        key[0].animate({ fill: "#487B7B" }, 2 * stepInterval, "ease-in");
                         // move key to lhr's position
                         key.animate({ transform: "...T-" + deltaX + ",0" }, stepInterval, "ease-in", function () {
                             this.animate({ transform: "...T0," + (-deltaY) }, stepInterval, "ease-in", function () {
