@@ -63,7 +63,8 @@ function horiExcg(item0, item1, callback, param) {
 }
 
 /*
-* Draw visual items on screen.
+Draw visual items on screen.
+These functions return an object which contains 
 */
 // Draw items horizontally
 function horiDrawItems(placeId, input) {
@@ -80,6 +81,46 @@ function horiDrawItems(placeId, input) {
         var square = paper.rect(posX, posY, squaEdge, squaEdge).attr({ fill: "#487B7B" });
         var text = paper.text(posX + squaEdge / 2, posY + squaEdge / 2,
             input[j]).attr({ "font-family": "arial", "font-size": squaEdge / 2, fill: "white" });
+        var card = paper.set();
+        card.push(square);
+        card.push(text);
+        items.push(card);
+    }
+    return {
+        paper: paper,
+        items: items
+    };
+}
+
+// Draw items as a tree
+function binaryTreeDrawItmes(placeId, input) {
+    var radius = 25;
+    // Delta height between levels (calculate from center of the circle)
+    var levelHeight = 100;
+    var totalLevels = Math.floor(Math.log(input.length) / Math.log(2)) + 1;
+    // The paper's height must bigger than levelHeight * (totalLevels - 1) + radius * 2 
+    var paperHeight = levelHeight * (totalLevels - 1) + radius * 2 + 10 * radius;
+    // The paper's width must bigger than 2*r*Math.pow(2,level-1)
+    // So that there will not be overlap.
+    var paperWidth = 2 * radius * Math.pow(2, totalLevels - 1) + radius;
+    var paper = Raphael(placeId, paperWidth, paperHeight);
+    // Add sets into setArr
+    var items = [];
+    for (var j = 0; j < input.length; ++j) {
+        // level starts from zero
+        var level = Math.floor(Math.log(j + 1) / Math.log(2));
+        // Calculate its x position
+        // 1. Find the index and the x of the first node in that level
+        var firstIndex = Math.pow(2, level) - 1;
+        var firstX = 1 / Math.pow(2, level + 1);
+        // 2. Calculate the delta propotion between each node in that level
+        var deltaX = 1 / Math.pow(2, level);
+        // 3. Calculate the final x
+        var posX = paperWidth * (firstX + deltaX * (j - firstIndex));
+        var posY = 2 * radius + levelHeight * level;
+        var square = paper.circle(posX, posY, radius).attr({ fill: "#487B7B" });
+        var text = paper.text(posX, posY,
+            input[j]).attr({ "font-family": "arial", "font-size": radius, fill: "white" });
         var card = paper.set();
         card.push(square);
         card.push(text);
@@ -204,7 +245,7 @@ function mergeSortAnim(paraObj) {
     }
 }
 
-// For bubble Sort
+// For bubble sort
 function bubbleSortAnim(paraObj) {
     var dataItem = paraObj.data.shift();
     if (dataItem == null) {
@@ -224,6 +265,11 @@ function bubbleSortAnim(paraObj) {
         horiNextToExcg(items[index0],
             items[index1], bubbleSortAnim, paraObj);
     }
+}
+
+// For heap sort
+function heapSortAnim(paraObj) {
+
 }
 
 // For insertion sort
@@ -434,8 +480,7 @@ function selectionSortAnim(paraObj) {
                     // Recursively call itself
                     selectionSortAnim(paraObj);
                 });
-            }
-            else {
+            } else {
                 // Unmark the element
                 // Change the element's color
                 items[Math.abs(index0) - 1][0].animate({ fill: "#487B7B" }, interval / 4, "ease-out", function () {

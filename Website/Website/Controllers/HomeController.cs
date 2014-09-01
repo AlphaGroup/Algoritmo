@@ -54,6 +54,11 @@ namespace Website.Controllers
                         sorter = bubble;
                         provider = bubble;
                         break;
+                    case "HEAP":
+                        var heap = new HeapSort<int>();
+                        sorter = heap;
+                        provider = heap;
+                        break;
                     case "INSERTION":
                         var insertion = new InsertSort<int>();
                         sorter = insertion;

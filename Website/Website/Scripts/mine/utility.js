@@ -90,7 +90,7 @@ function RefreshGlobalVar() {
                 global_sortAnimFunc = bubbleSortAnim;
                 break;
             case "HEAP":
-                global_drawItemsFunc = horiDrawItems;
+                global_drawItemsFunc = binaryTreeDrawItmes;
                 global_sortAnimFunc = heapSortAnim;
                 break;
             case "INSERTION":
