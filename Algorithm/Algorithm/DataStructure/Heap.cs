@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Algorithm.Interface;
 
 namespace Algorithm.DataStructure
 {
@@ -13,6 +14,8 @@ namespace Algorithm.DataStructure
     /// <typeparam name="T"></typeparam>
     class Heap<T>
     {
+        // This is the list containing actions
+        public readonly List<object> ActionList = new List<object>();
         // This is the inner array
         public T[] InnerArray { get; set; }
         // indicate how many elements are in array
@@ -42,6 +45,7 @@ namespace Algorithm.DataStructure
         public void BuildMaxHeap()
         {
             HeapSize = InnerArray.Length;
+            // Start from leaves
             for (int i = Length / 2 - 1; i >= 0; --i)
             {
                 MaxHeapify(i);
@@ -83,6 +87,9 @@ namespace Algorithm.DataStructure
             if (largest != index)
             {
                 Exchange(largest, index);
+                // For JSON
+                ActionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", largest, index) });
+                // End JSON
                 MaxHeapify(largest, comparer);
             }
         }
@@ -126,5 +133,6 @@ namespace Algorithm.DataStructure
         {
             return (index << 1) + 2;
         }
+
     }
 }
