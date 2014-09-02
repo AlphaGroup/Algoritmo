@@ -103,7 +103,7 @@ namespace Algorithm.DataStructure
                 Exchange(largest, index);
                 // For JSON
                 ActionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", largest, index) });
-                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(largest + 1)) });
+                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(index + 1)) });
                 // End JSON
                 MaxHeapify(largest, comparer);
             }

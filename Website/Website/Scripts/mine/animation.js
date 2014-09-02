@@ -330,8 +330,18 @@ function heapSortAnim(paraObj) {
     var interval = GetInterval();
     switch (dataItem.action) {
         case "MARK":
-            // TODO
-            heapSortAnim(paraObj);
+            index0 = parseInt(dataItem.param);
+            if (index0 >= 0) {
+                // Mark the element
+                items[index0][0].animate({ fill: "#511470" }, interval / 3, "ease-out", function () {
+                    heapSortAnim(paraObj);
+                });
+            } else {
+                // Unmark the element
+                items[-index0-1][0].animate({ fill: "#487B7B" }, interval / 3, "ease-out", function () {
+                    heapSortAnim(paraObj);
+                });
+            }
             break;
         case "EXCG":
             // Extract parameters
