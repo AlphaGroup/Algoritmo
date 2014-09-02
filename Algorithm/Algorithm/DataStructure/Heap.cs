@@ -52,7 +52,6 @@ namespace Algorithm.DataStructure
             }
         }
 
-
         /// <summary>
         /// <para>Maintain max-heap property.</para>
         /// <para>Assuming left and right sub trees are max-heaped.</para>
@@ -72,16 +71,31 @@ namespace Algorithm.DataStructure
             int left = Left(index);
             int right = Right(index);
             int largest = index;
+            // For JSON
+            ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", largest) });
+            // End JSON
             // Find the largest one in these three(right,left,index)
             if (left < HeapSize &&
                 comparer.Compare(InnerArray[left], InnerArray[index]) > 0)
             {
+                // For JSON 
+                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(largest + 1)) });
+                // End JSON 
                 largest = left;
+                // For JSON
+                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", largest) });
+                // End JSON
             }
             if (right < HeapSize &&
                 comparer.Compare(InnerArray[right], InnerArray[largest]) > 0)
             {
+                // For JSON 
+                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(largest + 1)) });
+                // End JSON 
                 largest = right;
+                // For JSON
+                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", largest) });
+                // End JSON
             }
             // Exchange elements if necessary and recursively solve it.
             if (largest != index)
@@ -89,8 +103,15 @@ namespace Algorithm.DataStructure
                 Exchange(largest, index);
                 // For JSON
                 ActionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", largest, index) });
+                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(largest + 1)) });
                 // End JSON
                 MaxHeapify(largest, comparer);
+            }
+            else
+            {
+                // For JSON 
+                ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(largest + 1)) });
+                // End JSON 
             }
         }
 

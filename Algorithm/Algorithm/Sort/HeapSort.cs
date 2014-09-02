@@ -31,10 +31,11 @@ namespace Algorithm.Sort
         {
             _heap = new Heap<T>(inList.ToArray());
             _heap.BuildMaxHeap();
+            // Extract an element from maxed heap
             for (int i = _heap.Length - 1; i > 0; --i)
             {
                 _heap.Exchange(0, i);
-                --_heap.HeapSize;
+                -- _heap.HeapSize;
                 _heap.MaxHeapify(0);
             }
             // Change the input
