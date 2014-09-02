@@ -62,6 +62,22 @@ function horiExcg(item0, item1, callback, param) {
     });
 }
 
+// Directly exchange two items
+function simpleExcg(item0, item1, callback, param) {
+    var item0X = item0.getBBox().x;
+    var item0Y = item0.getBBox().y;
+    var item1X = item1.getBBox().x;
+    var item1Y = item1.getBBox().y;
+    var interval = GetInterval();
+    // Move item0 to the position of item1
+    item0.animate({ transform: "...T" + (item1X - item0X) + "," + (item1Y - item0Y) }, interval / 2, "ease-out",
+        function () {
+            callback(param);
+        });
+    // Move item1 to the position of item0
+    item1.animate({ transform: "...T" + (item0X - item1X) + "," + (item0Y - item1Y) }, interval / 2, "ease-out");
+}
+
 // Connect two tree nodes and return the path object
 function connectTreeNodes(node1, node2, paper, radius) {
     // Do some calculation
@@ -305,11 +321,111 @@ function bubbleSortAnim(paraObj) {
 // For heap sort
 function heapSortAnim(paraObj) {
     var dataItem = paraObj.data.shift();
+    var items = paraObj.view.items;
     if (dataItem == null) {
         return;
     }
+    var indexes, index0, index1;
+    var temp, parentIndex;
+    var interval = GetInterval();
     switch (dataItem.action) {
         case "MARK":
+            // TODO
+            heapSortAnim(paraObj);
+            break;
+        case "EXCG":
+            // Extract parameters
+            indexes = dataItem.param.split(",");
+            index0 = parseInt(indexes[0]);
+            index1 = parseInt(indexes[1]);
+            // 1. Background manipulation : exchange
+            var old0LeftConn = items[index0].leftConn;
+            var old0RightConn = items[index0].rightConn;
+            var old1LeftConn = items[index1].leftConn;
+            var old1RightConn = items[index1].rightConn;
+            temp = items[index0];
+            items[index0] = items[index1];
+            items[index0].leftConn = old0LeftConn;
+            items[index0].rightConn = old0RightConn;
+            items[index1] = temp;
+            items[index1].leftConn = old1LeftConn;
+            items[index1].rightConn = old1RightConn;
+            // Hide their own connection lines
+            if (items[index0].leftConn) {
+                items[index0].leftConn.animate({ opacity: 0 });
+            }
+            if (items[index0].rightConn) {
+                items[index0].rightConn.animate({ opacity: 0 });
+            }
+            if (items[index1].leftConn) {
+                items[index1].leftConn.animate({ opacity: 0 });
+            }
+            if (items[index1].rightConn) {
+                items[index1].rightConn.animate({ opacity: 0 });
+            }
+            // Hide their parent's connection lines
+            parentIndex = Math.floor((index0 - 1) / 2);
+            if (index0 != 0) {
+                if (parentIndex != (index0 - 1) / 2) {
+                    // index0 is the right child
+                    items[parentIndex].rightConn.animate({ opacity: 0 });
+                } else {
+                    // index0 is the left child
+                    items[parentIndex].leftConn.animate({ opacity: 0 });
+                }
+            }
+            parentIndex = Math.floor((index1 - 1) / 2);
+            if (index1 != 0) {
+                if (parentIndex != (index1 - 1) / 2) {
+                    // index1 is the right child
+                    items[parentIndex].rightConn.animate({ opacity: 0 });
+                } else {
+                    // index1 is the left child
+                    items[parentIndex].leftConn.animate({ opacity: 0 });
+                }
+            }
+            // 2. Visual animation : exchange
+            simpleExcg(items[index0], items[index1], function (obj) {
+                // Show the connection links
+                if (items[index0].leftConn) {
+                    items[index0].leftConn.animate({ opacity: 1 });
+                }
+                if (items[index0].rightConn) {
+                    items[index0].rightConn.animate({ opacity: 1 });
+                }
+                if (items[index1].leftConn) {
+                    items[index1].leftConn.animate({ opacity: 1 });
+                }
+                if (items[index1].rightConn) {
+                    items[index1].rightConn.animate({ opacity: 1 });
+                }
+                // Show parents' connection links
+                parentIndex = Math.floor((index0 - 1) / 2);
+                if (index0 != 0) {
+                    if (parentIndex != (index0 - 1) / 2) {
+                        // index0 is the right child
+                        items[parentIndex].rightConn.animate({ opacity: 1 });
+                    } else {
+                        // index0 is the left child
+                        items[parentIndex].leftConn.animate({ opacity: 1 });
+                    }
+                }
+                parentIndex = Math.floor((index1 - 1) / 2);
+                if (index1 != 0) {
+                    if (parentIndex != (index1 - 1) / 2) {
+                        // index1 is the right child
+                        items[parentIndex].rightConn.animate({ opacity: 1 });
+                    } else {
+                        // index1 is the left child
+                        items[parentIndex].leftConn.animate({ opacity: 1 });
+                    }
+                }
+                heapSortAnim(obj);
+            }, paraObj);
+            break;
+        case "ASGN":
+            // TODO
+            heapSortAnim(paraObj);
             break;
         default:
             break;

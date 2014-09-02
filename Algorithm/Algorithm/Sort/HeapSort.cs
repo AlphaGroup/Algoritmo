@@ -35,7 +35,13 @@ namespace Algorithm.Sort
             for (int i = _heap.Length - 1; i > 0; --i)
             {
                 _heap.Exchange(0, i);
-                -- _heap.HeapSize;
+                // For JSON
+                _heap.ActionList.Add(new { action = "EXCG", param = string.Format(@"{0},{1}", 0, i) });
+                // End JSON
+                --_heap.HeapSize;
+                // For JSON
+                _heap.ActionList.Add(new { action = "ASGN", param = string.Format(@"{0}={1}", -1, i) });
+                // End JSON
                 _heap.MaxHeapify(0);
             }
             // Change the input
