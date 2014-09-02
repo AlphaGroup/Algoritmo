@@ -106,16 +106,17 @@ function binaryTreeDrawItmes(placeId, input) {
     var paper = Raphael(placeId, paperWidth, paperHeight);
     // Add sets into setArr
     var items = [];
+    var level = 0;
     for (var j = 0; j < input.length; ++j) {
         // level starts from zero
-        var level = Math.floor(Math.log(j + 1) / Math.log(2));
+        level = Math.floor(Math.log(j + 1) / Math.log(2));
         // Calculate its x position
         // 1. Find the index and the x of the first node in that level
         var firstIndex = Math.pow(2, level) - 1;
         var firstX = 1 / Math.pow(2, level + 1);
         // 2. Calculate the delta propotion between each node in that level
         var deltaX = 1 / Math.pow(2, level);
-        // 3. Calculate the final x
+        // 3. Calculate the final x, 1/2, 1/4, 1/8 ... 
         var posX = paperWidth * (firstX + deltaX * (j - firstIndex));
         var posY = 2 * radius + levelHeight * level;
         var square = paper.circle(posX, posY, radius).attr({ fill: "#487B7B" });
@@ -128,10 +129,30 @@ function binaryTreeDrawItmes(placeId, input) {
     }
     // Draw links between each node
     for (var i = 0; i < input.length; i++) {
+        // Do some calculation
+        level = Math.floor(Math.log(i + 1) / Math.log(2));
+        var theta = Math.atan((paperWidth * 1 / Math.pow(2, level + 2)) / levelHeight);
+        var parentX = (items[i].getBBox().x + items[i].getBBox().x2) / 2;
+        var parentY = (items[i].getBBox().y + items[i].getBBox().y2) / 2;
+        var adjustX = radius * Math.sin(theta);
+        var adjustY = radius * Math.cos(theta);
         // Get children's index
         var leftIndex = 2 * i + 1;
         var rightIndex = 2 * i + 2;
-        
+        // Link left one
+        if (leftIndex < input.length) {
+            var leftX = (items[leftIndex].getBBox().x + items[leftIndex].getBBox().x2) / 2;
+            var leftY = (items[leftIndex].getBBox().y + items[leftIndex].getBBox().y2) / 2;
+            var leftPath = paper.path("M" + (parentX - adjustX) + "," + (parentY + adjustY) +
+                "L" + (leftX + adjustX) + "," + (leftY - adjustY)).attr({ "stroke-width": 5, "stroke-opacity": 0.8 });
+        };
+        // Link right one
+        if (rightIndex < input.length) {
+            var rightX = (items[rightIndex].getBBox().x + items[rightIndex].getBBox().x2) / 2;
+            var rightY = (items[rightIndex].getBBox().y + items[rightIndex].getBBox().y2) / 2;
+            var rightPath = paper.path("M" + (parentX + adjustX) + "," + (parentY + adjustY) +
+                "L" + (rightX - adjustX) + "," + (rightY - adjustY)).attr({ "stroke-width": 5, "stroke-opacity": 0.8 });
+        }
     }
     return {
         paper: paper,
