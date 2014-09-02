@@ -34,6 +34,11 @@ namespace Website.Controllers
         /// <returns></returns>
         public ActionResult RequireActionsAjax(string queryType, string algorithm, string input)
         {
+            // Check input
+            if (input == "")
+            {
+                return null;
+            }
             // Get input values
             char[] delimiter = { ' ' };
             string[] valuesStr = input.Split(delimiter);
