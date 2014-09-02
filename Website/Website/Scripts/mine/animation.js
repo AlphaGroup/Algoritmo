@@ -126,6 +126,13 @@ function binaryTreeDrawItmes(placeId, input) {
         card.push(text);
         items.push(card);
     }
+    // Draw links between each node
+    for (var i = 0; i < input.length; i++) {
+        // Get children's index
+        var leftIndex = 2 * i + 1;
+        var rightIndex = 2 * i + 2;
+        
+    }
     return {
         paper: paper,
         items: items
@@ -336,7 +343,7 @@ function insertionSortAnim(paraObj) {
                     var cloned = viewItems[indexRhr].clone();
                     // Visual animation
                     viewItems[indexLhr].animate({ opacity: 0 }, stepInterval, "ease-in", function () {
-                        this.clear();
+                        this.remove();
                         cloned.animate({ transform: "...T" + deltaX + ",0" }, stepInterval, "ease-in", function () {
                             insertionSortAnim(paraObj);
                         });
