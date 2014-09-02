@@ -62,6 +62,22 @@ function horiExcg(item0, item1, callback, param) {
     });
 }
 
+// Connect two tree nodes and return the path object
+function connectTreeNodes(node1, node2, paper, radius) {
+    // Do some calculation
+    var node1X = (node1.getBBox().x + node1.getBBox().x2) / 2;
+    var node1Y = (node1.getBBox().y + node1.getBBox().y2) / 2;
+    var node2X = (node2.getBBox().x + node2.getBBox().x2) / 2;
+    var node2Y = (node2.getBBox().y + node2.getBBox().y2) / 2;
+    var theta = Math.atan((node1X - node2X) / (node1Y - node2Y));
+    var adjustX = radius * Math.sin(theta);
+    var adjustY = radius * Math.cos(theta);
+    // Link
+    var path = paper.path("M" + (node1X + adjustX) + "," + (node1Y + adjustY) +
+        "L" + (node2X - adjustX) + "," + (node2Y - adjustY)).attr({ "stroke-width": 5, "stroke-opacity": 0.8 });
+    return path;
+}
+
 /*
 Draw visual items on screen.
 These functions return an object which contains 
@@ -129,30 +145,21 @@ function binaryTreeDrawItmes(placeId, input) {
     }
     // Draw links between each node
     for (var i = 0; i < input.length; i++) {
-        // Do some calculation
-        level = Math.floor(Math.log(i + 1) / Math.log(2));
-        var theta = Math.atan((paperWidth * 1 / Math.pow(2, level + 2)) / levelHeight);
-        var parentX = (items[i].getBBox().x + items[i].getBBox().x2) / 2;
-        var parentY = (items[i].getBBox().y + items[i].getBBox().y2) / 2;
-        var adjustX = radius * Math.sin(theta);
-        var adjustY = radius * Math.cos(theta);
-        // Get children's index
         var leftIndex = 2 * i + 1;
         var rightIndex = 2 * i + 2;
+        var leftPath = null;
+        var rightPath = null;
         // Link left one
         if (leftIndex < input.length) {
-            var leftX = (items[leftIndex].getBBox().x + items[leftIndex].getBBox().x2) / 2;
-            var leftY = (items[leftIndex].getBBox().y + items[leftIndex].getBBox().y2) / 2;
-            var leftPath = paper.path("M" + (parentX - adjustX) + "," + (parentY + adjustY) +
-                "L" + (leftX + adjustX) + "," + (leftY - adjustY)).attr({ "stroke-width": 5, "stroke-opacity": 0.8 });
+            leftPath = connectTreeNodes(items[i], items[leftIndex], paper, radius);
         };
         // Link right one
         if (rightIndex < input.length) {
-            var rightX = (items[rightIndex].getBBox().x + items[rightIndex].getBBox().x2) / 2;
-            var rightY = (items[rightIndex].getBBox().y + items[rightIndex].getBBox().y2) / 2;
-            var rightPath = paper.path("M" + (parentX + adjustX) + "," + (parentY + adjustY) +
-                "L" + (rightX - adjustX) + "," + (rightY - adjustY)).attr({ "stroke-width": 5, "stroke-opacity": 0.8 });
+            rightPath = connectTreeNodes(items[i], items[rightIndex], paper, radius);
         }
+        // Store objects in items
+        items[i].leftConn = leftPath;
+        items[i].rightConn = rightPath;
     }
     return {
         paper: paper,
@@ -297,7 +304,16 @@ function bubbleSortAnim(paraObj) {
 
 // For heap sort
 function heapSortAnim(paraObj) {
-
+    var dataItem = paraObj.data.shift();
+    if (dataItem == null) {
+        return;
+    }
+    switch (dataItem.action) {
+        case "MARK":
+            break;
+        default:
+            break;
+    }
 }
 
 // For insertion sort
