@@ -128,13 +128,13 @@ function horiDrawItems(placeId, input) {
 function binaryTreeDrawItmes(placeId, input) {
     var radius = 25;
     // Delta height between levels (calculate from center of the circle)
-    var levelHeight = 100;
+    var levelHeight = 4 * radius;
     var totalLevels = Math.floor(Math.log(input.length) / Math.log(2)) + 1;
     // The paper's height must bigger than levelHeight * (totalLevels - 1) + radius * 2 
     var paperHeight = levelHeight * (totalLevels - 1) + radius * 2 + 10 * radius;
     // The paper's width must bigger than 2*r*Math.pow(2,level-1)
     // So that there will not be overlap.
-    var paperWidth = 2 * radius * Math.pow(2, totalLevels - 1) + radius;
+    var paperWidth = 2 * radius * Math.pow(2, totalLevels - 1) + 10 * radius;
     var paper = Raphael(placeId, paperWidth, paperHeight);
     // Add sets into setArr
     var items = [];
@@ -326,7 +326,7 @@ function heapSortAnim(paraObj) {
         return;
     }
     var indexes, index0, index1;
-    var temp, parentIndex;
+    var temp, parentIndex, level;
     var interval = GetInterval();
     switch (dataItem.action) {
         case "MARK":
@@ -338,7 +338,7 @@ function heapSortAnim(paraObj) {
                 });
             } else {
                 // Unmark the element
-                items[-index0-1][0].animate({ fill: "#487B7B" }, interval / 3, "ease-out", function () {
+                items[-index0 - 1][0].animate({ fill: "#487B7B" }, interval / 3, "ease-out", function () {
                     heapSortAnim(paraObj);
                 });
             }
@@ -434,8 +434,34 @@ function heapSortAnim(paraObj) {
             }, paraObj);
             break;
         case "ASGN":
-            // TODO
-            heapSortAnim(paraObj);
+            // Remove the element from tree
+            indexes = dataItem.param.split("=");
+            index1 = parseInt(indexes[1]);
+            // Erase the connection links to this element
+            if (index1 != 0) {
+                parentIndex = Math.floor((index1 - 1) / 2);
+                if (parentIndex == (index1 - 1) / 2) {
+                    // This element is the left one
+                    items[parentIndex].leftConn.remove();
+                    items[parentIndex].leftConn = null;
+                } else {
+                    // This element is the right one
+                    items[parentIndex].rightConn.remove();
+                    items[parentIndex].rightConn = null;
+                }
+                // Move the element to array-like place
+                level = Math.floor(Math.log(items.length) / Math.log(2));
+                // This is the diameter
+                var diameter = items[index1].getBBox().y2 - items[index1].getBBox().y;
+                var tempX = diameter / 2 + index1 * diameter;
+                var tempY = 2 * diameter * (level + 1);
+                var deltaX = tempX - items[index1].getBBox().x;
+                var deltaY = tempY - items[index1].getBBox().y;
+            }
+            // level height is 4*radius = 2*diameter
+            items[index1].animate({ transform: "...T" + deltaX + "," + deltaY }, interval / 3, "ease-out", function () {
+                heapSortAnim(paraObj);
+            });
             break;
         default:
             break;
