@@ -449,15 +449,15 @@ function heapSortAnim(paraObj) {
                     items[parentIndex].rightConn.remove();
                     items[parentIndex].rightConn = null;
                 }
-                // Move the element to array-like place
-                level = Math.floor(Math.log(items.length) / Math.log(2));
-                // This is the diameter
-                var diameter = items[index1].getBBox().y2 - items[index1].getBBox().y;
-                var tempX = diameter / 2 + index1 * diameter;
-                var tempY = 2 * diameter * (level + 1);
-                var deltaX = tempX - items[index1].getBBox().x;
-                var deltaY = tempY - items[index1].getBBox().y;
             }
+            // Move the element to array-like place
+            level = Math.floor(Math.log(items.length) / Math.log(2));
+            // This is the diameter
+            var diameter = items[index1].getBBox().y2 - items[index1].getBBox().y;
+            var tempX = diameter / 2 + index1 * (diameter * 1.25);
+            var tempY = 2 * diameter * (level + 1);
+            var deltaX = tempX - items[index1].getBBox().x;
+            var deltaY = tempY - items[index1].getBBox().y;
             // level height is 4*radius = 2*diameter
             items[index1].animate({ transform: "...T" + deltaX + "," + deltaY }, interval / 3, "ease-out", function () {
                 heapSortAnim(paraObj);
