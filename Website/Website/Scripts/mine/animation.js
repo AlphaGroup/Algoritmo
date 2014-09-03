@@ -126,7 +126,7 @@ function horiDrawItems(placeId, input) {
 
 // Draw items as a tree
 function binaryTreeDrawItmes(placeId, input) {
-    var radius = 25;
+    var radius = 30;
     // Delta height between levels (calculate from center of the circle)
     var levelHeight = 4 * radius;
     var totalLevels = Math.floor(Math.log(input.length) / Math.log(2)) + 1;
@@ -153,11 +153,11 @@ function binaryTreeDrawItmes(placeId, input) {
         // 3. Calculate the final x, 1/2, 1/4, 1/8 ... 
         var posX = paperWidth * (firstX + deltaX * (j - firstIndex));
         var posY = 2 * radius + levelHeight * level;
-        var square = paper.circle(posX, posY, radius).attr({ fill: "#487B7B" });
+        var circle = paper.circle(posX, posY, radius).attr({ fill: "#487B7B", stroke: "#306E12", "stroke-width": 5, "stroke-opacity": 0.5 });
         var text = paper.text(posX, posY,
             input[j]).attr({ "font-family": "arial", "font-size": radius, fill: "white" });
         var card = paper.set();
-        card.push(square);
+        card.push(circle);
         card.push(text);
         items.push(card);
     }
@@ -468,9 +468,10 @@ function heapSortAnim(paraObj) {
             break;
         case "EXIT":
             // The animation is over, we move all sorted nodes upward to a proper place.
+            level = Math.floor(Math.log(items.length) / Math.log(2));
             for (var i = 0; i < items.length; ++i) {
                 // Calculate the deltaY
-                deltaY = items[i].getBBox().y2 - items[i].getBBox().y * 2;
+                deltaY = (level + 1) / 2 * (items[i].getBBox().y2 - items[i].getBBox().y) - items[i].getBBox().y;
                 items[i].animate({ transform: "...T0," + deltaY }, interval * 10, "elastic");
             }
             break;
