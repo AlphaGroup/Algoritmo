@@ -46,6 +46,7 @@ namespace Algorithm.Sort
             }
             // For JSON
             _heap.ActionList.Add(new { action = "ASGN", param = string.Format(@"{0}={1}", -1, 0) });
+            _heap.ActionList.Add(new { action = "EXIT", param = "" });
             // End JSON
             // Change the input
             for (int i = 0; i < inList.Count; ++i)

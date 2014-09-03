@@ -328,6 +328,7 @@ function heapSortAnim(paraObj) {
     var indexes, index0, index1;
     var temp, parentIndex, level;
     var interval = GetInterval();
+    var deltaX, deltaY;
     switch (dataItem.action) {
         case "MARK":
             index0 = parseInt(dataItem.param);
@@ -456,12 +457,20 @@ function heapSortAnim(paraObj) {
             var diameter = items[index1].getBBox().y2 - items[index1].getBBox().y;
             var tempX = diameter / 2 + index1 * (diameter * 1.25);
             var tempY = 2 * diameter * (level + 1);
-            var deltaX = tempX - items[index1].getBBox().x;
-            var deltaY = tempY - items[index1].getBBox().y;
+            deltaX = tempX - items[index1].getBBox().x;
+            deltaY = tempY - items[index1].getBBox().y;
             // level height is 4*radius = 2*diameter
             items[index1].animate({ transform: "...T" + deltaX + "," + deltaY }, interval / 3, "ease-out", function () {
                 heapSortAnim(paraObj);
             });
+            break;
+        case "EXIT":
+            // The animation is over, we move all sorted nodes upward to a proper place.
+            for (var i = 0; i < items.length; ++i) {
+                // Calculate the deltaY
+                deltaY = items[i].getBBox().y2 - items[i].getBBox().y * 2;
+                items[i].animate({ transform: "...T0," + deltaY }, interval * 10, "elastic");
+            }
             break;
         default:
             break;
