@@ -45,7 +45,7 @@ function GetInterval() {
     if (result) {
         return result;
     } else {
-        return 1500;
+        return 600;
     }
 }
 

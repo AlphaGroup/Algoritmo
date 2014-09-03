@@ -134,7 +134,9 @@ function binaryTreeDrawItmes(placeId, input) {
     var paperHeight = levelHeight * (totalLevels - 1) + radius * 2 + 10 * radius;
     // The paper's width must bigger than 2*r*Math.pow(2,level-1)
     // So that there will not be overlap.
-    var paperWidth = 2 * radius * Math.pow(2, totalLevels - 1) + 10 * radius;
+    var tempWidth1 = 2 * radius * Math.pow(2, totalLevels - 1);
+    var tempWidth2 = input.length * 2 * radius;
+    var paperWidth = (tempWidth1 >= tempWidth2 ? tempWidth1 : tempWidth2) + 2 * radius;
     var paper = Raphael(placeId, paperWidth, paperHeight);
     // Add sets into setArr
     var items = [];
@@ -455,7 +457,7 @@ function heapSortAnim(paraObj) {
             level = Math.floor(Math.log(items.length) / Math.log(2));
             // This is the diameter
             var diameter = items[index1].getBBox().y2 - items[index1].getBBox().y;
-            var tempX = diameter / 2 + index1 * (diameter * 1.25);
+            var tempX = (diameter / 2 + index1 * items[index1][0].paper.width) / items.length;
             var tempY = 2 * diameter * (level + 1);
             deltaX = tempX - items[index1].getBBox().x;
             deltaY = tempY - items[index1].getBBox().y;

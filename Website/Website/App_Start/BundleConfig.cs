@@ -48,6 +48,7 @@ namespace Website
                 "~/Scripts/mine/layout.js"));
 
             bundles.Add(new Bundle("~/bundles/settings-animation").Include(
+                "~/Scripts/mine/utility.js",
                 "~/Scripts/mine/settings-animation.js"));
 
             bundles.Add(new Bundle("~/bundles/settings-algorithm").Include(

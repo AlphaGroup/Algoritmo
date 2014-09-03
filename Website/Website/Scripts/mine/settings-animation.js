@@ -12,8 +12,8 @@ $(function () {
     if ($.cookie("interval")) {
         $input.val($.cookie("interval"));
     } else {
-        $input.val(1500);
-        $.cookie("interval", 1500, { path: '/' });
+        $input.val(GetInterval());
+        $.cookie("interval", $input.val(), { path: '/' });
     }
     $input.change(function () {
         $.cookie("interval", parseInt($(this).val()), { path: '/' });
