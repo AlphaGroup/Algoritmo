@@ -20,12 +20,12 @@ namespace Algorithm.DataStructure
         public readonly List<object> ActionList = new List<object>();
         // indicate how many elements are in heap
         public int HeapSize { get; set; }
-
         // indicate how many elements are in array
         public int Length
         {
             get { return _container.Count(); }
         }
+
         // The indexer
         public T this[int index]
         {
@@ -33,10 +33,23 @@ namespace Algorithm.DataStructure
             set { _container[index] = value; }
         }
 
-        // It won't copy or clone the inArray.
+        // The default constructor
+        public Heap()
+        {
+            _container = new List<T>();
+        }
+
+        // The contructor
         public Heap(T[] inArray)
         {
             _container = new List<T>(inArray);
+        }
+
+        // Add an element into heap
+        public bool Push(T newVal)
+        {
+            _container.Add(newVal);
+            return true;
         }
 
         // Return the result in a new array
