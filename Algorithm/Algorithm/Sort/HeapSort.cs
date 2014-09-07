@@ -30,8 +30,11 @@ namespace Algorithm.Sort
         public void Sort(List<T> inList, IComparer<T> comparer)
         {
             _heap = new Heap<T>(inList.ToArray());
+            // Set the heap's size
+            _heap.HeapSize = _heap.Length;
+            // Build the max-heap
             _heap.BuildMaxHeap();
-            // Extract an element from maxed heap
+            // Extract the top element from maxed heap
             for (int i = _heap.Length - 1; i > 0; --i)
             {
                 _heap.Exchange(0, i);

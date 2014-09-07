@@ -23,6 +23,7 @@ namespace Algorithm.UnitTest
             Assert.AreEqual(19, heap.Left(9));
             Assert.AreEqual(12, heap.Right(5));
             Assert.AreEqual(24, heap.Right(11));
+            heap.HeapSize = heap.Length;
             heap.BuildMaxHeap();
             var maxHeap = new int[] { 16, 14, 10, 8, 7, 9, 3, 2, 4, 1 };
             Assert.AreEqual(true, ArrayEqual(maxHeap, heap.InnerArray, Comparer<int>.Default));

@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataStructure\Heap.cs" />
+    <Compile Include="DataStructure\PriorityQueue.cs" />
     <Compile Include="Interface\IActionProvider.cs" />
     <Compile Include="Interface\IUnitTest.cs" />
     <Compile Include="Program.cs" />

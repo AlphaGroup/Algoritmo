@@ -44,7 +44,8 @@ namespace Algorithm.DataStructure
         /// </summary>
         public void BuildMaxHeap()
         {
-            HeapSize = InnerArray.Length;
+            // The heap's size should be set by customer
+            //HeapSize = InnerArray.Length;
             // Start from leaves
             for (int i = Length / 2 - 1; i >= 0; --i)
             {
