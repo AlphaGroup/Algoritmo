@@ -26,7 +26,7 @@ namespace Algorithm.UnitTest
             heap.HeapSize = heap.Length;
             heap.BuildMaxHeap();
             var maxHeap = new int[] { 16, 14, 10, 8, 7, 9, 3, 2, 4, 1 };
-            Assert.AreEqual(true, ArrayEqual(maxHeap, heap.InnerArray, Comparer<int>.Default));
+            Assert.AreEqual(true, ArrayEqual(maxHeap, heap.Output(), Comparer<int>.Default));
         }
 
         public bool ArrayEqual<T>(T[] arr1, T[] arr2, IComparer<T> comparer)

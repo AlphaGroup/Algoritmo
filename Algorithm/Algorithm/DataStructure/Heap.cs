@@ -14,29 +14,35 @@ namespace Algorithm.DataStructure
     /// <typeparam name="T"></typeparam>
     class Heap<T>
     {
+        // This is the inner container
+        private List<T> _container;
         // This is the list containing actions
         public readonly List<object> ActionList = new List<object>();
-        // This is the inner array
-        public T[] InnerArray { get; set; }
+        // indicate how many elements are in heap
+        public int HeapSize { get; set; }
+
         // indicate how many elements are in array
         public int Length
         {
-            get { return InnerArray.Length; }
+            get { return _container.Count(); }
         }
         // The indexer
         public T this[int index]
         {
-            get { return InnerArray[index]; }
-            set { InnerArray[index] = value; }
+            get { return _container[index]; }
+            set { _container[index] = value; }
         }
-
-        // indicate how many elements are in heap
-        public int HeapSize { get; set; }
 
         // It won't copy or clone the inArray.
         public Heap(T[] inArray)
         {
-            InnerArray = inArray;
+            _container = new List<T>(inArray);
+        }
+
+        // Return the result in a new array
+        public T[] Output()
+        {
+            return _container.ToArray();
         }
 
         /// <summary>
@@ -77,7 +83,7 @@ namespace Algorithm.DataStructure
             // End JSON
             // Find the largest one in these three(right,left,index)
             if (left < HeapSize &&
-                comparer.Compare(InnerArray[left], InnerArray[index]) > 0)
+                comparer.Compare(_container[left], _container[index]) > 0)
             {
                 // For JSON 
                 ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(largest + 1)) });
@@ -88,7 +94,7 @@ namespace Algorithm.DataStructure
                 // End JSON
             }
             if (right < HeapSize &&
-                comparer.Compare(InnerArray[right], InnerArray[largest]) > 0)
+                comparer.Compare(_container[right], _container[largest]) > 0)
             {
                 // For JSON 
                 ActionList.Add(new { action = "MARK", param = string.Format(@"{0}", -(largest + 1)) });
@@ -118,9 +124,9 @@ namespace Algorithm.DataStructure
 
         public void Exchange(int i, int j)
         {
-            T temp = InnerArray[i];
-            InnerArray[i] = InnerArray[j];
-            InnerArray[j] = temp;
+            T temp = _container[i];
+            _container[i] = _container[j];
+            _container[j] = temp;
         }
 
         /// <summary>
