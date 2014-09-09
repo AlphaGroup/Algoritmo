@@ -49,6 +49,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sort\BubbleSort.cs" />
+    <Compile Include="Sort\BucketSort.cs" />
     <Compile Include="Sort\CountingSort.cs" />
     <Compile Include="Sort\HeapSort.cs" />
     <Compile Include="Sort\InsertionSort.cs" />
