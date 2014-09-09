@@ -22,6 +22,10 @@ namespace Algorithm.Sort
 
         public void Sort(List<double> inList, IComparer<double> comparer)
         {
+            // DEBUG
+            inList.Sort();
+            return;
+            // DEBUG
             // Check the inputs
             var max = inList.Max();
             var min = inList.Min();

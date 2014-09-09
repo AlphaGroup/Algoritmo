@@ -75,6 +75,23 @@ namespace Algorithm.UnitTest
                     Assert.AreEqual(true, flag);
                 }
             }
+            // For special inputs
+            List<double>[] bucketInputs =
+            {
+                new List<double>(){.3,.5,.2,.4,0.1,.1,.0},
+                new List<double>(){.1,.1,.6,.7,.32,.234,.233,.455,.765,.664,.234,.999}
+            };
+            // The sorts to be tested
+            var bucketSort = new BucketSort();
+            foreach (var input in bucketInputs)
+            {
+                var output = new List<double>(input);
+                bucketSort.Sort(output);
+                var standard = new List<double>(input);
+                standard.Sort();
+                bool flag = ListEqual(output, standard, Comparer<double>.Default);
+                Assert.AreEqual(true, flag);
+            }
         }
 
         public bool ListEqual<T>(List<T> lList, List<T> rList, IComparer<T> comparer)
