@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * Worst-case: theta(nlgn)
+ * Average-case: theta(nlgn)
+ */
+using System.Collections.Generic;
 using Algorithm.Interface;
 
 namespace Algorithm.Sort

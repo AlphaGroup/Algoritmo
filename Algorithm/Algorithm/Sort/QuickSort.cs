@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Worst-case: theta(n^2)
+ * Average-case: theta(nlgn)
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

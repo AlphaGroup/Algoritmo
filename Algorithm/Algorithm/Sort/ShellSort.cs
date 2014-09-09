@@ -1,8 +1,10 @@
-﻿// This sort is not recorded in <<Intro to Algo>> Thomas H. Cormen
-// The reference is from :
-// http://baike.baidu.com/view/178698.htm?fr=aladdin#reference-[2]-178698-wrap
-// http://en.wikipedia.org/wiki/Shellsort
-// The delta could be length/2 or length/3. Here we use length/2, which is the most popular one.
+﻿/* This sort is not recorded in <<Intro to Algo>> Thomas H. Cormen
+ * The reference is from :
+ * http://baike.baidu.com/view/178698.htm?fr=aladdin#reference-[2]-178698-wrap
+ * http://en.wikipedia.org/wiki/Shellsort
+ * The delta could be length/2 or length/3. Here we use length/2, which is the most popular one.
+ * The time complexity is hart to determind.
+*/
 using System;
 using System.Collections.Generic;
 using System.Linq;

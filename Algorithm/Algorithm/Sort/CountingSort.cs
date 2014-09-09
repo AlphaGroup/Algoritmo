@@ -1,6 +1,7 @@
 ﻿/*
  * P195
  * Counting Sort can only be performed on non-negetive integer inputs.
+ * Worst-case running time theta(k+n), average-case: theta(k+n)
  */
 using System;
 using System.Collections.Generic;

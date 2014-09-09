@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Worst-case: O(n^2);
+ * Average-case: O(n^2);
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

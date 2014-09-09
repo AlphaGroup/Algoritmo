@@ -1,4 +1,8 @@
-﻿// This class is implemented according to <<Intro to Algo>> Page 151
+﻿/*
+ * This class is implemented according to <<Intro to Algo>> Page 151
+ * Worst-case: O(nlgn)
+ * Average-case: N/A
+ */
 
 using System;
 using System.Collections.Generic;
