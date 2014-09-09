@@ -25,6 +25,7 @@ namespace Algorithm.DataStructure
         {
             _heap = new Heap<T>(input);
             _heap.HeapSize = input.Length;
+            _heap.BuildMaxHeap();
         }
         // Return the max element
         public T Max()

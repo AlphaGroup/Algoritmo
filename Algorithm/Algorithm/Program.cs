@@ -17,6 +17,7 @@ namespace Algorithm
             {
                 new SortTest(), // Test sort methods
                 new HeapTest(), // Test heap data structure
+                new PriorityQueueTest(), // Test priority-queue data structure
             };
             foreach (var test in tests)
             {
