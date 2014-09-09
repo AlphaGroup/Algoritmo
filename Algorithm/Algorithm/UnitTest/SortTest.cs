@@ -30,6 +30,7 @@ namespace Algorithm.UnitTest
                 new HeapSort<int>(),    // Heap sort
                 new QuickSort<int>(),   // Quick sort
                 new SelectionSort<int>(),   // Selection sort
+                new CountingSort(),     // Counting sort
             };
             foreach (var sort in sorts)
             {
