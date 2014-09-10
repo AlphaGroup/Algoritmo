@@ -51,7 +51,7 @@ namespace Algorithm.Sort
         /// <param name="start"></param>
         /// <param name="end">Included</param>
         /// <returns></returns>
-        private int Partition(List<T> list, int start, int end)
+        public int Partition(List<T> list, int start, int end)
         {
             // Now choose the last element as pivot
             var pivot = list[end];
@@ -86,8 +86,18 @@ namespace Algorithm.Sort
             _actionList.Add(new { action = "ASGN", param = string.Format(@"{0}={1}", end, -1) });
             return lastSmall + 1;
         }
+        
+        // Randommized version of quicksort
+        public int RandomPartition(List<T> list, int start, int end)
+        {
+            var rnd = new Random();
+            var rindex = rnd.Next(start, end + 1);
+            Exchange(list, rindex, end);
+            return Partition(list, start, end);
+        }
 
-        private void Exchange(List<T> list, int i, int j)
+        // Exchange two elements
+        public void Exchange(List<T> list, int i, int j)
         {
             var temp = list[i];
             list[i] = list[j];
