@@ -22,10 +22,6 @@ namespace Algorithm.Sort
 
         public void Sort(List<double> inList, IComparer<double> comparer)
         {
-            // DEBUG
-            inList.Sort();
-            return;
-            // DEBUG
             // Check the inputs
             var max = inList.Max();
             var min = inList.Min();
@@ -33,7 +29,47 @@ namespace Algorithm.Sort
             {
                 throw new Exception("Error! Invalid input for bucket sort!");
             }
-            var arrOfList = new List<double>[inList.Count()];
+            // Create the auxiliary array of lists
+            var n = inList.Count();
+            var arrOfList = new List<double>[n];
+            foreach (var elem in inList)
+            {
+                // Calculate the index in auxiliary array
+                var index = (int)(n * elem);
+                try
+                {
+                    arrOfList[index].Add(elem);
+                }
+                catch (NullReferenceException ex)
+                {
+                    // The list object is not created yet
+                    arrOfList[index] = new List<double>();
+                    arrOfList[index].Add(elem);
+                }
+            }
+            // Sort each bucket
+            var sorter = new InsertSort<double>();
+            foreach (var list in arrOfList)
+            {
+                if (list != null)
+                {
+                    sorter.Sort(list);
+                }
+            }
+            // Concatenate the lists
+            var output = new List<double>();
+            foreach (var list in arrOfList)
+            {
+                if (list != null)
+                {
+                    output.AddRange(list);
+                }
+            }
+            // Change the input list
+            for (int i = 0; i < n; ++i)
+            {
+                inList[i] = output[i];
+            }
         }
     }
 }
