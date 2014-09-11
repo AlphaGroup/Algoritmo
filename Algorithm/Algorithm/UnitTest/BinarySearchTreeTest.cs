@@ -35,6 +35,12 @@ namespace Algorithm.UnitTest
             Assert.AreEqual(17, tree.Search(17).Key);
             Assert.AreEqual(null, tree.Search(12));
             Assert.AreEqual(5, tree.Search(5).Key);
+            tree.Delete(tree.Search(2));
+            Assert.AreEqual(19, tree.Maximum());
+            Assert.AreEqual(5, tree.Minimum());
+            Assert.AreEqual(17, tree.Search(17).Key);
+            Assert.AreEqual(null, tree.Search(12));
+            Assert.AreEqual(5, tree.Search(5).Key);
         }
     }
 }
