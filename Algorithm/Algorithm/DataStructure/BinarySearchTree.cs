@@ -105,6 +105,23 @@ namespace Algorithm.DataStructure
         }
 
         // Part II: Insertion and deletion
+        // Insertion takes a new value as input
+        public void Insert(T newVal)
+        {
+            var node = new TreeNode<T>()
+            {
+                Key = newVal
+            };
+            Insert(node);
+        }
+        public void Insert(T newVal, IComparer<T> comparer)
+        {
+            var node = new TreeNode<T>()
+            {
+                Key = newVal
+            };
+            Insert(node, comparer);
+        }
         // Insertion takes a new node as input
         public void Insert(TreeNode<T> newNode)
         {

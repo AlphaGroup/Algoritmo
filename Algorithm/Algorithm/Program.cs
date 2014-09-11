@@ -19,6 +19,7 @@ namespace Algorithm
                 new HeapTest(), // Test heap data structure
                 new PriorityQueueTest(), // Test priority-queue data structure
                 new DoubleLinkedListTest(), // Test double-linked list
+                new BinarySearchTreeTest(), // Test the binary search tree
             };
             foreach (var test in tests)
             {
