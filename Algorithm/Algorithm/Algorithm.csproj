@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructure\BinarySearchTree.cs" />
     <Compile Include="DataStructure\Heap.cs" />
     <Compile Include="DataStructure\DoubleLinkedList.cs" />
     <Compile Include="DataStructure\PriorityQueue.cs" />
