@@ -18,6 +18,15 @@ namespace Algorithm.DataStructure
         // Part I: Querying. 
 
         // Search
+        public TreeNode<T> Search(T key)
+        {
+            return Search(_rootNode, key);
+        }
+
+        public TreeNode<T> Search(T key, IComparer<T> comparer)
+        {
+            return Search(_rootNode, key, comparer);
+        }
         public TreeNode<T> Search(TreeNode<T> root, T key)
         {
             return Search(root, key, Comparer<T>.Default);
@@ -39,9 +48,9 @@ namespace Algorithm.DataStructure
         }
 
         // Minimum
-        public TreeNode<T> Minimum()
+        public T Minimum()
         {
-            return Minimum(_rootNode);
+            return Minimum(_rootNode).Key;
         }
         public TreeNode<T> Minimum(TreeNode<T> node)
         {
@@ -53,9 +62,9 @@ namespace Algorithm.DataStructure
         }
 
         // Maximum
-        public TreeNode<T> Maximum()
+        public T Maximum()
         {
-            return Maximum(_rootNode);
+            return Maximum(_rootNode).Key;
         }
         public TreeNode<T> Maximum(TreeNode<T> node)
         {

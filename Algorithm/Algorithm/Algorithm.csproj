@@ -60,6 +60,7 @@
     <Compile Include="Sort\QuickSort.cs" />
     <Compile Include="Sort\SelectionSort.cs" />
     <Compile Include="Sort\ShellSort.cs" />
+    <Compile Include="UnitTest\BinarySearchTreeTest.cs" />
     <Compile Include="UnitTest\DoubleLinkedListTest.cs" />
     <Compile Include="UnitTest\HeapTest.cs" />
     <Compile Include="UnitTest\PriorityQueueTest.cs" />
