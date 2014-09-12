@@ -46,6 +46,7 @@
     <Compile Include="DataStructure\Heap.cs" />
     <Compile Include="DataStructure\DoubleLinkedList.cs" />
     <Compile Include="DataStructure\PriorityQueue.cs" />
+    <Compile Include="DataStructure\RedBlackTree.cs" />
     <Compile Include="Interface\IActionProvider.cs" />
     <Compile Include="Interface\IUnitTest.cs" />
     <Compile Include="Program.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="UnitTest\DoubleLinkedListTest.cs" />
     <Compile Include="UnitTest\HeapTest.cs" />
     <Compile Include="UnitTest\PriorityQueueTest.cs" />
+    <Compile Include="UnitTest\RedBlackTreeTest.cs" />
     <Compile Include="UnitTest\SortTest.cs" />
   </ItemGroup>
   <ItemGroup>
