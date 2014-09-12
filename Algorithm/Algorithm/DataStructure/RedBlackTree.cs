@@ -35,7 +35,6 @@ namespace Algorithm.DataStructure
             }
             return node;
         }
-
         // Maximum
         public T Maximum()
         {
@@ -223,42 +222,45 @@ namespace Algorithm.DataStructure
         }
 
         // Delete
-        // This function is the most complicated function of RBT.
-        public void Delete(RedBlackTreeNode<T> z)
+        // The restoration of RBT properties is in DeleteFixUp function.
+        public void Delete(RedBlackTreeNode<T> removed)
         {
             // TODO: Analyze and change variables' names
-            var y = z;
+            var y = removed;
             var yOldColor = y.Color;
             RedBlackTreeNode<T> x = null;
-            if (z.LeftNode == RedBlackTreeNode<T>.Nil)
+            // The removed has only one or less children.
+            if (removed.LeftNode == RedBlackTreeNode<T>.Nil)
             {
-                x = z.RightNode;
-                Transplant(z, z.RightNode);
+                x = removed.RightNode;
+                Transplant(removed, removed.RightNode);
             }
-            else if (z.RightNode == RedBlackTreeNode<T>.Nil)
+            else if (removed.RightNode == RedBlackTreeNode<T>.Nil)
             {
-                x = z.LeftNode;
-                Transplant(z, z.LeftNode);
+                x = removed.LeftNode;
+                Transplant(removed, removed.LeftNode);
             }
+            // The removed has two children.
             else
             {
-                y = Minimum(z.RightNode);
+                // Find the successor.
+                y = Minimum(removed.RightNode);
                 yOldColor = y.Color;
                 x = y.RightNode;
-                if (y.ParentNode == z)
+                if (y.ParentNode == removed)
                 {
                     x.ParentNode = y;
                 }
                 else
                 {
                     Transplant(y, y.RightNode);
-                    y.RightNode = z.RightNode;
+                    y.RightNode = removed.RightNode;
                     y.RightNode.ParentNode = y;
                 }
-                Transplant(z, y);
-                y.LeftNode = z.LeftNode;
+                Transplant(removed, y);
+                y.LeftNode = removed.LeftNode;
                 y.LeftNode.ParentNode = y;
-                y.Color = z.Color;
+                y.Color = removed.Color;
             }
             if (yOldColor == NodeColor.Black)
             {
