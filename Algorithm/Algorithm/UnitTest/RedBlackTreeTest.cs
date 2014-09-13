@@ -28,18 +28,20 @@ namespace Algorithm.UnitTest
             Assert.AreEqual(17, rbtree.Search(17).Key);
             Assert.AreEqual(12, rbtree.Search(12).Key);
             Assert.AreEqual(5, rbtree.Search(5).Key);
+            // Delete the root. In this case, it will cause right rotation.
             rbtree.Delete(rbtree.Search(12));
             Assert.AreEqual(19, rbtree.Maximum());
             Assert.AreEqual(2, rbtree.Minimum());
             Assert.AreEqual(17, rbtree.Search(17).Key);
             Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(12));
             Assert.AreEqual(5, rbtree.Search(5).Key);
-            rbtree.Delete(rbtree.Search(2));
+            rbtree.Delete(rbtree.Search(5));
             Assert.AreEqual(19, rbtree.Maximum());
-            Assert.AreEqual(5, rbtree.Minimum());
+            Assert.AreEqual(2, rbtree.Minimum());
             Assert.AreEqual(17, rbtree.Search(17).Key);
+            Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(5));
             Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(12));
-            Assert.AreEqual(5, rbtree.Search(5).Key);
+            Assert.AreEqual(15, rbtree.Search(15).Key);
         }
     }
 }
