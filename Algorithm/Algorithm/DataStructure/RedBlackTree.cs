@@ -117,9 +117,9 @@ namespace Algorithm.DataStructure
             var lNode = node.LeftNode;
             // Move lNode's right subtree to node's left subtree.
             node.LeftNode = lNode.RightNode;
-            if (lNode.LeftNode != RedBlackTreeNode<T>.Nil)
+            if (lNode.RightNode != RedBlackTreeNode<T>.Nil)
             {
-                lNode.LeftNode.ParentNode = node;
+                lNode.RightNode.ParentNode = node;
             }
             // Set lNode's parent.
             lNode.ParentNode = node.ParentNode;
