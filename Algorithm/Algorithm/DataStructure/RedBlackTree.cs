@@ -29,7 +29,7 @@ namespace Algorithm.DataStructure
         }
         public RedBlackTreeNode<T> Minimum(RedBlackTreeNode<T> node)
         {
-            while (node.LeftNode != null)
+            while (node.LeftNode != RedBlackTreeNode<T>.Nil)
             {
                 node = node.LeftNode;
             }
@@ -42,11 +42,40 @@ namespace Algorithm.DataStructure
         }
         public RedBlackTreeNode<T> Maximum(RedBlackTreeNode<T> node)
         {
-            while (node.RightNode != null)
+            while (node.RightNode != RedBlackTreeNode<T>.Nil)
             {
                 node = node.RightNode;
             }
             return node;
+        }
+
+        // Search
+        public RedBlackTreeNode<T> Search(T key)
+        {
+            return Search(_root, key);
+        }
+        public RedBlackTreeNode<T> Search(T key, IComparer<T> comparer)
+        {
+            return Search(_root, key, comparer);
+        }
+        public RedBlackTreeNode<T> Search(RedBlackTreeNode<T> root, T key)
+        {
+            return Search(root, key, Comparer<T>.Default);
+        }
+        public RedBlackTreeNode<T> Search(RedBlackTreeNode<T> root, T key, IComparer<T> comparer)
+        {
+            while (root != RedBlackTreeNode<T>.Nil && comparer.Compare(root.Key, key) != 0)
+            {
+                if (comparer.Compare(key, root.Key) < 0)
+                {
+                    root = root.LeftNode;
+                }
+                else
+                {
+                    root = root.RightNode;
+                }
+            }
+            return root;
         }
 
         // Rotation: both run in O(1)
@@ -121,7 +150,7 @@ namespace Algorithm.DataStructure
             };
             Insert(node);
         }
-        // This overloaded function only assumes that the new node contains key.
+        // These overloaded functions only assumes that the new node contains key.
         public void Insert(RedBlackTreeNode<T> newNode)
         {
             Insert(newNode, Comparer<T>.Default);

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Algorithm.Interface;
+using Algorithm.DataStructure;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algorithm.UnitTest
 {
@@ -11,7 +13,33 @@ namespace Algorithm.UnitTest
     {
         public void Test()
         {
-            throw new NotImplementedException();
+            var rbtree = new RedBlackTree<int>();
+            rbtree.Insert(12);
+            rbtree.Insert(5);
+            rbtree.Insert(2);
+            rbtree.Insert(18);
+            rbtree.Insert(9);
+            rbtree.Insert(15);
+            rbtree.Insert(19);
+            rbtree.Insert(13);
+            rbtree.Insert(17);
+            Assert.AreEqual(19, rbtree.Maximum());
+            Assert.AreEqual(2, rbtree.Minimum());
+            Assert.AreEqual(17, rbtree.Search(17).Key);
+            Assert.AreEqual(12, rbtree.Search(12).Key);
+            Assert.AreEqual(5, rbtree.Search(5).Key);
+            rbtree.Delete(rbtree.Search(12));
+            Assert.AreEqual(19, rbtree.Maximum());
+            Assert.AreEqual(2, rbtree.Minimum());
+            Assert.AreEqual(17, rbtree.Search(17).Key);
+            Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(12));
+            Assert.AreEqual(5, rbtree.Search(5).Key);
+            rbtree.Delete(rbtree.Search(2));
+            Assert.AreEqual(19, rbtree.Maximum());
+            Assert.AreEqual(5, rbtree.Minimum());
+            Assert.AreEqual(17, rbtree.Search(17).Key);
+            Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(12));
+            Assert.AreEqual(5, rbtree.Search(5).Key);
         }
     }
 }
