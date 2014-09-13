@@ -225,49 +225,57 @@ namespace Algorithm.DataStructure
         // The restoration of RBT properties is in DeleteFixUp function.
         public void Delete(RedBlackTreeNode<T> removed)
         {
-            // TODO: Analyze and change variables' names
-            var y = removed;
-            var yOldColor = y.Color;
-            RedBlackTreeNode<T> x = null;
+            // We set this variable because we care about the color of the node actually removed.
+            var actualRemoved = removed;
+            var yOldColor = actualRemoved.Color;
+            // This replacer is the one who moves to the y's original position.
+            RedBlackTreeNode<T> replacer = null;
             // The removed has only one or less children.
             if (removed.LeftNode == RedBlackTreeNode<T>.Nil)
             {
-                x = removed.RightNode;
+                replacer = removed.RightNode;
                 Transplant(removed, removed.RightNode);
             }
             else if (removed.RightNode == RedBlackTreeNode<T>.Nil)
             {
-                x = removed.LeftNode;
+                replacer = removed.LeftNode;
                 Transplant(removed, removed.LeftNode);
             }
             // The removed has two children.
             else
             {
                 // Find the successor.
-                y = Minimum(removed.RightNode);
-                yOldColor = y.Color;
-                x = y.RightNode;
-                if (y.ParentNode == removed)
+                actualRemoved = Minimum(removed.RightNode);
+                yOldColor = actualRemoved.Color;
+                replacer = actualRemoved.RightNode;
+                // The successor is a direct child.
+                if (actualRemoved.ParentNode == removed)
                 {
-                    x.ParentNode = y;
+                    replacer.ParentNode = actualRemoved;
                 }
+                // The successor is a indirect child
                 else
                 {
-                    Transplant(y, y.RightNode);
-                    y.RightNode = removed.RightNode;
-                    y.RightNode.ParentNode = y;
+                    Transplant(actualRemoved, actualRemoved.RightNode);
+                    actualRemoved.RightNode = removed.RightNode;
+                    actualRemoved.RightNode.ParentNode = actualRemoved;
                 }
-                Transplant(removed, y);
-                y.LeftNode = removed.LeftNode;
-                y.LeftNode.ParentNode = y;
-                y.Color = removed.Color;
+                Transplant(removed, actualRemoved);
+                // To some extend, we can comprehend it in this way:
+                // Although the node removed is the input node,
+                // logically speaking, the node actually removed is the successor, and let the (input's node).key = successor's key.
+                // That's why we have the rest code.
+                actualRemoved.LeftNode = removed.LeftNode;
+                actualRemoved.LeftNode.ParentNode = actualRemoved;
+                actualRemoved.Color = removed.Color;
             }
+            // If the color of the node actually removed is black, then this could violate RBT's properties.
             if (yOldColor == NodeColor.Black)
             {
-                DeleteFixUp(x);
+                DeleteFixUp(replacer);
             }
         }
-        // Helper functions for Deletion
+        // Helper function for Deletion: transplant the replacer to the replaced, it won't change references about childeren.
         private void Transplant(RedBlackTreeNode<T> replaced, RedBlackTreeNode<T> replacer)
         {
             if (replaced.ParentNode == RedBlackTreeNode<T>.Nil)
@@ -284,62 +292,62 @@ namespace Algorithm.DataStructure
             }
             replacer.ParentNode = replaced.ParentNode;
         }
-
-        private void DeleteFixUp(RedBlackTreeNode<T> x)
+        // Helper function for deletion: restore the RBT properties.
+        private void DeleteFixUp(RedBlackTreeNode<T> dbBlack)
         {
-            // TODO: Analyze and change variables' names.
-            while (x != _root && x.Color == NodeColor.Black)
+            // Logically we regard dbBlack has double black color so that it can restore RBT properties 5th.
+            while (dbBlack != _root && dbBlack.Color == NodeColor.Black)
             {
-                if (x == x.ParentNode.LeftNode)
+                if (dbBlack == dbBlack.ParentNode.LeftNode)
                 {
-                    var w = x.ParentNode.RightNode;
+                    var sibling = dbBlack.ParentNode.RightNode;
                     // Case 1
-                    if (w.Color == NodeColor.Red)
+                    if (sibling.Color == NodeColor.Red)
                     {
-                        w.Color = NodeColor.Black;
-                        x.ParentNode.Color = NodeColor.Red;
-                        LeftRotate(x.ParentNode);
-                        w = x.ParentNode.RightNode;
+                        sibling.Color = NodeColor.Black;
+                        dbBlack.ParentNode.Color = NodeColor.Red;
+                        LeftRotate(dbBlack.ParentNode);
+                        sibling = dbBlack.ParentNode.RightNode;
                     }
                     // Case 2
-                    if (w.LeftNode.Color == NodeColor.Black && w.RightNode.Color == NodeColor.Black)
+                    if (sibling.LeftNode.Color == NodeColor.Black && sibling.RightNode.Color == NodeColor.Black)
                     {
-                        w.Color = NodeColor.Red;
-                        x = x.ParentNode;
+                        sibling.Color = NodeColor.Red;
+                        dbBlack = dbBlack.ParentNode;
                     }
                     else
                     {
-                        if (w.RightNode.Color == NodeColor.Black)
+                        if (sibling.RightNode.Color == NodeColor.Black)
                         {
-                            w.LeftNode.Color = NodeColor.Black;
-                            w.Color = NodeColor.Red;
-                            RightRotate(w);
-                            w = x.ParentNode.RightNode;
+                            sibling.LeftNode.Color = NodeColor.Black;
+                            sibling.Color = NodeColor.Red;
+                            RightRotate(sibling);
+                            sibling = dbBlack.ParentNode.RightNode;
                         }
-                        w.Color = x.ParentNode.Color;
-                        x.ParentNode.Color = NodeColor.Black;
-                        w.RightNode.Color = NodeColor.Black;
-                        LeftRotate(x.ParentNode);
-                        x = _root;
+                        sibling.Color = dbBlack.ParentNode.Color;
+                        dbBlack.ParentNode.Color = NodeColor.Black;
+                        sibling.RightNode.Color = NodeColor.Black;
+                        LeftRotate(dbBlack.ParentNode);
+                        dbBlack = _root;
                     }
                 }
                 // Same with "if" part with "right" and "left" exchanged.
                 else
                 {
-                    var w = x.ParentNode.LeftNode;
+                    var w = dbBlack.ParentNode.LeftNode;
                     // Case 1
                     if (w.Color == NodeColor.Red)
                     {
                         w.Color = NodeColor.Black;
-                        x.ParentNode.Color = NodeColor.Red;
-                        RightRotate(x.ParentNode);
-                        w = x.ParentNode.LeftNode;
+                        dbBlack.ParentNode.Color = NodeColor.Red;
+                        RightRotate(dbBlack.ParentNode);
+                        w = dbBlack.ParentNode.LeftNode;
                     }
                     // Case 2
                     if (w.RightNode.Color == NodeColor.Black && w.LeftNode.Color == NodeColor.Black)
                     {
                         w.Color = NodeColor.Red;
-                        x = x.ParentNode;
+                        dbBlack = dbBlack.ParentNode;
                     }
                     else
                     {
@@ -348,17 +356,17 @@ namespace Algorithm.DataStructure
                             w.RightNode.Color = NodeColor.Black;
                             w.Color = NodeColor.Red;
                             LeftRotate(w);
-                            w = x.ParentNode.LeftNode;
+                            w = dbBlack.ParentNode.LeftNode;
                         }
-                        w.Color = x.ParentNode.Color;
-                        x.ParentNode.Color = NodeColor.Black;
+                        w.Color = dbBlack.ParentNode.Color;
+                        dbBlack.ParentNode.Color = NodeColor.Black;
                         w.LeftNode.Color = NodeColor.Black;
-                        RightRotate(x.ParentNode);
-                        x = _root;
+                        RightRotate(dbBlack.ParentNode);
+                        dbBlack = _root;
                     }
                 }
             }
-            x.Color = NodeColor.Black;
+            dbBlack.Color = NodeColor.Black;
         }
 
         // The class of RBT's node.
