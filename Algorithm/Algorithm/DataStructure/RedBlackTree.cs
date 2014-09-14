@@ -6,12 +6,13 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Algorithm.Interface;
 
 namespace Algorithm.DataStructure
 {
     // TODO: Here I want to use interface IDynamicSet and inheritance from BST.
     // TODO: But I have to solve the problem about return value type. Further design is needed.
-    internal class RedBlackTree<T>
+    internal class RedBlackTree<T> : IDynamicSet<T, RedBlackTree<T>.RedBlackTreeNode<T>>
     {
         public enum NodeColor
         {
@@ -146,11 +147,18 @@ namespace Algorithm.DataStructure
         {
             var node = new RedBlackTreeNode<T>
             {
-                Key = val,
+                Key = val
             };
-            Insert(node);
+            Insert(node, Comparer<T>.Default);
         }
-        // These overloaded functions only assumes that the new node contains key.
+        public void Insert(T newVal, IComparer<T> comparer)
+        {
+            var node = new RedBlackTreeNode<T>
+            {
+                Key = newVal
+            };
+            Insert(node, comparer);
+        }
         public void Insert(RedBlackTreeNode<T> newNode)
         {
             Insert(newNode, Comparer<T>.Default);
@@ -415,6 +423,44 @@ namespace Algorithm.DataStructure
             public RedBlackTreeNode<TP> RightNode { get; set; }
             public RedBlackTreeNode<TP> ParentNode { get; set; }
             public TP Key { get; set; }
+        }
+
+        // Successor and Predecessor
+        public RedBlackTreeNode<T> Successor(RedBlackTree<T>.RedBlackTreeNode<T> root)
+        {
+            // If node has right subtree, then the successor must be the min one of that subtree.
+            if (root.RightNode != RedBlackTreeNode<T>.Nil)
+            {
+                return Minimum(root);
+            }
+            // This node has no right subtree.
+            var parent = root.ParentNode;
+            // Skip the parent smaller than node.
+            while (parent != RedBlackTreeNode<T>.Nil && root == parent.RightNode)
+            {
+                root = parent;
+                parent = parent.ParentNode;
+            }
+            return parent;
+        }
+
+        // Predecessor: the node with the biggest key smaller than the input node's
+        public RedBlackTreeNode<T> Predecessor(RedBlackTree<T>.RedBlackTreeNode<T> root)
+        {
+            // If node has left subtree, then the successor must be the max one of that subtree.
+            if (root.LeftNode != RedBlackTreeNode<T>.Nil)
+            {
+                return Maximum(root);
+            }
+            // This node has no right subtree.
+            var parent = root.ParentNode;
+            // Skip the parent bigger than node.
+            while (parent != RedBlackTreeNode<T>.Nil && root == parent.LeftNode)
+            {
+                root = parent;
+                parent = parent.ParentNode;
+            }
+            return parent;
         }
     }
 }
