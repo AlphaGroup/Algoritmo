@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*
+ * This tree is a variant of red-black tree. It is called order statistic tree.
+ */
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -70,6 +73,16 @@ namespace Algorithm.DataStructure
             return (OSRBTreeNode<T>)base.Predecessor(root);
         }
 
+        // Rotations
+        private void LeftRotate(OSRBTreeNode<T> node)
+        {
+            throw new NotImplementedException();
+        }
+        private void RightRotate(OSRBTreeNode<T> node)
+        {
+            throw new NotImplementedException();
+        }
+
         // Insert
         new public void Insert(T newVal)
         {
@@ -100,11 +113,15 @@ namespace Algorithm.DataStructure
 
         // The operations for an order statistic.
         // Return the element whose rank is zero-based os'th.
+        public OSRBTreeNode<T> Select(int os)
+        {
+            throw new NotImplementedException();
+        }
         public OSRBTreeNode<T> Select(OSRBTreeNode<T> root, int os)
         {
             throw new NotImplementedException();
         }
-
+        // Return the rank of the node.
         public int Rank(OSRBTreeNode<T> node)
         {
             throw new NotImplementedException();

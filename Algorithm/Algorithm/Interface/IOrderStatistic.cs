@@ -11,9 +11,10 @@ using System.Threading.Tasks;
 
 namespace Algorithm.Interface
 {
-    interface IOrderStatistic<TKey,TNode>
+    interface IOrderStatistic<TKey, TNode>
     {
         // Return the element of the zero-based os'th element.
+        TNode Select(int os);
         TNode Select(TNode root, int os);
         // Return the rank of the node.
         int Rank(TNode node);
