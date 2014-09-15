@@ -50,6 +50,7 @@
     <Compile Include="DataStructure\RBTree.cs" />
     <Compile Include="Interface\IActionProvider.cs" />
     <Compile Include="Interface\IDynamicSet.cs" />
+    <Compile Include="Interface\IOrderStatistic.cs" />
     <Compile Include="Interface\IUnitTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

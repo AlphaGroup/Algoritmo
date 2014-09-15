@@ -7,7 +7,7 @@ using Algorithm.Interface;
 
 namespace Algorithm.DataStructure
 {
-    class OSRBTree<T> : RBTree<T>, IDynamicSet<T, OSRBTree<T>.OSRBTreeNode<T>>
+    class OSRBTree<T> : RBTree<T>, IDynamicSet<T, OSRBTree<T>.OSRBTreeNode<T>>, IOrderStatistic<T,OSRBTree<T>.OSRBTreeNode<T>>
     {
         // The OSRBTree's node structure
         public class OSRBTreeNode<TP> : RBTreeNode<TP>
@@ -94,6 +94,18 @@ namespace Algorithm.DataStructure
 
         // Delete
         public void Delete(OSRBTreeNode<T> node)
+        {
+            throw new NotImplementedException();
+        }
+
+        // The operations for an order statistic.
+        // Return the element whose rank is zero-based os'th.
+        public OSRBTreeNode<T> Select(OSRBTreeNode<T> root, int os)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Rank(OSRBTreeNode<T> node)
         {
             throw new NotImplementedException();
         }
