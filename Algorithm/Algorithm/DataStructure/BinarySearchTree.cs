@@ -11,28 +11,28 @@ using Algorithm.Interface;
 
 namespace Algorithm.DataStructure
 {
-    class BinarySearchTree<T> : IDynamicSet<T, BinarySearchTree<T>.BinarySearchTreeNode<T>>
+    class BSTree<T> : IDynamicSet<T, BSTree<T>.BSTreeNode<T>>
     {
         // Start the code about binary tree
-        private BinarySearchTreeNode<T> _rootNode = null;
+        private BSTreeNode<T> _rootNode = null;
 
         // Part I: Querying. 
 
         // Search
-        public BinarySearchTreeNode<T> Search(T key)
+        public BSTreeNode<T> Search(T key)
         {
             return Search(_rootNode, key);
         }
 
-        public BinarySearchTreeNode<T> Search(T key, IComparer<T> comparer)
+        public BSTreeNode<T> Search(T key, IComparer<T> comparer)
         {
             return Search(_rootNode, key, comparer);
         }
-        public BinarySearchTreeNode<T> Search(BinarySearchTreeNode<T> root, T key)
+        public BSTreeNode<T> Search(BSTreeNode<T> root, T key)
         {
             return Search(root, key, Comparer<T>.Default);
         }
-        public BinarySearchTreeNode<T> Search(BinarySearchTreeNode<T> root, T key, IComparer<T> comparer)
+        public BSTreeNode<T> Search(BSTreeNode<T> root, T key, IComparer<T> comparer)
         {
             while (root != null && comparer.Compare(root.Key, key) != 0)
             {
@@ -53,7 +53,7 @@ namespace Algorithm.DataStructure
         {
             return Minimum(_rootNode).Key;
         }
-        public BinarySearchTreeNode<T> Minimum(BinarySearchTreeNode<T> root)
+        public BSTreeNode<T> Minimum(BSTreeNode<T> root)
         {
             while (root.LeftNode != null)
             {
@@ -67,7 +67,7 @@ namespace Algorithm.DataStructure
         {
             return Maximum(_rootNode).Key;
         }
-        public BinarySearchTreeNode<T> Maximum(BinarySearchTreeNode<T> root)
+        public BSTreeNode<T> Maximum(BSTreeNode<T> root)
         {
             while (root.RightNode != null)
             {
@@ -77,7 +77,7 @@ namespace Algorithm.DataStructure
         }
 
         // Successor: the node with the smallest key greater than the input node's
-        public BinarySearchTreeNode<T> Successor(BinarySearchTreeNode<T> node)
+        public BSTreeNode<T> Successor(BSTreeNode<T> node)
         {
             // If node has right subtree, then the successor must be the min one of that subtree.
             if (node.RightNode != null)
@@ -96,7 +96,7 @@ namespace Algorithm.DataStructure
         }
 
         // Predecessor: the node with the biggest key smaller than the input node's
-        public BinarySearchTreeNode<T> Predecessor(BinarySearchTreeNode<T> node)
+        public BSTreeNode<T> Predecessor(BSTreeNode<T> node)
         {
             // If node has left subtree, then the successor must be the max one of that subtree.
             if (node.LeftNode != null)
@@ -118,7 +118,7 @@ namespace Algorithm.DataStructure
         // Insertion takes a new value as input
         public void Insert(T newVal)
         {
-            var node = new BinarySearchTreeNode<T>()
+            var node = new BSTreeNode<T>()
             {
                 Key = newVal
             };
@@ -126,24 +126,24 @@ namespace Algorithm.DataStructure
         }
         public void Insert(T newVal, IComparer<T> comparer)
         {
-            var node = new BinarySearchTreeNode<T>()
+            var node = new BSTreeNode<T>()
             {
                 Key = newVal
             };
             Insert(node, comparer);
         }
         // Insertion takes a new node as input
-        public void Insert(BinarySearchTreeNode<T> newNode)
+        public void Insert(BSTreeNode<T> newNode)
         {
             Insert(newNode, Comparer<T>.Default);
         }
-        public void Insert(BinarySearchTreeNode<T> newNode, IComparer<T> comparer)
+        public void Insert(BSTreeNode<T> newNode, IComparer<T> comparer)
         {
             newNode.ParentNode = null;
             newNode.RightNode = null;
             newNode.LeftNode = null;
             // Find the parent for the new node
-            BinarySearchTreeNode<T> parent = null, temp = _rootNode;
+            BSTreeNode<T> parent = null, temp = _rootNode;
             while (temp != null)
             {
                 parent = temp;
@@ -175,7 +175,7 @@ namespace Algorithm.DataStructure
         // Deletion
         // Deletion is complicated. There are three basic cases according to the number of its children.
         // P297, we deal with deletion in a different way not according to three cases directly.
-        public void Delete(BinarySearchTreeNode<T> deadNode)
+        public void Delete(BSTreeNode<T> deadNode)
         {
             if (deadNode.LeftNode == null)
             {
@@ -209,7 +209,7 @@ namespace Algorithm.DataStructure
         }
         // A helper function for Delete
         // It replaces one subtree with another, focusing on relationship between replaced's parent and replacer.
-        private void Transplant(BinarySearchTreeNode<T> replaced, BinarySearchTreeNode<T> replacer)
+        private void Transplant(BSTreeNode<T> replaced, BSTreeNode<T> replacer)
         {
             if (replaced.ParentNode == null)
             {
@@ -231,11 +231,11 @@ namespace Algorithm.DataStructure
         }
 
         // The class of tree nodes
-        public class BinarySearchTreeNode<TP>
+        public class BSTreeNode<TP>
         {
-            public BinarySearchTreeNode<TP> LeftNode { get; set; }
-            public BinarySearchTreeNode<TP> RightNode { get; set; }
-            public BinarySearchTreeNode<TP> ParentNode { get; set; }
+            public BSTreeNode<TP> LeftNode { get; set; }
+            public BSTreeNode<TP> RightNode { get; set; }
+            public BSTreeNode<TP> ParentNode { get; set; }
             public TP Key { get; set; }
         }
     }

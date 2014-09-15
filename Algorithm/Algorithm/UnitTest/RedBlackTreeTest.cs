@@ -13,7 +13,7 @@ namespace Algorithm.UnitTest
     {
         public void Test()
         {
-            var rbtree = new RedBlackTree<int>();
+            var rbtree = new RBTree<int>();
             rbtree.Insert(12);
             rbtree.Insert(5);
             rbtree.Insert(2);
@@ -33,14 +33,14 @@ namespace Algorithm.UnitTest
             Assert.AreEqual(19, rbtree.Maximum());
             Assert.AreEqual(2, rbtree.Minimum());
             Assert.AreEqual(17, rbtree.Search(17).Key);
-            Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(12));
+            Assert.AreEqual(RBTree<int>.RBTreeNode<int>.Nil, rbtree.Search(12));
             Assert.AreEqual(5, rbtree.Search(5).Key);
             rbtree.Delete(rbtree.Search(5));
             Assert.AreEqual(19, rbtree.Maximum());
             Assert.AreEqual(2, rbtree.Minimum());
             Assert.AreEqual(17, rbtree.Search(17).Key);
-            Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(5));
-            Assert.AreEqual(RedBlackTree<int>.RedBlackTreeNode<int>.Nil, rbtree.Search(12));
+            Assert.AreEqual(RBTree<int>.RBTreeNode<int>.Nil, rbtree.Search(5));
+            Assert.AreEqual(RBTree<int>.RBTreeNode<int>.Nil, rbtree.Search(12));
             Assert.AreEqual(15, rbtree.Search(15).Key);
         }
     }

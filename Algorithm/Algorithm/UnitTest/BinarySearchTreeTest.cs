@@ -14,7 +14,7 @@ namespace Algorithm.UnitTest
     {
         public void Test()
         {
-            var tree = new BinarySearchTree<int>();
+            var tree = new BSTree<int>();
             tree.Insert(12);
             tree.Insert(5);
             tree.Insert(2);

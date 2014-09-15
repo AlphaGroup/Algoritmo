@@ -12,7 +12,7 @@ namespace Algorithm.DataStructure
 {
     // TODO: Here I want to use interface IDynamicSet and inheritance from BST.
     // TODO: But I have to solve the problem about return value type. Further design is needed.
-    internal class RedBlackTree<T> : IDynamicSet<T, RedBlackTree<T>.RedBlackTreeNode<T>>
+    internal class RBTree<T> : IDynamicSet<T, RBTree<T>.RBTreeNode<T>>
     {
         public enum NodeColor
         {
@@ -20,7 +20,7 @@ namespace Algorithm.DataStructure
             Black
         }
 
-        private RedBlackTreeNode<T> _root = RedBlackTreeNode<T>.Nil;
+        private RBTreeNode<T> _root = RBTreeNode<T>.Nil;
 
         // Max and min functions
         // Minimum
@@ -28,9 +28,9 @@ namespace Algorithm.DataStructure
         {
             return Minimum(_root).Key;
         }
-        public RedBlackTreeNode<T> Minimum(RedBlackTreeNode<T> node)
+        public RBTreeNode<T> Minimum(RBTreeNode<T> node)
         {
-            while (node.LeftNode != RedBlackTreeNode<T>.Nil)
+            while (node.LeftNode != RBTreeNode<T>.Nil)
             {
                 node = node.LeftNode;
             }
@@ -41,9 +41,9 @@ namespace Algorithm.DataStructure
         {
             return Maximum(_root).Key;
         }
-        public RedBlackTreeNode<T> Maximum(RedBlackTreeNode<T> node)
+        public RBTreeNode<T> Maximum(RBTreeNode<T> node)
         {
-            while (node.RightNode != RedBlackTreeNode<T>.Nil)
+            while (node.RightNode != RBTreeNode<T>.Nil)
             {
                 node = node.RightNode;
             }
@@ -51,21 +51,21 @@ namespace Algorithm.DataStructure
         }
 
         // Search
-        public RedBlackTreeNode<T> Search(T key)
+        public RBTreeNode<T> Search(T key)
         {
             return Search(_root, key);
         }
-        public RedBlackTreeNode<T> Search(T key, IComparer<T> comparer)
+        public RBTreeNode<T> Search(T key, IComparer<T> comparer)
         {
             return Search(_root, key, comparer);
         }
-        public RedBlackTreeNode<T> Search(RedBlackTreeNode<T> root, T key)
+        public RBTreeNode<T> Search(RBTreeNode<T> root, T key)
         {
             return Search(root, key, Comparer<T>.Default);
         }
-        public RedBlackTreeNode<T> Search(RedBlackTreeNode<T> root, T key, IComparer<T> comparer)
+        public RBTreeNode<T> Search(RBTreeNode<T> root, T key, IComparer<T> comparer)
         {
-            while (root != RedBlackTreeNode<T>.Nil && comparer.Compare(root.Key, key) != 0)
+            while (root != RBTreeNode<T>.Nil && comparer.Compare(root.Key, key) != 0)
             {
                 if (comparer.Compare(key, root.Key) < 0)
                 {
@@ -81,20 +81,20 @@ namespace Algorithm.DataStructure
 
         // Rotation: both run in O(1)
         // Left rotation assuming that input.RightNode!=Nil and that the root's parent is Nil.
-        private void LeftRotate(RedBlackTreeNode<T> node)
+        private void LeftRotate(RBTreeNode<T> node)
         {
             // Set right node
             var rNode = node.RightNode;
             // Move rNode's left subtree to node's right subtree.
             node.RightNode = rNode.LeftNode;
-            if (rNode.LeftNode != RedBlackTreeNode<T>.Nil)
+            if (rNode.LeftNode != RBTreeNode<T>.Nil)
             {
                 rNode.LeftNode.ParentNode = node;
             }
             // Set rNode's parent.
             rNode.ParentNode = node.ParentNode;
             // Set node's parent node child to rNode
-            if (node.ParentNode == RedBlackTreeNode<T>.Nil)
+            if (node.ParentNode == RBTreeNode<T>.Nil)
             {
                 _root = rNode;
             }
@@ -112,20 +112,20 @@ namespace Algorithm.DataStructure
         }
 
         // Right rotation assuming that input.LeftNode!=Nil and that the root's parent is Nil.
-        private void RightRotate(RedBlackTreeNode<T> node)
+        private void RightRotate(RBTreeNode<T> node)
         {
             // Set left node.
             var lNode = node.LeftNode;
             // Move lNode's right subtree to node's left subtree.
             node.LeftNode = lNode.RightNode;
-            if (lNode.RightNode != RedBlackTreeNode<T>.Nil)
+            if (lNode.RightNode != RBTreeNode<T>.Nil)
             {
                 lNode.RightNode.ParentNode = node;
             }
             // Set lNode's parent.
             lNode.ParentNode = node.ParentNode;
             // Set node's parent node's child to lNode
-            if (node.ParentNode == RedBlackTreeNode<T>.Nil)
+            if (node.ParentNode == RBTreeNode<T>.Nil)
             {
                 _root = lNode;
             }
@@ -145,7 +145,7 @@ namespace Algorithm.DataStructure
         // Insert
         public void Insert(T val)
         {
-            var node = new RedBlackTreeNode<T>
+            var node = new RBTreeNode<T>
             {
                 Key = val
             };
@@ -153,28 +153,28 @@ namespace Algorithm.DataStructure
         }
         public void Insert(T newVal, IComparer<T> comparer)
         {
-            var node = new RedBlackTreeNode<T>
+            var node = new RBTreeNode<T>
             {
                 Key = newVal
             };
             Insert(node, comparer);
         }
-        public void Insert(RedBlackTreeNode<T> newNode)
+        public void Insert(RBTreeNode<T> newNode)
         {
             Insert(newNode, Comparer<T>.Default);
         }
-        public void Insert(RedBlackTreeNode<T> newNode, IComparer<T> comparer)
+        public void Insert(RBTreeNode<T> newNode, IComparer<T> comparer)
         {
-            var parent = RedBlackTreeNode<T>.Nil;
+            var parent = RBTreeNode<T>.Nil;
             var temp = _root;
             // Find the right place for new node
-            while (temp != RedBlackTreeNode<T>.Nil)
+            while (temp != RBTreeNode<T>.Nil)
             {
                 parent = temp;
                 temp = comparer.Compare(newNode.Key, temp.Key) < 0 ? temp.LeftNode : temp.RightNode;
             }
             newNode.ParentNode = parent;
-            if (parent == RedBlackTreeNode<T>.Nil)
+            if (parent == RBTreeNode<T>.Nil)
             {
                 _root = newNode;
             }
@@ -186,14 +186,14 @@ namespace Algorithm.DataStructure
             {
                 parent.RightNode = newNode;
             }
-            newNode.LeftNode = RedBlackTreeNode<T>.Nil;
-            newNode.RightNode = RedBlackTreeNode<T>.Nil;
+            newNode.LeftNode = RBTreeNode<T>.Nil;
+            newNode.RightNode = RBTreeNode<T>.Nil;
             newNode.Color = NodeColor.Red;
             InsertFixUp(newNode);
         }
 
         // Recolor nodes and perform rotations in order to restore RBT properties.
-        private void InsertFixUp(RedBlackTreeNode<T> inserted)
+        private void InsertFixUp(RBTreeNode<T> inserted)
         {
             var node = inserted;
             // Loop as long as node's parent is red.
@@ -260,20 +260,20 @@ namespace Algorithm.DataStructure
 
         // Delete
         // The restoration of RBT properties is in DeleteFixUp function.
-        public void Delete(RedBlackTreeNode<T> removed)
+        public void Delete(RBTreeNode<T> removed)
         {
             // We set this variable because we care about the color of the node actually removed.
             var actualRemoved = removed;
             var yOldColor = actualRemoved.Color;
             // This replacer is the one who moves to the y's original position.
-            RedBlackTreeNode<T> replacer = null;
+            RBTreeNode<T> replacer = null;
             // The removed has only one or less children.
-            if (removed.LeftNode == RedBlackTreeNode<T>.Nil)
+            if (removed.LeftNode == RBTreeNode<T>.Nil)
             {
                 replacer = removed.RightNode;
                 Transplant(removed, removed.RightNode);
             }
-            else if (removed.RightNode == RedBlackTreeNode<T>.Nil)
+            else if (removed.RightNode == RBTreeNode<T>.Nil)
             {
                 replacer = removed.LeftNode;
                 Transplant(removed, removed.LeftNode);
@@ -313,9 +313,9 @@ namespace Algorithm.DataStructure
             }
         }
         // Helper function for Deletion: transplant the replacer to the replaced, it won't change references about childeren.
-        private void Transplant(RedBlackTreeNode<T> replaced, RedBlackTreeNode<T> replacer)
+        private void Transplant(RBTreeNode<T> replaced, RBTreeNode<T> replacer)
         {
-            if (replaced.ParentNode == RedBlackTreeNode<T>.Nil)
+            if (replaced.ParentNode == RBTreeNode<T>.Nil)
             {
                 _root = replacer;
             }
@@ -330,7 +330,7 @@ namespace Algorithm.DataStructure
             replacer.ParentNode = replaced.ParentNode;
         }
         // Helper function for deletion: restore the RBT properties.
-        private void DeleteFixUp(RedBlackTreeNode<T> dbBlack)
+        private void DeleteFixUp(RBTreeNode<T> dbBlack)
         {
             // Logically we regard dbBlack has double black color so that it can restore RBT properties 5th.
             while (dbBlack != _root && dbBlack.Color == NodeColor.Black)
@@ -407,10 +407,10 @@ namespace Algorithm.DataStructure
         }
 
         // The class of RBT's node.
-        public class RedBlackTreeNode<TP>
+        public class RBTreeNode<TP>
         {
             // The nil node representing leaves. Its properties have no meanings except Color.
-            public static RedBlackTreeNode<TP> Nil = new RedBlackTreeNode<TP>
+            public static RBTreeNode<TP> Nil = new RBTreeNode<TP>
             {
                 Color = NodeColor.Black,
                 ParentNode = null,
@@ -419,24 +419,24 @@ namespace Algorithm.DataStructure
             };
 
             public NodeColor Color { get; set; }
-            public RedBlackTreeNode<TP> LeftNode { get; set; }
-            public RedBlackTreeNode<TP> RightNode { get; set; }
-            public RedBlackTreeNode<TP> ParentNode { get; set; }
+            public RBTreeNode<TP> LeftNode { get; set; }
+            public RBTreeNode<TP> RightNode { get; set; }
+            public RBTreeNode<TP> ParentNode { get; set; }
             public TP Key { get; set; }
         }
 
         // Successor and Predecessor
-        public RedBlackTreeNode<T> Successor(RedBlackTree<T>.RedBlackTreeNode<T> root)
+        public RBTreeNode<T> Successor(RBTree<T>.RBTreeNode<T> root)
         {
             // If node has right subtree, then the successor must be the min one of that subtree.
-            if (root.RightNode != RedBlackTreeNode<T>.Nil)
+            if (root.RightNode != RBTreeNode<T>.Nil)
             {
                 return Minimum(root);
             }
             // This node has no right subtree.
             var parent = root.ParentNode;
             // Skip the parent smaller than node.
-            while (parent != RedBlackTreeNode<T>.Nil && root == parent.RightNode)
+            while (parent != RBTreeNode<T>.Nil && root == parent.RightNode)
             {
                 root = parent;
                 parent = parent.ParentNode;
@@ -445,17 +445,17 @@ namespace Algorithm.DataStructure
         }
 
         // Predecessor: the node with the biggest key smaller than the input node's
-        public RedBlackTreeNode<T> Predecessor(RedBlackTree<T>.RedBlackTreeNode<T> root)
+        public RBTreeNode<T> Predecessor(RBTree<T>.RBTreeNode<T> root)
         {
             // If node has left subtree, then the successor must be the max one of that subtree.
-            if (root.LeftNode != RedBlackTreeNode<T>.Nil)
+            if (root.LeftNode != RBTreeNode<T>.Nil)
             {
                 return Maximum(root);
             }
             // This node has no right subtree.
             var parent = root.ParentNode;
             // Skip the parent bigger than node.
-            while (parent != RedBlackTreeNode<T>.Nil && root == parent.LeftNode)
+            while (parent != RBTreeNode<T>.Nil && root == parent.LeftNode)
             {
                 root = parent;
                 parent = parent.ParentNode;
