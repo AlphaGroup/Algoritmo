@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStructure\BinarySearchTree.cs" />
+    <Compile Include="DataStructure\BSTree.cs" />
     <Compile Include="DataStructure\Heap.cs" />
     <Compile Include="DataStructure\DoubleLinkedList.cs" />
     <Compile Include="DataStructure\OSRBTree.cs" />
@@ -66,6 +66,7 @@
     <Compile Include="UnitTest\BinarySearchTreeTest.cs" />
     <Compile Include="UnitTest\DoubleLinkedListTest.cs" />
     <Compile Include="UnitTest\HeapTest.cs" />
+    <Compile Include="UnitTest\OSRBTreeTest.cs" />
     <Compile Include="UnitTest\PriorityQueueTest.cs" />
     <Compile Include="UnitTest\RedBlackTreeTest.cs" />
     <Compile Include="UnitTest\SortTest.cs" />

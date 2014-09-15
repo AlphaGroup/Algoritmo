@@ -12,12 +12,31 @@ namespace Algorithm.DataStructure
 {
     // TODO: Here I want to use interface IDynamicSet and inheritance from BST.
     // TODO: But I have to solve the problem about return value type. Further design is needed.
-    internal class RBTree<T> : IDynamicSet<T, RBTree<T>.RBTreeNode<T>>
+    class RBTree<T> : IDynamicSet<T, RBTree<T>.RBTreeNode<T>>
     {
-        public enum NodeColor
+        // The class of RBT's node.
+        public class RBTreeNode<TP>
         {
-            Red,
-            Black
+            // The node's color
+            public enum NodeColor
+            {
+                Red,
+                Black
+            }
+            // The nil node representing leaves. Its properties have no meanings except Color.
+            public static RBTreeNode<TP> Nil = new RBTreeNode<TP>
+            {
+                Color = NodeColor.Black,
+                ParentNode = null,
+                LeftNode = null,
+                RightNode = null
+            };
+
+            public NodeColor Color { get; set; }
+            public RBTreeNode<TP> LeftNode { get; set; }
+            public RBTreeNode<TP> RightNode { get; set; }
+            public RBTreeNode<TP> ParentNode { get; set; }
+            public TP Key { get; set; }
         }
 
         private RBTreeNode<T> _root = RBTreeNode<T>.Nil;
@@ -188,7 +207,7 @@ namespace Algorithm.DataStructure
             }
             newNode.LeftNode = RBTreeNode<T>.Nil;
             newNode.RightNode = RBTreeNode<T>.Nil;
-            newNode.Color = NodeColor.Red;
+            newNode.Color = RBTreeNode<T>.NodeColor.Red;
             InsertFixUp(newNode);
         }
 
@@ -197,7 +216,7 @@ namespace Algorithm.DataStructure
         {
             var node = inserted;
             // Loop as long as node's parent is red.
-            while (node.ParentNode.Color == NodeColor.Red)
+            while (node.ParentNode.Color == RBTreeNode<T>.NodeColor.Red)
             {
                 // The parent is the left child of grandfather
                 // We distinguish this because we have to find the uncle.
@@ -206,12 +225,12 @@ namespace Algorithm.DataStructure
                     // Find uncle
                     var uncle = node.ParentNode.ParentNode.RightNode;
                     // Case 1: uncle is red.
-                    if (uncle.Color == NodeColor.Red)
+                    if (uncle.Color == RBTreeNode<T>.NodeColor.Red)
                     {
                         // Then we set parent and uncle to be black and set grandpa red.
-                        node.ParentNode.Color = NodeColor.Black;
-                        uncle.Color = NodeColor.Black;
-                        node.ParentNode.ParentNode.Color = NodeColor.Red;
+                        node.ParentNode.Color = RBTreeNode<T>.NodeColor.Black;
+                        uncle.Color = RBTreeNode<T>.NodeColor.Black;
+                        node.ParentNode.ParentNode.Color = RBTreeNode<T>.NodeColor.Red;
                         node = node.ParentNode.ParentNode;
                     }
                     // Uncle is black.
@@ -225,8 +244,8 @@ namespace Algorithm.DataStructure
                             LeftRotate(node);
                         }
                         // Case 3
-                        node.ParentNode.Color = NodeColor.Black;
-                        node.ParentNode.ParentNode.Color = NodeColor.Red;
+                        node.ParentNode.Color = RBTreeNode<T>.NodeColor.Black;
+                        node.ParentNode.ParentNode.Color = RBTreeNode<T>.NodeColor.Red;
                         RightRotate(node.ParentNode.ParentNode);
                     }
                 }
@@ -235,11 +254,11 @@ namespace Algorithm.DataStructure
                 else
                 {
                     var uncle = node.ParentNode.ParentNode.LeftNode;
-                    if (uncle.Color == NodeColor.Red)
+                    if (uncle.Color == RBTreeNode<T>.NodeColor.Red)
                     {
-                        node.ParentNode.Color = NodeColor.Black;
-                        uncle.Color = NodeColor.Black;
-                        node.ParentNode.ParentNode.Color = NodeColor.Red;
+                        node.ParentNode.Color = RBTreeNode<T>.NodeColor.Black;
+                        uncle.Color = RBTreeNode<T>.NodeColor.Black;
+                        node.ParentNode.ParentNode.Color = RBTreeNode<T>.NodeColor.Red;
                         node = node.ParentNode.ParentNode;
                     }
                     else
@@ -249,13 +268,13 @@ namespace Algorithm.DataStructure
                             node = node.ParentNode;
                             RightRotate(node);
                         }
-                        node.ParentNode.Color = NodeColor.Black;
-                        node.ParentNode.ParentNode.Color = NodeColor.Red;
+                        node.ParentNode.Color = RBTreeNode<T>.NodeColor.Black;
+                        node.ParentNode.ParentNode.Color = RBTreeNode<T>.NodeColor.Red;
                         LeftRotate(node.ParentNode.ParentNode);
                     }
                 }
             }
-            _root.Color = NodeColor.Black;
+            _root.Color = RBTreeNode<T>.NodeColor.Black;
         }
 
         // Delete
@@ -307,7 +326,7 @@ namespace Algorithm.DataStructure
                 actualRemoved.Color = removed.Color;
             }
             // If the color of the node actually removed is black, then this could violate RBT's properties.
-            if (yOldColor == NodeColor.Black)
+            if (yOldColor == RBTreeNode<T>.NodeColor.Black)
             {
                 DeleteFixUp(replacer);
             }
@@ -333,37 +352,37 @@ namespace Algorithm.DataStructure
         private void DeleteFixUp(RBTreeNode<T> dbBlack)
         {
             // Logically we regard dbBlack has double black color so that it can restore RBT properties 5th.
-            while (dbBlack != _root && dbBlack.Color == NodeColor.Black)
+            while (dbBlack != _root && dbBlack.Color == RBTreeNode<T>.NodeColor.Black)
             {
                 if (dbBlack == dbBlack.ParentNode.LeftNode)
                 {
                     var sibling = dbBlack.ParentNode.RightNode;
                     // Case 1
-                    if (sibling.Color == NodeColor.Red)
+                    if (sibling.Color == RBTreeNode<T>.NodeColor.Red)
                     {
-                        sibling.Color = NodeColor.Black;
-                        dbBlack.ParentNode.Color = NodeColor.Red;
+                        sibling.Color = RBTreeNode<T>.NodeColor.Black;
+                        dbBlack.ParentNode.Color = RBTreeNode<T>.NodeColor.Red;
                         LeftRotate(dbBlack.ParentNode);
                         sibling = dbBlack.ParentNode.RightNode;
                     }
                     // Case 2
-                    if (sibling.LeftNode.Color == NodeColor.Black && sibling.RightNode.Color == NodeColor.Black)
+                    if (sibling.LeftNode.Color == RBTreeNode<T>.NodeColor.Black && sibling.RightNode.Color == RBTreeNode<T>.NodeColor.Black)
                     {
-                        sibling.Color = NodeColor.Red;
+                        sibling.Color = RBTreeNode<T>.NodeColor.Red;
                         dbBlack = dbBlack.ParentNode;
                     }
                     else
                     {
-                        if (sibling.RightNode.Color == NodeColor.Black)
+                        if (sibling.RightNode.Color == RBTreeNode<T>.NodeColor.Black)
                         {
-                            sibling.LeftNode.Color = NodeColor.Black;
-                            sibling.Color = NodeColor.Red;
+                            sibling.LeftNode.Color = RBTreeNode<T>.NodeColor.Black;
+                            sibling.Color = RBTreeNode<T>.NodeColor.Red;
                             RightRotate(sibling);
                             sibling = dbBlack.ParentNode.RightNode;
                         }
                         sibling.Color = dbBlack.ParentNode.Color;
-                        dbBlack.ParentNode.Color = NodeColor.Black;
-                        sibling.RightNode.Color = NodeColor.Black;
+                        dbBlack.ParentNode.Color = RBTreeNode<T>.NodeColor.Black;
+                        sibling.RightNode.Color = RBTreeNode<T>.NodeColor.Black;
                         LeftRotate(dbBlack.ParentNode);
                         dbBlack = _root;
                     }
@@ -373,57 +392,39 @@ namespace Algorithm.DataStructure
                 {
                     var w = dbBlack.ParentNode.LeftNode;
                     // Case 1
-                    if (w.Color == NodeColor.Red)
+                    if (w.Color == RBTreeNode<T>.NodeColor.Red)
                     {
-                        w.Color = NodeColor.Black;
-                        dbBlack.ParentNode.Color = NodeColor.Red;
+                        w.Color = RBTreeNode<T>.NodeColor.Black;
+                        dbBlack.ParentNode.Color = RBTreeNode<T>.NodeColor.Red;
                         RightRotate(dbBlack.ParentNode);
                         w = dbBlack.ParentNode.LeftNode;
                     }
                     // Case 2
-                    if (w.RightNode.Color == NodeColor.Black && w.LeftNode.Color == NodeColor.Black)
+                    if (w.RightNode.Color == RBTreeNode<T>.NodeColor.Black && w.LeftNode.Color == RBTreeNode<T>.NodeColor.Black)
                     {
-                        w.Color = NodeColor.Red;
+                        w.Color = RBTreeNode<T>.NodeColor.Red;
                         dbBlack = dbBlack.ParentNode;
                     }
                     else
                     {
-                        if (w.LeftNode.Color == NodeColor.Black)
+                        if (w.LeftNode.Color == RBTreeNode<T>.NodeColor.Black)
                         {
-                            w.RightNode.Color = NodeColor.Black;
-                            w.Color = NodeColor.Red;
+                            w.RightNode.Color = RBTreeNode<T>.NodeColor.Black;
+                            w.Color = RBTreeNode<T>.NodeColor.Red;
                             LeftRotate(w);
                             w = dbBlack.ParentNode.LeftNode;
                         }
                         w.Color = dbBlack.ParentNode.Color;
-                        dbBlack.ParentNode.Color = NodeColor.Black;
-                        w.LeftNode.Color = NodeColor.Black;
+                        dbBlack.ParentNode.Color = RBTreeNode<T>.NodeColor.Black;
+                        w.LeftNode.Color = RBTreeNode<T>.NodeColor.Black;
                         RightRotate(dbBlack.ParentNode);
                         dbBlack = _root;
                     }
                 }
             }
-            dbBlack.Color = NodeColor.Black;
+            dbBlack.Color = RBTreeNode<T>.NodeColor.Black;
         }
 
-        // The class of RBT's node.
-        public class RBTreeNode<TP>
-        {
-            // The nil node representing leaves. Its properties have no meanings except Color.
-            public static RBTreeNode<TP> Nil = new RBTreeNode<TP>
-            {
-                Color = NodeColor.Black,
-                ParentNode = null,
-                LeftNode = null,
-                RightNode = null
-            };
-
-            public NodeColor Color { get; set; }
-            public RBTreeNode<TP> LeftNode { get; set; }
-            public RBTreeNode<TP> RightNode { get; set; }
-            public RBTreeNode<TP> ParentNode { get; set; }
-            public TP Key { get; set; }
-        }
 
         // Successor and Predecessor
         public RBTreeNode<T> Successor(RBTree<T>.RBTreeNode<T> root)
