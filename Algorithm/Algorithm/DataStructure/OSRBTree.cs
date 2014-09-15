@@ -1,5 +1,7 @@
 ﻿/*
  * This tree is a variant of red-black tree. It is called order statistic tree.
+ * To maintain the correctness of its size property, we have to modify RBTree's 
+ * LeftRotate, RightRotate, Insert, InsertFixUp and Delete.
  */
 using System;
 using System.Collections.Generic;
@@ -17,14 +19,28 @@ namespace Algorithm.DataStructure
         {
             // The size indicates how much elements are there in the subtree rooted at this node.
             public int Size { get; set; }
-            new public static OSRBTreeNode<TP> Nil = new OSRBTreeNode<TP>
+            // Use base's pointers to implement these pointers.
+            public OSRBTreeNode<TP> ParentNode
+            {
+                get
+                {
+                    return (OSRBTreeNode<TP>)base.ParentNode;
+                }
+                set
+                {
+                    base.ParentNode = (OSRBTreeNode<TP>)value;
+                }
+            }
+            public OSRBTreeNode<TP> LeftNode { get; set; }
+            public OSRBTreeNode<TP> RightNode { get; set; }
+            public new static OSRBTreeNode<TP> Nil = new OSRBTreeNode<TP>
             {
                 Color = NodeColor.Black
             };
         }
 
         // The root node
-        private OSRBTreeNode<T> _root = null;
+        private OSRBTreeNode<T> _root = OSRBTreeNode<T>.Nil;
 
         // Min and Max
         new public T Minimum()
@@ -102,7 +118,34 @@ namespace Algorithm.DataStructure
         }
         public void Insert(OSRBTreeNode<T> newNode, IComparer<T> comparer)
         {
-            throw new NotImplementedException();
+            var parent = OSRBTreeNode<T>.Nil;
+            var temp = _root;
+            // Find the right place for new node
+            while (temp != OSRBTreeNode<T>.Nil)
+            {
+                // Begin code for order statistics
+                ++temp.Size;
+                // End
+                parent = temp;
+                temp = comparer.Compare(newNode.Key, temp.Key) < 0 ? temp.LeftNode : temp.RightNode;
+            }
+            newNode.ParentNode = parent;
+            if (parent == OSRBTreeNode<T>.Nil)
+            {
+                _root = newNode;
+            }
+            else if (comparer.Compare(newNode.Key, parent.Key) < 0)
+            {
+                parent.LeftNode = newNode;
+            }
+            else
+            {
+                parent.RightNode = newNode;
+            }
+            newNode.LeftNode = OSRBTreeNode<T>.Nil;
+            newNode.RightNode = OSRBTreeNode<T>.Nil;
+            newNode.Color = OSRBTreeNode<T>.NodeColor.Red;
+            InsertFixUp(newNode);
         }
 
         // Delete

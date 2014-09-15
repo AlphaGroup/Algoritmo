@@ -33,9 +33,9 @@ namespace Algorithm.DataStructure
             };
 
             public NodeColor Color { get; set; }
+            public RBTreeNode<TP> ParentNode { get; set; }
             public RBTreeNode<TP> LeftNode { get; set; }
             public RBTreeNode<TP> RightNode { get; set; }
-            public RBTreeNode<TP> ParentNode { get; set; }
             public TP Key { get; set; }
         }
 
@@ -212,7 +212,7 @@ namespace Algorithm.DataStructure
         }
 
         // Recolor nodes and perform rotations in order to restore RBT properties.
-        private void InsertFixUp(RBTreeNode<T> inserted)
+        protected void InsertFixUp(RBTreeNode<T> inserted)
         {
             var node = inserted;
             // Loop as long as node's parent is red.
