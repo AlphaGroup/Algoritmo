@@ -39,7 +39,7 @@ namespace Algorithm.DataStructure
             public TP Key { get; set; }
         }
 
-        private RBTreeNode<T> _root = RBTreeNode<T>.Nil;
+        protected RBTreeNode<T> _root = RBTreeNode<T>.Nil;
 
         // Max and min functions
         // Minimum
@@ -100,7 +100,7 @@ namespace Algorithm.DataStructure
 
         // Rotation: both run in O(1)
         // Left rotation assuming that input.RightNode!=Nil and that the root's parent is Nil.
-        private void LeftRotate(RBTreeNode<T> node)
+        protected virtual void LeftRotate(RBTreeNode<T> node)
         {
             // Set right node
             var rNode = node.RightNode;
@@ -131,7 +131,7 @@ namespace Algorithm.DataStructure
         }
 
         // Right rotation assuming that input.LeftNode!=Nil and that the root's parent is Nil.
-        private void RightRotate(RBTreeNode<T> node)
+        protected virtual void RightRotate(RBTreeNode<T> node)
         {
             // Set left node.
             var lNode = node.LeftNode;

@@ -12,7 +12,7 @@ using Algorithm.Interface;
 
 namespace Algorithm.DataStructure
 {
-    class OSRBTree<T> : RBTree<T>, IDynamicSet<T, OSRBTree<T>.OSRBTreeNode<T>>, IOrderStatistic<T,OSRBTree<T>.OSRBTreeNode<T>>
+    class OSRBTree<T> : RBTree<T>, IDynamicSet<T, OSRBTree<T>.OSRBTreeNode<T>>, IOrderStatistic<T, OSRBTree<T>.OSRBTreeNode<T>>
     {
         // The OSRBTree's node structure
         public class OSRBTreeNode<TP> : RBTreeNode<TP>
@@ -20,7 +20,7 @@ namespace Algorithm.DataStructure
             // The size indicates how much elements are there in the subtree rooted at this node.
             public int Size { get; set; }
             // Use base's pointers to implement these pointers.
-            public OSRBTreeNode<TP> ParentNode
+            new public OSRBTreeNode<TP> ParentNode
             {
                 get
                 {
@@ -31,8 +31,28 @@ namespace Algorithm.DataStructure
                     base.ParentNode = (OSRBTreeNode<TP>)value;
                 }
             }
-            public OSRBTreeNode<TP> LeftNode { get; set; }
-            public OSRBTreeNode<TP> RightNode { get; set; }
+            new public OSRBTreeNode<TP> LeftNode
+            {
+                get
+                {
+                    return (OSRBTreeNode<TP>)base.LeftNode;
+                }
+                set
+                {
+                    base.LeftNode = (OSRBTreeNode<TP>)value;
+                }
+            }
+            new public OSRBTreeNode<TP> RightNode
+            {
+                get
+                {
+                    return (OSRBTreeNode<TP>)base.RightNode;
+                }
+                set
+                {
+                    base.RightNode = (OSRBTreeNode<TP>)value;
+                }
+            }
             public new static OSRBTreeNode<TP> Nil = new OSRBTreeNode<TP>
             {
                 Color = NodeColor.Black
@@ -40,8 +60,17 @@ namespace Algorithm.DataStructure
         }
 
         // The root node
-        private OSRBTreeNode<T> _root = OSRBTreeNode<T>.Nil;
-
+        protected new OSRBTreeNode<T> _root
+        {
+            get
+            {
+                return (OSRBTreeNode<T>)base._root;
+            }
+            set
+            {
+                base._root = (RBTreeNode<T>)value;
+            }
+        }
         // Min and Max
         new public T Minimum()
         {
@@ -89,12 +118,12 @@ namespace Algorithm.DataStructure
             return (OSRBTreeNode<T>)base.Predecessor(root);
         }
 
-        // Rotations
-        private void LeftRotate(OSRBTreeNode<T> node)
+        // Override Rotations
+        protected override void LeftRotate(RBTreeNode<T> node)
         {
             throw new NotImplementedException();
         }
-        private void RightRotate(OSRBTreeNode<T> node)
+        protected override void RightRotate(RBTreeNode<T> node)
         {
             throw new NotImplementedException();
         }
