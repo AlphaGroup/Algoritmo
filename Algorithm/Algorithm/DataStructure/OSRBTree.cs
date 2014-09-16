@@ -55,7 +55,8 @@ namespace Algorithm.DataStructure
             }
             public new static OSRBTreeNode<TP> Nil = new OSRBTreeNode<TP>
             {
-                Color = NodeColor.Black
+                Color = NodeColor.Black,
+                Size = 0
             };
         }
 
@@ -72,25 +73,36 @@ namespace Algorithm.DataStructure
             }
         }
         // Constructor
-        public OSRBTree():base(OSRBTreeNode<T>.Nil)
+        public OSRBTree()
+            : base(OSRBTreeNode<T>.Nil)
         {
         }
         // Min and Max
-        //new public T Minimum()
-        //{
-        //    return Minimum(_root).Key;
-        //}
+        public override T Minimum()
+        {
+            return Minimum(_root).Key;
+        }
         public OSRBTreeNode<T> Minimum(OSRBTreeNode<T> root)
         {
-            return (OSRBTreeNode<T>)base.Minimum(root);
+            // TODO: Find a way to use base.Minimum.( Create a function return the nill virtually)
+            while (root.LeftNode != OSRBTreeNode<T>.Nil)
+            {
+                root = root.LeftNode;
+            }
+            return root;
         }
-        //new public T Maximum()
-        //{
-        //    return Maximum(_root).Key;
-        //}
+        public override T Maximum()
+        {
+            return Maximum(_root).Key;
+        }
         public OSRBTreeNode<T> Maximum(OSRBTreeNode<T> root)
         {
-            return (OSRBTreeNode<T>)base.Maximum(root);
+            // TODO: Find a way to use base.Maximum.( Create a function return the nill virtually)
+            while (root.RightNode != OSRBTreeNode<T>.Nil)
+            {
+                root = root.RightNode;
+            }
+            return root;
         }
 
         // Search
@@ -125,11 +137,71 @@ namespace Algorithm.DataStructure
         // Override Rotations
         protected override void LeftRotate(RBTreeNode<T> node)
         {
-            throw new NotImplementedException();
+            // Set right node
+            var rNode = node.RightNode;
+            // Move rNode's left subtree to node's right subtree.
+            node.RightNode = rNode.LeftNode;
+            if (rNode.LeftNode != OSRBTreeNode<T>.Nil)
+            {
+                rNode.LeftNode.ParentNode = node;
+            }
+            // Set rNode's parent.
+            rNode.ParentNode = node.ParentNode;
+            // Set node's parent node child to rNode
+            if (node.ParentNode == OSRBTreeNode<T>.Nil)
+            {
+                _root = (OSRBTreeNode<T>)rNode;
+            }
+            else if (node == node.ParentNode.LeftNode)
+            {
+                node.ParentNode.LeftNode = rNode;
+            }
+            else
+            {
+                node.ParentNode.RightNode = rNode;
+            }
+            // Set other links
+            rNode.LeftNode = node;
+            node.ParentNode = rNode;
+            // Adjust size property
+            var x = (OSRBTreeNode<T>)node;
+            var y = x.ParentNode;
+            y.Size = x.Size;
+            x.Size = x.LeftNode.Size + x.RightNode.Size;
         }
         protected override void RightRotate(RBTreeNode<T> node)
         {
-            throw new NotImplementedException();
+            // Set left node.
+            var lNode = node.LeftNode;
+            // Move lNode's right subtree to node's left subtree.
+            node.LeftNode = lNode.RightNode;
+            if (lNode.RightNode != OSRBTreeNode<T>.Nil)
+            {
+                lNode.RightNode.ParentNode = node;
+            }
+            // Set lNode's parent.
+            lNode.ParentNode = node.ParentNode;
+            // Set node's parent node's child to lNode
+            if (node.ParentNode == OSRBTreeNode<T>.Nil)
+            {
+                _root = (OSRBTreeNode<T>)lNode;
+            }
+            else if (node == node.ParentNode.LeftNode)
+            {
+                node.ParentNode.LeftNode = lNode;
+            }
+            else
+            {
+                node.ParentNode.RightNode = lNode;
+            }
+            // Set other links
+            lNode.RightNode = node;
+            node.ParentNode = lNode;
+            // Adjust size property
+            var x = (OSRBTreeNode<T>)node;
+            var y = x.ParentNode;
+            y.Size = x.Size;
+            x.Size = x.LeftNode.Size + x.RightNode.Size;
         }
 
         // Insert

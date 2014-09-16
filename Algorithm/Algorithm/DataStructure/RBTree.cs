@@ -53,7 +53,7 @@ namespace Algorithm.DataStructure
 
         // Max and min functions
         // Minimum
-        public T Minimum()
+        public virtual T Minimum()
         {
             return Minimum(_root).Key;
         }
@@ -66,7 +66,7 @@ namespace Algorithm.DataStructure
             return node;
         }
         // Maximum
-        public T Maximum()
+        public virtual T Maximum()
         {
             return Maximum(_root).Key;
         }
