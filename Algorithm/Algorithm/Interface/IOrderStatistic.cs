@@ -15,7 +15,7 @@ namespace Algorithm.Interface
     {
         // Return the element of the zero-based os'th element.
         TNode Select(int os);
-        TNode Select(TNode root, int os);
+        TNode Select(TNode tmpRoot, int os);
         // Return the rank of the node.
         int Rank(TNode node);
     }

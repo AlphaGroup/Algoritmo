@@ -4,6 +4,7 @@
  * LeftRotate, RightRotate, Insert, InsertFixUp and Delete.
  */
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -133,18 +134,19 @@ namespace Algorithm.DataStructure
         // Override Rotations
         protected override void LeftRotate(RBTreeNode<T> node)
         {
+            var nil = node.GetNil() as OSRBTreeNode<T>;
             // Set right node
             var rNode = node.RightNode;
             // Move rNode's left subtree to node's right subtree.
             node.RightNode = rNode.LeftNode;
-            if (rNode.LeftNode != OSRBTreeNode<T>.Nil)
+            if (rNode.LeftNode != nil)
             {
                 rNode.LeftNode.ParentNode = node;
             }
             // Set rNode's parent.
             rNode.ParentNode = node.ParentNode;
             // Set node's parent node child to rNode
-            if (node.ParentNode == OSRBTreeNode<T>.Nil)
+            if (node.ParentNode == nil)
             {
                 _root = (OSRBTreeNode<T>)rNode;
             }
@@ -167,18 +169,19 @@ namespace Algorithm.DataStructure
         }
         protected override void RightRotate(RBTreeNode<T> node)
         {
+            var nil = node.GetNil() as OSRBTreeNode<T>;
             // Set left node.
             var lNode = node.LeftNode;
             // Move lNode's right subtree to node's left subtree.
             node.LeftNode = lNode.RightNode;
-            if (lNode.RightNode != OSRBTreeNode<T>.Nil)
+            if (lNode.RightNode != nil)
             {
                 lNode.RightNode.ParentNode = node;
             }
             // Set lNode's parent.
             lNode.ParentNode = node.ParentNode;
             // Set node's parent node's child to lNode
-            if (node.ParentNode == OSRBTreeNode<T>.Nil)
+            if (node.ParentNode == nil)
             {
                 _root = (OSRBTreeNode<T>)lNode;
             }
@@ -220,10 +223,11 @@ namespace Algorithm.DataStructure
         }
         public void Insert(OSRBTreeNode<T> newNode, IComparer<T> comparer)
         {
-            var parent = OSRBTreeNode<T>.Nil;
+            var nil = newNode.GetNil() as OSRBTreeNode<T>;
+            var parent = nil;
             var temp = _root;
             // Find the right place for new node
-            while (temp != OSRBTreeNode<T>.Nil)
+            while (temp != nil)
             {
                 // Begin code for order statistics
                 ++temp.Size;
@@ -232,7 +236,7 @@ namespace Algorithm.DataStructure
                 temp = comparer.Compare(newNode.Key, temp.Key) < 0 ? temp.LeftNode : temp.RightNode;
             }
             newNode.ParentNode = parent;
-            if (parent == OSRBTreeNode<T>.Nil)
+            if (parent == nil)
             {
                 _root = newNode;
             }
@@ -244,8 +248,8 @@ namespace Algorithm.DataStructure
             {
                 parent.RightNode = newNode;
             }
-            newNode.LeftNode = OSRBTreeNode<T>.Nil;
-            newNode.RightNode = OSRBTreeNode<T>.Nil;
+            newNode.LeftNode = nil;
+            newNode.RightNode = nil;
             newNode.Color = OSRBTreeNode<T>.NodeColor.Red;
             // We don't have to change this function. We just override rotation funcitons and 
             // the InsertFixUp will automatically call the right ones.
@@ -255,18 +259,19 @@ namespace Algorithm.DataStructure
         // Delete
         public void Delete(OSRBTreeNode<T> removed)
         {
+            var nil = removed.GetNil() as OSRBTreeNode<T>;
             // We set this variable because we care about the color of the node actually removed.
             var actualRemoved = removed;
             var yOldColor = actualRemoved.Color;
             // This replacer is the one who moves to the y's original position.
             OSRBTreeNode<T> replacer = null;
             // The removed has only one or less children.
-            if (removed.LeftNode == OSRBTreeNode<T>.Nil)
+            if (removed.LeftNode == nil)
             {
                 replacer = removed.RightNode;
                 Transplant(removed, removed.RightNode);
             }
-            else if (removed.RightNode == OSRBTreeNode<T>.Nil)
+            else if (removed.RightNode == nil)
             {
                 replacer = removed.LeftNode;
                 Transplant(removed, removed.LeftNode);
@@ -301,10 +306,10 @@ namespace Algorithm.DataStructure
                 actualRemoved.Size = removed.Size;
             }
             // Adjust the size property
-            if (replacer != OSRBTreeNode<T>.Nil)
+            if (replacer != nil)
             {
                 replacer.Size = replacer.LeftNode.Size + replacer.RightNode.Size + 1;
-                while (replacer.ParentNode != OSRBTreeNode<T>.Nil)
+                while (replacer.ParentNode != nil)
                 {
                     replacer = replacer.ParentNode;
                     --replacer.Size;
@@ -320,11 +325,31 @@ namespace Algorithm.DataStructure
         // Return the element whose rank is zero-based os'th.
         public OSRBTreeNode<T> Select(int os)
         {
-            throw new NotImplementedException();
+            return Select(_root, os);
         }
-        public OSRBTreeNode<T> Select(OSRBTreeNode<T> root, int os)
+        public OSRBTreeNode<T> Select(OSRBTreeNode<T> tmpRoot, int os)
         {
-            throw new NotImplementedException();
+            if (os + 1 > tmpRoot.Size)
+            {
+                return tmpRoot.GetNil() as OSRBTreeNode<T>;
+            }
+            // The rank of the input tmpRoot
+            var rank = tmpRoot.LeftNode.Size;
+            // This is the node we are looking for.
+            if (os == rank)
+            {
+                return tmpRoot;
+            }
+            // The node we are looking are on the left subtree of tmpRoot.
+            else if (os < rank)
+            {
+                return Select(tmpRoot.LeftNode, os);
+            }
+            // The node we are looking are on the right subtree of tmpRoot.
+            else
+            {
+                return Select(tmpRoot.RightNode, os - rank);
+            }
         }
         // Return the rank of the node.
         public int Rank(OSRBTreeNode<T> node)
