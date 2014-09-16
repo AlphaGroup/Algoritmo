@@ -167,7 +167,7 @@ namespace Algorithm.DataStructure
             var x = (OSRBTreeNode<T>)node;
             var y = x.ParentNode;
             y.Size = x.Size;
-            x.Size = x.LeftNode.Size + x.RightNode.Size;
+            x.Size = x.LeftNode.Size + x.RightNode.Size + 1;
         }
         protected override void RightRotate(RBTreeNode<T> node)
         {
@@ -201,7 +201,7 @@ namespace Algorithm.DataStructure
             var x = (OSRBTreeNode<T>)node;
             var y = x.ParentNode;
             y.Size = x.Size;
-            x.Size = x.LeftNode.Size + x.RightNode.Size;
+            x.Size = x.LeftNode.Size + x.RightNode.Size + 1;
         }
 
         // Insert
@@ -213,7 +213,8 @@ namespace Algorithm.DataStructure
         {
             var node = new OSRBTreeNode<T>()
             {
-                Key = newVal
+                Key = newVal,
+                Size = 1
             };
             Insert(node, comparer);
         }
@@ -256,9 +257,65 @@ namespace Algorithm.DataStructure
         }
 
         // Delete
-        public void Delete(OSRBTreeNode<T> node)
+        public void Delete(OSRBTreeNode<T> removed)
         {
-            throw new NotImplementedException();
+            // We set this variable because we care about the color of the node actually removed.
+            var actualRemoved = removed;
+            var yOldColor = actualRemoved.Color;
+            // This replacer is the one who moves to the y's original position.
+            OSRBTreeNode<T> replacer = null;
+            // The removed has only one or less children.
+            if (removed.LeftNode == OSRBTreeNode<T>.Nil)
+            {
+                replacer = removed.RightNode;
+                Transplant(removed, removed.RightNode);
+            }
+            else if (removed.RightNode == OSRBTreeNode<T>.Nil)
+            {
+                replacer = removed.LeftNode;
+                Transplant(removed, removed.LeftNode);
+            }
+            // The removed has two children.
+            else
+            {
+                // Find the successor.
+                actualRemoved = Minimum(removed.RightNode);
+                yOldColor = actualRemoved.Color;
+                replacer = actualRemoved.RightNode;
+                // The successor is a direct child.
+                if (actualRemoved.ParentNode == removed)
+                {
+                    replacer.ParentNode = actualRemoved;
+                }
+                // The successor is a indirect child
+                else
+                {
+                    Transplant(actualRemoved, actualRemoved.RightNode);
+                    actualRemoved.RightNode = removed.RightNode;
+                    actualRemoved.RightNode.ParentNode = actualRemoved;
+                }
+                Transplant(removed, actualRemoved);
+                // To some extend, we can comprehend it in this way:
+                // Although the node removed is the input node,
+                // logically speaking, the node actually removed is the successor, and let the (input's node).key = successor's key.
+                // That's why we have the rest code.
+                actualRemoved.LeftNode = removed.LeftNode;
+                actualRemoved.LeftNode.ParentNode = actualRemoved;
+                actualRemoved.Color = removed.Color;
+                actualRemoved.Size = removed.Size;
+            }
+            // Adjust the size property
+            replacer.Size = replacer.LeftNode.Size + replacer.RightNode.Size + 1;
+            while (replacer.ParentNode != OSRBTreeNode<T>.Nil)
+            {
+                replacer = replacer.ParentNode;
+                --replacer.Size;
+            }
+            // If the color of the node actually removed is black, then this could violate RBT's properties.
+            if (yOldColor == OSRBTreeNode<T>.NodeColor.Black)
+            {
+                DeleteFixUp(replacer);
+            }
         }
 
         // The operations for an order statistic.

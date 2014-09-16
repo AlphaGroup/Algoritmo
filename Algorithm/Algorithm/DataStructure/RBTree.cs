@@ -44,7 +44,7 @@ namespace Algorithm.DataStructure
         public RBTree()
         {
             _root = RBTreeNode<T>.Nil;
-        } 
+        }
         // Constructor for derived classes
         protected RBTree(RBTreeNode<T> root)
         {
@@ -342,7 +342,7 @@ namespace Algorithm.DataStructure
             }
         }
         // Helper function for Deletion: transplant the replacer to the replaced, it won't change references about childeren.
-        private void Transplant(RBTreeNode<T> replaced, RBTreeNode<T> replacer)
+        protected void Transplant(RBTreeNode<T> replaced, RBTreeNode<T> replacer)
         {
             if (replaced.ParentNode == RBTreeNode<T>.Nil)
             {
@@ -359,7 +359,7 @@ namespace Algorithm.DataStructure
             replacer.ParentNode = replaced.ParentNode;
         }
         // Helper function for deletion: restore the RBT properties.
-        private void DeleteFixUp(RBTreeNode<T> dbBlack)
+        protected void DeleteFixUp(RBTreeNode<T> dbBlack)
         {
             // Logically we regard dbBlack has double black color so that it can restore RBT properties 5th.
             while (dbBlack != _root && dbBlack.Color == RBTreeNode<T>.NodeColor.Black)
