@@ -309,12 +309,13 @@ namespace Algorithm.DataStructure
             if (replacer != nil)
             {
                 replacer.Size = replacer.LeftNode.Size + replacer.RightNode.Size + 1;
-                while (replacer.ParentNode != nil)
-                {
-                    replacer = replacer.ParentNode;
-                    --replacer.Size;
-                }
-            }            // If the color of the node actually removed is black, then this could violate RBT's properties.
+            }
+            while (replacer.ParentNode != nil)
+            {
+                replacer = replacer.ParentNode;
+                --replacer.Size;
+            }
+            // If the color of the node actually removed is black, then this could violate RBT's properties.
             if (yOldColor == OSRBTreeNode<T>.NodeColor.Black)
             {
                 DeleteFixUp(replacer);
@@ -348,7 +349,7 @@ namespace Algorithm.DataStructure
             // The node we are looking are on the right subtree of tmpRoot.
             else
             {
-                return Select(tmpRoot.RightNode, os - rank);
+                return Select(tmpRoot.RightNode, os - rank - 1);
             }
         }
         // Return the rank of the node.
