@@ -355,7 +355,17 @@ namespace Algorithm.DataStructure
         // Return the rank of the node.
         public int Rank(OSRBTreeNode<T> node)
         {
-            throw new NotImplementedException();
+            var rank = node.LeftNode.Size + 1;
+            var temp = node;
+            while (temp != _root)
+            {
+                if (temp == temp.ParentNode.RightNode)
+                {
+                    rank = rank + temp.ParentNode.LeftNode.Size + 1;
+                }
+                temp = temp.ParentNode;
+            }
+            return rank - 1;
         }
     }
 }

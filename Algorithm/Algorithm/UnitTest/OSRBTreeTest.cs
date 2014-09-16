@@ -52,13 +52,13 @@ namespace Algorithm.UnitTest
             Assert.AreEqual(17, ios.Select(4).Key);
             Assert.AreEqual(18, ios.Select(5).Key);
             Assert.AreEqual(19, ios.Select(6).Key);
-            Assert.AreEqual(ios.Rank(ios.Select(2)), 0);
-            Assert.AreEqual(ios.Rank(ios.Select(9)), 1);
-            Assert.AreEqual(ios.Rank(ios.Select(13)), 2);
-            Assert.AreEqual(ios.Rank(ios.Select(15)), 3);
-            Assert.AreEqual(ios.Rank(ios.Select(17)), 4);
-            Assert.AreEqual(ios.Rank(ios.Select(18)), 5);
-            Assert.AreEqual(ios.Rank(ios.Select(19)), 6);
+            Assert.AreEqual(0, ios.Rank(ios.Select(0)));
+            Assert.AreEqual(1, ios.Rank(ios.Select(1)));
+            Assert.AreEqual(2, ios.Rank(ios.Select(2)));
+            Assert.AreEqual(3, ios.Rank(ios.Select(3)));
+            Assert.AreEqual(4, ios.Rank(ios.Select(4)));
+            Assert.AreEqual(5, ios.Rank(ios.Select(5)));
+            Assert.AreEqual(6, ios.Rank(ios.Select(6)));
         }
     }
 }
