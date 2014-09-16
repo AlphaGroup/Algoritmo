@@ -10,8 +10,6 @@ using Algorithm.Interface;
 
 namespace Algorithm.DataStructure
 {
-    // TODO: Here I want to use interface IDynamicSet and inheritance from BST.
-    // TODO: But I have to solve the problem about return value type. Further design is needed.
     class RBTree<T> : IDynamicSet<T, RBTree<T>.RBTreeNode<T>>
     {
         // The class of RBT's node.
@@ -37,13 +35,18 @@ namespace Algorithm.DataStructure
             public RBTreeNode<TP> LeftNode { get; set; }
             public RBTreeNode<TP> RightNode { get; set; }
             public TP Key { get; set; }
+
+            public virtual RBTreeNode<TP> GetNil()
+            {
+                return Nil;
+            }
         }
 
         protected RBTreeNode<T> _root = null;
         // Constructors
         public RBTree()
         {
-            _root = RBTreeNode<T>.Nil;
+            _root = (new RBTreeNode<T>()).GetNil();
         }
         // Constructor for derived classes
         protected RBTree(RBTreeNode<T> root)
@@ -59,7 +62,8 @@ namespace Algorithm.DataStructure
         }
         public RBTreeNode<T> Minimum(RBTreeNode<T> node)
         {
-            while (node.LeftNode != RBTreeNode<T>.Nil)
+            var nil = node.GetNil();
+            while (node.LeftNode != nil)
             {
                 node = node.LeftNode;
             }
@@ -72,7 +76,8 @@ namespace Algorithm.DataStructure
         }
         public RBTreeNode<T> Maximum(RBTreeNode<T> node)
         {
-            while (node.RightNode != RBTreeNode<T>.Nil)
+            var nil = node.GetNil();
+            while (node.RightNode != nil)
             {
                 node = node.RightNode;
             }
@@ -94,7 +99,8 @@ namespace Algorithm.DataStructure
         }
         public RBTreeNode<T> Search(RBTreeNode<T> root, T key, IComparer<T> comparer)
         {
-            while (root != RBTreeNode<T>.Nil && comparer.Compare(root.Key, key) != 0)
+            var nil = root.GetNil();
+            while (root != nil && comparer.Compare(root.Key, key) != 0)
             {
                 if (comparer.Compare(key, root.Key) < 0)
                 {
@@ -109,21 +115,22 @@ namespace Algorithm.DataStructure
         }
 
         // Rotation: both run in O(1)
-        // Left rotation assuming that input.RightNode!=Nil and that the root's parent is Nil.
+        // Left rotation assuming that input.RightNode!=nil and that the root's parent is nil.
         protected virtual void LeftRotate(RBTreeNode<T> node)
         {
+            var nil = node.GetNil();
             // Set right node
             var rNode = node.RightNode;
             // Move rNode's left subtree to node's right subtree.
             node.RightNode = rNode.LeftNode;
-            if (rNode.LeftNode != RBTreeNode<T>.Nil)
+            if (rNode.LeftNode != nil)
             {
                 rNode.LeftNode.ParentNode = node;
             }
             // Set rNode's parent.
             rNode.ParentNode = node.ParentNode;
             // Set node's parent node child to rNode
-            if (node.ParentNode == RBTreeNode<T>.Nil)
+            if (node.ParentNode == nil)
             {
                 _root = rNode;
             }
@@ -143,18 +150,19 @@ namespace Algorithm.DataStructure
         // Right rotation assuming that input.LeftNode!=Nil and that the root's parent is Nil.
         protected virtual void RightRotate(RBTreeNode<T> node)
         {
+            var nil = node.GetNil();
             // Set left node.
             var lNode = node.LeftNode;
             // Move lNode's right subtree to node's left subtree.
             node.LeftNode = lNode.RightNode;
-            if (lNode.RightNode != RBTreeNode<T>.Nil)
+            if (lNode.RightNode != nil)
             {
                 lNode.RightNode.ParentNode = node;
             }
             // Set lNode's parent.
             lNode.ParentNode = node.ParentNode;
             // Set node's parent node's child to lNode
-            if (node.ParentNode == RBTreeNode<T>.Nil)
+            if (node.ParentNode == nil)
             {
                 _root = lNode;
             }
@@ -194,16 +202,17 @@ namespace Algorithm.DataStructure
         }
         public void Insert(RBTreeNode<T> newNode, IComparer<T> comparer)
         {
-            var parent = RBTreeNode<T>.Nil;
+            var nil = newNode.GetNil();
+            var parent = nil;
             var temp = _root;
             // Find the right place for new node
-            while (temp != RBTreeNode<T>.Nil)
+            while (temp != nil)
             {
                 parent = temp;
                 temp = comparer.Compare(newNode.Key, temp.Key) < 0 ? temp.LeftNode : temp.RightNode;
             }
             newNode.ParentNode = parent;
-            if (parent == RBTreeNode<T>.Nil)
+            if (parent == nil)
             {
                 _root = newNode;
             }
@@ -215,8 +224,8 @@ namespace Algorithm.DataStructure
             {
                 parent.RightNode = newNode;
             }
-            newNode.LeftNode = RBTreeNode<T>.Nil;
-            newNode.RightNode = RBTreeNode<T>.Nil;
+            newNode.LeftNode = nil;
+            newNode.RightNode = nil;
             newNode.Color = RBTreeNode<T>.NodeColor.Red;
             InsertFixUp(newNode);
         }
@@ -291,18 +300,19 @@ namespace Algorithm.DataStructure
         // The restoration of RBT properties is in DeleteFixUp function.
         public void Delete(RBTreeNode<T> removed)
         {
+            var nil = removed.GetNil();
             // We set this variable because we care about the color of the node actually removed.
             var actualRemoved = removed;
             var yOldColor = actualRemoved.Color;
             // This replacer is the one who moves to the y's original position.
             RBTreeNode<T> replacer = null;
             // The removed has only one or less children.
-            if (removed.LeftNode == RBTreeNode<T>.Nil)
+            if (removed.LeftNode == nil)
             {
                 replacer = removed.RightNode;
                 Transplant(removed, removed.RightNode);
             }
-            else if (removed.RightNode == RBTreeNode<T>.Nil)
+            else if (removed.RightNode == nil)
             {
                 replacer = removed.LeftNode;
                 Transplant(removed, removed.LeftNode);
@@ -344,7 +354,8 @@ namespace Algorithm.DataStructure
         // Helper function for Deletion: transplant the replacer to the replaced, it won't change references about childeren.
         protected void Transplant(RBTreeNode<T> replaced, RBTreeNode<T> replacer)
         {
-            if (replaced.ParentNode == RBTreeNode<T>.Nil)
+            var nil = replaced.GetNil();
+            if (replaced.ParentNode == nil)
             {
                 _root = replacer;
             }
@@ -439,15 +450,16 @@ namespace Algorithm.DataStructure
         // Successor and Predecessor
         public RBTreeNode<T> Successor(RBTree<T>.RBTreeNode<T> root)
         {
+            var nil = root.GetNil();
             // If node has right subtree, then the successor must be the min one of that subtree.
-            if (root.RightNode != RBTreeNode<T>.Nil)
+            if (root.RightNode != nil)
             {
                 return Minimum(root);
             }
             // This node has no right subtree.
             var parent = root.ParentNode;
             // Skip the parent smaller than node.
-            while (parent != RBTreeNode<T>.Nil && root == parent.RightNode)
+            while (parent != nil && root == parent.RightNode)
             {
                 root = parent;
                 parent = parent.ParentNode;
@@ -458,15 +470,16 @@ namespace Algorithm.DataStructure
         // Predecessor: the node with the biggest key smaller than the input node's
         public RBTreeNode<T> Predecessor(RBTree<T>.RBTreeNode<T> root)
         {
+            var nil = root.GetNil();
             // If node has left subtree, then the successor must be the max one of that subtree.
-            if (root.LeftNode != RBTreeNode<T>.Nil)
+            if (root.LeftNode != nil)
             {
                 return Maximum(root);
             }
             // This node has no right subtree.
             var parent = root.ParentNode;
             // Skip the parent bigger than node.
-            while (parent != RBTreeNode<T>.Nil && root == parent.LeftNode)
+            while (parent != nil && root == parent.LeftNode)
             {
                 root = parent;
                 parent = parent.ParentNode;

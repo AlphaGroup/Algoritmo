@@ -305,13 +305,15 @@ namespace Algorithm.DataStructure
                 actualRemoved.Size = removed.Size;
             }
             // Adjust the size property
-            replacer.Size = replacer.LeftNode.Size + replacer.RightNode.Size + 1;
-            while (replacer.ParentNode != OSRBTreeNode<T>.Nil)
+            if (replacer != OSRBTreeNode<T>.Nil)
             {
-                replacer = replacer.ParentNode;
-                --replacer.Size;
-            }
-            // If the color of the node actually removed is black, then this could violate RBT's properties.
+                replacer.Size = replacer.LeftNode.Size + replacer.RightNode.Size + 1;
+                while (replacer.ParentNode != OSRBTreeNode<T>.Nil)
+                {
+                    replacer = replacer.ParentNode;
+                    --replacer.Size;
+                }
+            }            // If the color of the node actually removed is black, then this could violate RBT's properties.
             if (yOldColor == OSRBTreeNode<T>.NodeColor.Black)
             {
                 DeleteFixUp(replacer);
