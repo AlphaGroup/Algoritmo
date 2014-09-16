@@ -306,15 +306,18 @@ namespace Algorithm.DataStructure
                 actualRemoved.Size = removed.Size;
             }
             // Adjust the size property
-            if (replacer != nil)
+            // The iterator
+            var iter = replacer;
+            if (iter != nil)
             {
-                replacer.Size = replacer.LeftNode.Size + replacer.RightNode.Size + 1;
+                iter.Size = iter.LeftNode.Size + iter.RightNode.Size + 1;
             }
-            while (replacer.ParentNode != nil)
+            while (iter.ParentNode != nil)
             {
-                replacer = replacer.ParentNode;
-                --replacer.Size;
+                iter = iter.ParentNode;
+                --iter.Size;
             }
+            // End adjustment.
             // If the color of the node actually removed is black, then this could violate RBT's properties.
             if (yOldColor == OSRBTreeNode<T>.NodeColor.Black)
             {
