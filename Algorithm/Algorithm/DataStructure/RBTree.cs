@@ -39,7 +39,17 @@ namespace Algorithm.DataStructure
             public TP Key { get; set; }
         }
 
-        protected RBTreeNode<T> _root = RBTreeNode<T>.Nil;
+        protected RBTreeNode<T> _root = null;
+        // Constructors
+        public RBTree()
+        {
+            _root = RBTreeNode<T>.Nil;
+        } 
+        // Constructor for derived classes
+        protected RBTree(RBTreeNode<T> root)
+        {
+            _root = root;
+        }
 
         // Max and min functions
         // Minimum
@@ -162,7 +172,7 @@ namespace Algorithm.DataStructure
         }
 
         // Insert
-        public void Insert(T val)
+        public virtual void Insert(T val)
         {
             var node = new RBTreeNode<T>
             {
@@ -170,7 +180,7 @@ namespace Algorithm.DataStructure
             };
             Insert(node, Comparer<T>.Default);
         }
-        public void Insert(T newVal, IComparer<T> comparer)
+        public virtual void Insert(T newVal, IComparer<T> comparer)
         {
             var node = new RBTreeNode<T>
             {
@@ -212,7 +222,7 @@ namespace Algorithm.DataStructure
         }
 
         // Recolor nodes and perform rotations in order to restore RBT properties.
-        protected void InsertFixUp(RBTreeNode<T> inserted)
+        protected virtual void InsertFixUp(RBTreeNode<T> inserted)
         {
             var node = inserted;
             // Loop as long as node's parent is red.

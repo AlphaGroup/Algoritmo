@@ -71,19 +71,23 @@ namespace Algorithm.DataStructure
                 base._root = (RBTreeNode<T>)value;
             }
         }
-        // Min and Max
-        new public T Minimum()
+        // Constructor
+        public OSRBTree():base(OSRBTreeNode<T>.Nil)
         {
-            return Minimum(_root).Key;
         }
+        // Min and Max
+        //new public T Minimum()
+        //{
+        //    return Minimum(_root).Key;
+        //}
         public OSRBTreeNode<T> Minimum(OSRBTreeNode<T> root)
         {
             return (OSRBTreeNode<T>)base.Minimum(root);
         }
-        new public T Maximum()
-        {
-            return Maximum(_root).Key;
-        }
+        //new public T Maximum()
+        //{
+        //    return Maximum(_root).Key;
+        //}
         public OSRBTreeNode<T> Maximum(OSRBTreeNode<T> root)
         {
             return (OSRBTreeNode<T>)base.Maximum(root);
@@ -129,11 +133,11 @@ namespace Algorithm.DataStructure
         }
 
         // Insert
-        new public void Insert(T newVal)
+        public override void Insert(T newVal)
         {
             Insert(newVal, Comparer<T>.Default);
         }
-        new public void Insert(T newVal, IComparer<T> comparer)
+        public override void Insert(T newVal, IComparer<T> comparer)
         {
             var node = new OSRBTreeNode<T>()
             {
@@ -174,6 +178,8 @@ namespace Algorithm.DataStructure
             newNode.LeftNode = OSRBTreeNode<T>.Nil;
             newNode.RightNode = OSRBTreeNode<T>.Nil;
             newNode.Color = OSRBTreeNode<T>.NodeColor.Red;
+            // We don't have to change this function. We just override rotation funcitons and 
+            // the InsertFixUp will automatically call the right ones.
             InsertFixUp(newNode);
         }
 
