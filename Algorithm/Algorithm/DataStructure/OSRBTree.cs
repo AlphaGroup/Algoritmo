@@ -58,6 +58,12 @@ namespace Algorithm.DataStructure
                 Color = NodeColor.Black,
                 Size = 0
             };
+
+            // Override GetNil
+            public override RBTreeNode<TP> GetNil()
+            {
+                return Nil;
+            }
         }
 
         // The root node
@@ -84,12 +90,7 @@ namespace Algorithm.DataStructure
         }
         public OSRBTreeNode<T> Minimum(OSRBTreeNode<T> root)
         {
-            // TODO: Find a way to use base.Minimum.( Create a function return the nill virtually)
-            while (root.LeftNode != OSRBTreeNode<T>.Nil)
-            {
-                root = root.LeftNode;
-            }
-            return root;
+            return (OSRBTreeNode<T>)base.Minimum(root);
         }
         public override T Maximum()
         {
@@ -97,12 +98,7 @@ namespace Algorithm.DataStructure
         }
         public OSRBTreeNode<T> Maximum(OSRBTreeNode<T> root)
         {
-            // TODO: Find a way to use base.Maximum.( Create a function return the nill virtually)
-            while (root.RightNode != OSRBTreeNode<T>.Nil)
-            {
-                root = root.RightNode;
-            }
-            return root;
+            return (OSRBTreeNode<T>)base.Maximum(root);
         }
 
         // Search
