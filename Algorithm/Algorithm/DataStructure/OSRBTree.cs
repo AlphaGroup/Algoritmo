@@ -3,12 +3,8 @@
  * To maintain the correctness of its size property, we have to modify RBTree's 
  * LeftRotate, RightRotate, Insert, InsertFixUp and Delete.
  */
-using System;
-using System.CodeDom.Compiler;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Algorithm.Interface;
 
 namespace Algorithm.DataStructure
@@ -25,18 +21,18 @@ namespace Algorithm.DataStructure
             {
                 get
                 {
-                    return (OSRBTreeNode<TP>)base.ParentNode;
+                    return base.ParentNode as OSRBTreeNode<TP>;
                 }
                 set
                 {
-                    base.ParentNode = (OSRBTreeNode<TP>)value;
+                    base.ParentNode = value;
                 }
             }
             new public OSRBTreeNode<TP> LeftNode
             {
                 get
                 {
-                    return (OSRBTreeNode<TP>)base.LeftNode;
+                    return base.LeftNode as OSRBTreeNode<TP>;
                 }
                 set
                 {
@@ -45,14 +41,8 @@ namespace Algorithm.DataStructure
             }
             new public OSRBTreeNode<TP> RightNode
             {
-                get
-                {
-                    return (OSRBTreeNode<TP>)base.RightNode;
-                }
-                set
-                {
-                    base.RightNode = (OSRBTreeNode<TP>)value;
-                }
+                get { return base.RightNode as OSRBTreeNode<TP>; }
+                set { base.RightNode = value; }
             }
             public new static OSRBTreeNode<TP> Nil = new OSRBTreeNode<TP>
             {
@@ -70,14 +60,8 @@ namespace Algorithm.DataStructure
         // The root node
         protected new OSRBTreeNode<T> _root
         {
-            get
-            {
-                return (OSRBTreeNode<T>)base._root;
-            }
-            set
-            {
-                base._root = (RBTreeNode<T>)value;
-            }
+            get { return base._root as OSRBTreeNode<T>; }
+            set { base._root = value; }
         }
         // Constructor
         public OSRBTree()
@@ -91,7 +75,7 @@ namespace Algorithm.DataStructure
         }
         public OSRBTreeNode<T> Minimum(OSRBTreeNode<T> root)
         {
-            return (OSRBTreeNode<T>)base.Minimum(root);
+            return base.Minimum(root) as OSRBTreeNode<T>;
         }
         public override T Maximum()
         {
@@ -99,36 +83,36 @@ namespace Algorithm.DataStructure
         }
         public OSRBTreeNode<T> Maximum(OSRBTreeNode<T> root)
         {
-            return (OSRBTreeNode<T>)base.Maximum(root);
+            return base.Maximum(root) as OSRBTreeNode<T>;
         }
 
         // Search
         // Use father's search function.
         new public OSRBTreeNode<T> Search(T key)
         {
-            return (OSRBTreeNode<T>)base.Search(_root, key, Comparer<T>.Default);
+            return base.Search(_root, key, Comparer<T>.Default) as OSRBTreeNode<T>;
         }
         public OSRBTreeNode<T> Search(OSRBTreeNode<T> root, T key)
         {
-            return (OSRBTreeNode<T>)base.Search(root, key, Comparer<T>.Default);
+            return base.Search(root, key, Comparer<T>.Default) as OSRBTreeNode<T>;
         }
         new public OSRBTreeNode<T> Search(T key, IComparer<T> comparer)
         {
-            return (OSRBTreeNode<T>)base.Search(_root, key, comparer);
+            return base.Search(_root, key, comparer) as OSRBTreeNode<T>;
         }
         public OSRBTreeNode<T> Search(OSRBTreeNode<T> root, T key, IComparer<T> comparer)
         {
-            return (OSRBTreeNode<T>)base.Search(root, key, comparer);
+            return base.Search(root, key, comparer) as OSRBTreeNode<T>;
         }
 
         // Successor and Predecessor
         public OSRBTreeNode<T> Successor(OSRBTreeNode<T> root)
         {
-            return (OSRBTreeNode<T>)base.Successor(root);
+            return base.Successor(root) as OSRBTreeNode<T>;
         }
         public OSRBTreeNode<T> Predecessor(OSRBTreeNode<T> root)
         {
-            return (OSRBTreeNode<T>)base.Predecessor(root);
+            return base.Predecessor(root) as OSRBTreeNode<T>;
         }
 
         // Override Rotations
@@ -148,7 +132,7 @@ namespace Algorithm.DataStructure
             // Set node's parent node child to rNode
             if (node.ParentNode == nil)
             {
-                _root = (OSRBTreeNode<T>)rNode;
+                _root = rNode as OSRBTreeNode<T>;
             }
             else if (node == node.ParentNode.LeftNode)
             {
@@ -162,7 +146,7 @@ namespace Algorithm.DataStructure
             rNode.LeftNode = node;
             node.ParentNode = rNode;
             // Adjust size property
-            var x = (OSRBTreeNode<T>)node;
+            var x = node as OSRBTreeNode<T>;
             var y = x.ParentNode;
             y.Size = x.Size;
             x.Size = x.LeftNode.Size + x.RightNode.Size + 1;
@@ -183,7 +167,7 @@ namespace Algorithm.DataStructure
             // Set node's parent node's child to lNode
             if (node.ParentNode == nil)
             {
-                _root = (OSRBTreeNode<T>)lNode;
+                _root = lNode as OSRBTreeNode<T>;
             }
             else if (node == node.ParentNode.LeftNode)
             {
@@ -197,7 +181,7 @@ namespace Algorithm.DataStructure
             lNode.RightNode = node;
             node.ParentNode = lNode;
             // Adjust size property
-            var x = (OSRBTreeNode<T>)node;
+            var x = node as OSRBTreeNode<T>;
             var y = x.ParentNode;
             y.Size = x.Size;
             x.Size = x.LeftNode.Size + x.RightNode.Size + 1;
