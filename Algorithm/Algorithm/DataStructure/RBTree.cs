@@ -36,6 +36,7 @@ namespace Algorithm.DataStructure
             public RBTreeNode<TP> RightNode { get; set; }
             public TP Key { get; set; }
 
+            // Can't be static because of virtual.
             public virtual RBTreeNode<TP> GetNil()
             {
                 return Nil;

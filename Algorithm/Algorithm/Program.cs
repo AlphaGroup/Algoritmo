@@ -22,6 +22,7 @@ namespace Algorithm
                 new BinarySearchTreeTest(), // Test the binary search tree
                 new RBTreeTest(), // Test red-black tree structure.
                 new OSRBTreeTest(), // Test order statistic tree.
+                new IntervalTreeTest(), // Test interval tree.
             };
             foreach (var test in tests)
             {
