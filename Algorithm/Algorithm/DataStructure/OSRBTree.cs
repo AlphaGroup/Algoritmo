@@ -19,25 +19,13 @@ namespace Algorithm.DataStructure
             // Use base's pointers to implement these pointers.
             new public OSRBTreeNode<TP> ParentNode
             {
-                get
-                {
-                    return base.ParentNode as OSRBTreeNode<TP>;
-                }
-                set
-                {
-                    base.ParentNode = value;
-                }
+                get { return base.ParentNode as OSRBTreeNode<TP>; }
+                set { base.ParentNode = value; }
             }
             new public OSRBTreeNode<TP> LeftNode
             {
-                get
-                {
-                    return base.LeftNode as OSRBTreeNode<TP>;
-                }
-                set
-                {
-                    base.LeftNode = (OSRBTreeNode<TP>)value;
-                }
+                get { return base.LeftNode as OSRBTreeNode<TP>; }
+                set { base.LeftNode = (OSRBTreeNode<TP>)value; }
             }
             new public OSRBTreeNode<TP> RightNode
             {
