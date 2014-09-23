@@ -25,7 +25,7 @@ namespace Algorithm.DataStructure
             new public OSRBTreeNode<TP> LeftNode
             {
                 get { return base.LeftNode as OSRBTreeNode<TP>; }
-                set { base.LeftNode = (OSRBTreeNode<TP>)value; }
+                set { base.LeftNode = value; }
             }
             new public OSRBTreeNode<TP> RightNode
             {

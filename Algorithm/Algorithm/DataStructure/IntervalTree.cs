@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,21 @@ namespace Algorithm.DataStructure
             public override RBTreeNode<TP> GetNil()
             {
                 return Nil;
+            }
+            new public IntervalTreeNode<TP> ParentNode
+            {
+                get { return base.ParentNode as IntervalTreeNode<TP>; }
+                set { base.ParentNode = value; }
+            }
+            new public IntervalTreeNode<TP> LeftNode
+            {
+                get { return base.LeftNode as IntervalTreeNode<TP>; }
+                set { base.LeftNode = value; }
+            }
+            new public IntervalTreeNode<TP> RightNode
+            {
+                get { return base.RightNode as IntervalTreeNode<TP>; }
+                set { base.RightNode = value; }
             }
             // New properties
             // This is the high bound of the interval and the low bound is the key
@@ -68,7 +84,7 @@ namespace Algorithm.DataStructure
                 High = high,
                 Max = high,
             };
-            var nil = node.GetNil();
+            var nil = node.GetNil() as IntervalTreeNode<T>;
             var parent = nil;
             var temp = _root;
             // Find the right place for new node
@@ -122,9 +138,36 @@ namespace Algorithm.DataStructure
         }
         public IntervalTreeNode<T> Search(IntervalTreeNode<T> root, T low, T high)
         {
-            // TODO: After we override rotations, we can then implement this method.
-            throw new NotImplementedException();
-            return null;
+            return Search(root, low, high, Comparer<T>.Default);
+        }
+        public IntervalTreeNode<T> Search(IntervalTreeNode<T> root, T low, T high, IComparer<T> comparer)
+        {
+            var temp = _root;
+            while (temp != IntervalTreeNode<T>.Nil && !Overlapped(temp, low, high, comparer))
+            {
+                if(temp.LeftNode!=IntervalTreeNode<T>.Nil && comparer.Compare(temp.LeftNode.Max,low)>=0)
+                {
+                    temp = temp.LeftNode;
+                }
+                else
+                {
+                    temp = temp.RightNode;
+                }
+            }
+            return temp;
+        }
+
+        private bool Overlapped(IntervalTreeNode<T> node, T low, T high, IComparer<T> comparer)
+        {
+            if (comparer.Compare(node.Key, high) <= 0 &&
+                comparer.Compare(low, node.High) <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
