@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algorithm.UnitTest
 {
-    class RedBlackTreeTest : IUnitTest
+    class RBTreeTest : IUnitTest
     {
         public void Test()
         {

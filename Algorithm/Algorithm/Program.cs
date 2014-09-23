@@ -20,7 +20,7 @@ namespace Algorithm
                 new PriorityQueueTest(), // Test priority-queue data structure
                 new DoubleLinkedListTest(), // Test double-linked list
                 new BinarySearchTreeTest(), // Test the binary search tree
-                new RedBlackTreeTest(), // Test red-black tree structure.
+                new RBTreeTest(), // Test red-black tree structure.
                 new OSRBTreeTest(), // Test order statistic tree.
             };
             foreach (var test in tests)
