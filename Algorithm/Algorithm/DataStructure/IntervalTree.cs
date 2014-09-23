@@ -120,14 +120,92 @@ namespace Algorithm.DataStructure
         }
 
         // Override rotations
-        // TODO
         protected override void LeftRotate(RBTreeNode<T> node)
         {
-            base.LeftRotate(node);
+            var nil = node.GetNil();
+            // Set right node
+            var rNode = node.RightNode;
+            // Move rNode's left subtree to node's right subtree.
+            node.RightNode = rNode.LeftNode;
+            if (rNode.LeftNode != nil)
+            {
+                rNode.LeftNode.ParentNode = node;
+            }
+            // Set rNode's parent.
+            rNode.ParentNode = node.ParentNode;
+            // Set node's parent node child to rNode
+            if (node.ParentNode == nil)
+            {
+                _root = rNode as IntervalTreeNode<T>;
+            }
+            else if (node == node.ParentNode.LeftNode)
+            {
+                node.ParentNode.LeftNode = rNode;
+            }
+            else
+            {
+                node.ParentNode.RightNode = rNode;
+            }
+            // Set other links
+            rNode.LeftNode = node;
+            node.ParentNode = rNode;
+            // New code for interval tree:
+            // Fix the Max properties.
+            var iNode = node as IntervalTreeNode<T>;
+            iNode.Max = CalculateMax(iNode);
+            var parent = iNode.ParentNode;
+            parent.Max = CalculateMax(parent);
         }
         protected override void RightRotate(RBTreeNode<T> node)
         {
-            base.RightRotate(node);
+            var nil = node.GetNil();
+            // Set left node.
+            var lNode = node.LeftNode;
+            // Move lNode's right subtree to node's left subtree.
+            node.LeftNode = lNode.RightNode;
+            if (lNode.RightNode != nil)
+            {
+                lNode.RightNode.ParentNode = node;
+            }
+            // Set lNode's parent.
+            lNode.ParentNode = node.ParentNode;
+            // Set node's parent node's child to lNode
+            if (node.ParentNode == nil)
+            {
+                _root = lNode as IntervalTreeNode<T>;
+            }
+            else if (node == node.ParentNode.LeftNode)
+            {
+                node.ParentNode.LeftNode = lNode;
+            }
+            else
+            {
+                node.ParentNode.RightNode = lNode;
+            }
+            // Set other links
+            lNode.RightNode = node;
+            node.ParentNode = lNode;
+            // New code for interval tree:
+            // Fix the Max properties.
+            var iNode = node as IntervalTreeNode<T>;
+            iNode.Max = CalculateMax(iNode);
+            var parent = iNode.ParentNode;
+            parent.Max = CalculateMax(parent);
+        }
+        // Use default comparer to calculate the Max value
+        private T CalculateMax(IntervalTreeNode<T> node)
+        {
+            var max = node.Max;
+            var comparer = Comparer<T>.Default;
+            if (comparer.Compare(node.LeftNode.Max, max) > 0)
+            {
+                max = node.LeftNode.Max;
+            }
+            if (comparer.Compare(node.RightNode.Max, max) > 0)
+            {
+                max = node.RightNode.Max;
+            }
+            return max;
         }
 
         // New operation
@@ -145,7 +223,7 @@ namespace Algorithm.DataStructure
             var temp = _root;
             while (temp != IntervalTreeNode<T>.Nil && !Overlapped(temp, low, high, comparer))
             {
-                if(temp.LeftNode!=IntervalTreeNode<T>.Nil && comparer.Compare(temp.LeftNode.Max,low)>=0)
+                if (temp.LeftNode != IntervalTreeNode<T>.Nil && comparer.Compare(temp.LeftNode.Max, low) >= 0)
                 {
                     temp = temp.LeftNode;
                 }
