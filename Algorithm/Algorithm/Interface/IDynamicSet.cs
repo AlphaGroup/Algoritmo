@@ -24,8 +24,8 @@ namespace Algorithm.Interface
         // Insert
         void Insert(TKey newVal);
         void Insert(TKey newVal, IComparer<TKey> comparer);
-        void Insert(TNode newNode);
-        void Insert(TNode newNode, IComparer<TKey> comparer);
+        //void Insert(TNode newNode);
+        //void Insert(TNode newNode, IComparer<TKey> comparer);
         // Delete
         void Delete(TNode node);
     }
