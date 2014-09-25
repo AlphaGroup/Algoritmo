@@ -208,7 +208,17 @@ namespace Algorithm.DataStructure
             return max;
         }
 
-        // New operation
+
+        // Search
+        // Overload original methods
+        new public IntervalTreeNode<T> Search(T key)
+        {
+            return Search(key, key);
+        }
+        new public IntervalTreeNode<T> Search(T key, IComparer<T> comparer)
+        {
+            return Search(_root, key, key, comparer);
+        }
         // Search the node whose interval overlaps [low,high].
         public IntervalTreeNode<T> Search(T low, T high)
         {
